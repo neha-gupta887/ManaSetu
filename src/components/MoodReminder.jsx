@@ -17,13 +17,14 @@ function MoodReminder() {
   if (!showReminder) return null;
 
   return (
-    <div className="bg-yellow-100 border border-yellow-300 rounded-2xl p-5 mb-6 shadow">
-      <h2 className="text-lg font-bold text-yellow-800">
+    <div className="bg-yellow-100 dark:bg-yellow-900 border border-yellow-300 dark:border-yellow-700 rounded-2xl p-5 mb-6 shadow transition-colors duration-300">
+      <h2 className="text-lg font-bold text-yellow-800 dark:text-yellow-200">
         🔔 Daily Mood Reminder
       </h2>
 
-      <p className="mt-2 text-yellow-700">
-        You haven't logged your mood today. Take a moment to record how you're feeling.
+      <p className="mt-2 text-yellow-700 dark:text-yellow-300">
+        You haven't logged your mood today. Take a moment to record how you're
+        feeling.
       </p>
     </div>
   );
