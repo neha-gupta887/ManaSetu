@@ -26,7 +26,7 @@ const actions = [
 function QuickActions() {
   return (
     <div className="mt-8">
-      <h2 className="text-2xl font-bold text-gray-800 mb-5">
+      <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-5">
         Quick Actions
       </h2>
 
@@ -34,15 +34,15 @@ function QuickActions() {
         {actions.map((action) => (
           <div
             key={action.title}
-            className="bg-white rounded-2xl shadow-md p-6 hover:shadow-xl transition cursor-pointer"
+            className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer"
           >
             {action.icon}
 
-            <h3 className="mt-4 text-xl font-semibold">
+            <h3 className="mt-4 text-xl font-semibold text-gray-800 dark:text-white">
               {action.title}
             </h3>
 
-            <p className="text-gray-500 mt-2 text-sm">
+            <p className="text-gray-500 dark:text-gray-400 mt-2 text-sm">
               {action.description}
             </p>
           </div>
