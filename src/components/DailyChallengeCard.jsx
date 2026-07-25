@@ -23,12 +23,12 @@ function DailyChallengeCard() {
   );
 
   return (
-    <div className="bg-white rounded-3xl shadow-xl p-8 mt-10">
-      <h2 className="text-3xl font-bold text-emerald-700">
+    <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-8 mt-10 transition-colors duration-300">
+      <h2 className="text-3xl font-bold text-emerald-700 dark:text-emerald-400">
         🏆 Daily Wellness Challenges
       </h2>
 
-      <p className="text-gray-600 mt-2">
+      <p className="text-gray-600 dark:text-gray-400 mt-2">
         Complete today's challenges and build healthy habits.
       </p>
 
@@ -36,14 +36,14 @@ function DailyChallengeCard() {
         {challenges.map((challenge) => (
           <div
             key={challenge.id}
-            className="flex items-center justify-between bg-emerald-50 rounded-xl p-4"
+            className="flex items-center justify-between bg-emerald-50 dark:bg-gray-700 rounded-xl p-4 transition-colors duration-300"
           >
             <div>
               <p
                 className={`font-medium ${
                   challenge.completed
-                    ? "line-through text-gray-400"
-                    : "text-gray-700"
+                    ? "line-through text-gray-400 dark:text-gray-500"
+                    : "text-gray-700 dark:text-white"
                 }`}
               >
                 {challenge.title}
@@ -65,18 +65,18 @@ function DailyChallengeCard() {
       </div>
 
       <div className="mt-8">
-        <h3 className="font-semibold text-lg">
+        <h3 className="font-semibold text-lg text-gray-800 dark:text-white">
           Today's Progress
         </h3>
 
-        <div className="w-full bg-gray-200 rounded-full h-4 mt-3">
+        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4 mt-3">
           <div
             className="bg-emerald-500 h-4 rounded-full transition-all duration-500"
             style={{ width: `${progress}%` }}
           />
         </div>
 
-        <p className="text-center mt-3 text-2xl font-bold text-emerald-600">
+        <p className="text-center mt-3 text-2xl font-bold text-emerald-600 dark:text-emerald-400">
           {progress}% Completed
         </p>
       </div>
