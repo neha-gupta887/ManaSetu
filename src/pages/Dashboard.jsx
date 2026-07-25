@@ -1,3 +1,4 @@
+import { getDashboardStats } from "../services/dashboardStatsService";
 import { useState, useEffect } from "react";
 import LoadingSpinner from "../components/LoadingSpinner";
 import StatCard from "../components/ui/StatCard";
@@ -14,6 +15,7 @@ import DailyChallengeCard from "../components/DailyChallengeCard";
 import { Link } from "react-router-dom";
 
 function Dashboard() {
+  const stats = getDashboardStats();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -24,7 +26,6 @@ function Dashboard() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Show loading spinner for 1 second
   if (loading) {
     return <LoadingSpinner />;
   }
@@ -42,36 +43,37 @@ function Dashboard() {
         {/* Welcome Card */}
         <div className="mt-8">
           <WelcomeCard />
-          {/* Dashboard Statistics */}
-<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mt-8">
-  <StatCard
-    title="Wellness Score"
-    value="88%"
-    icon="🌿"
-    color="emerald"
-  />
+        </div>
 
-  <StatCard
-    title="Current Streak"
-    value="12 Days"
-    icon="🔥"
-    color="yellow"
-  />
+        {/* Dashboard Statistics */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mt-8">
+          <StatCard
+            title="Wellness Score"
+            value={`${stats.wellnessScore}%`}
+            icon="🌿"
+            color="emerald"
+          />
 
-  <StatCard
-    title="Journal Entries"
-    value="27"
-    icon="📖"
-    color="blue"
-  />
+          <StatCard
+            title="Current Streak"
+            value={`${stats.streak} Days`}
+            icon="🔥"
+            color="yellow"
+          />
 
-  <StatCard
-    title="Mood"
-    value="Happy"
-    icon="😊"
-    color="purple"
-  />
-</div>
+          <StatCard
+            title="Journal Entries"
+            value={stats.journalEntries}
+            icon="📖"
+            color="blue"
+          />
+
+          <StatCard
+            title="Current Mood"
+            value={stats.currentMood}
+            icon="😊"
+            color="purple"
+          />
         </div>
 
         {/* Daily Mood Reminder */}
