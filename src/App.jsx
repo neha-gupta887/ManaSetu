@@ -1,3 +1,4 @@
+import Settings from "./pages/Settings";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
@@ -23,6 +24,7 @@ function App() {
         <Route path="/breathing" element={<BreathingExercise />} />
         <Route path="/analytics" element={<MoodAnalytics />} />
         <Route path="/support" element={<Support />} />
+        <Route path="/settings" element={<Settings />} />
       </Routes>
     </BrowserRouter>
   );
