@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+
 const colors = {
   emerald: "border-emerald-500",
   blue: "border-blue-500",
@@ -8,8 +10,12 @@ const colors = {
 
 function StatCard({ title, value, icon, color = "emerald" }) {
   return (
-    <div
-      className={`bg-white rounded-2xl shadow-lg p-6 ${colors[color]} border-l-4 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1`}
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      whileHover={{ scale: 1.05 }}
+      transition={{ duration: 0.4 }}
+      className={`bg-white rounded-2xl shadow-lg p-6 border-l-4 ${colors[color]}`}
     >
       <div className="flex items-center justify-between">
         <div>
@@ -19,7 +25,7 @@ function StatCard({ title, value, icon, color = "emerald" }) {
 
         <div className="text-4xl">{icon}</div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
