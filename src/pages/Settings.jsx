@@ -19,14 +19,14 @@ function Settings() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 py-10 px-6">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 py-10 px-6 transition-colors duration-300">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl font-bold text-emerald-700 dark:text-emerald-400 mb-8 text-center">
           ⚙️ Settings
         </h1>
 
         {/* Profile Card */}
-        <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-8 mb-8">
+        <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-8 mb-8 transition-colors duration-300">
           <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-6">
             👤 Profile
           </h2>
@@ -42,7 +42,7 @@ function Settings() {
               value={profile.name}
               onChange={handleChange}
               placeholder="Enter your name"
-              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-colors"
             />
           </div>
 
@@ -57,13 +57,13 @@ function Settings() {
               value={profile.email}
               onChange={handleChange}
               placeholder="Enter your email"
-              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-colors"
             />
           </div>
         </div>
 
         {/* Preferences Card */}
-        <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-8">
+        <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-8 transition-colors duration-300">
           <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-6">
             🎛 Preferences
           </h2>
@@ -71,7 +71,7 @@ function Settings() {
           {/* Notifications */}
           <div className="flex justify-between items-center py-4 border-b border-gray-200 dark:border-gray-700">
             <div>
-              <h3 className="font-semibold text-lg dark:text-white">
+              <h3 className="font-semibold text-lg text-gray-800 dark:text-white">
                 Notifications
               </h3>
 
@@ -86,6 +86,7 @@ function Settings() {
                 checked={notifications}
                 onChange={() => setNotifications(!notifications)}
                 className="sr-only peer"
+                aria-label="Toggle notifications"
               />
 
               <div className="w-12 h-7 bg-gray-300 rounded-full peer-checked:bg-emerald-600 transition"></div>
@@ -97,7 +98,7 @@ function Settings() {
           {/* Dark Mode */}
           <div className="flex justify-between items-center py-4">
             <div>
-              <h3 className="font-semibold text-lg dark:text-white">
+              <h3 className="font-semibold text-lg text-gray-800 dark:text-white">
                 Dark Mode
               </h3>
 
@@ -112,6 +113,7 @@ function Settings() {
                 checked={darkMode}
                 onChange={() => setDarkMode(!darkMode)}
                 className="sr-only peer"
+                aria-label="Toggle dark mode"
               />
 
               <div className="w-12 h-7 bg-gray-300 rounded-full peer-checked:bg-emerald-600 transition"></div>
@@ -124,8 +126,8 @@ function Settings() {
         {/* Save Button */}
         <div className="text-center mt-8">
           <button
-            className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 rounded-xl font-semibold transition duration-300 shadow-lg"
             onClick={() => alert("Settings Saved Successfully!")}
+            className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 rounded-xl font-semibold shadow-lg transition duration-300"
           >
             💾 Save Settings
           </button>
@@ -136,3 +138,4 @@ function Settings() {
 }
 
 export default Settings;
+
