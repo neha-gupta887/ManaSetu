@@ -1,3 +1,6 @@
+import { useState, useEffect } from "react";
+import LoadingSpinner from "../components/LoadingSpinner";
+
 import Sidebar from "../components/dashboard/Sidebar";
 import Topbar from "../components/dashboard/Topbar";
 import WelcomeCard from "../components/dashboard/WelcomeCard";
@@ -11,6 +14,21 @@ import DailyChallengeCard from "../components/DailyChallengeCard";
 import { Link } from "react-router-dom";
 
 function Dashboard() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Show loading spinner for 1 second
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Sidebar */}
