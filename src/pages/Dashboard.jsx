@@ -36,7 +36,7 @@ function Dashboard() {
       <Sidebar />
 
       {/* Main Content */}
-      <div className="ml-72 p-8">
+      <div className="lg:ml-72 p-4 sm:p-6 lg:p-8">
         {/* Topbar */}
         <Topbar />
 
@@ -46,7 +46,7 @@ function Dashboard() {
         </div>
 
         {/* Dashboard Statistics */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mt-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mt-8">
           <StatCard
             title="Wellness Score"
             value={`${stats.wellnessScore}%`}
@@ -95,7 +95,7 @@ function Dashboard() {
         <div className="mt-6">
           <Link
             to="/analytics"
-            className="block bg-emerald-600 hover:bg-emerald-700 text-white text-center py-4 rounded-2xl font-semibold text-lg transition"
+            className="block w-full bg-emerald-600 hover:bg-emerald-700 text-white text-center py-4 rounded-2xl font-semibold text-lg transition"
           >
             📊 View Mood Analytics
           </Link>
@@ -105,7 +105,7 @@ function Dashboard() {
         <div className="mt-4">
           <Link
             to="/support"
-            className="block bg-red-600 hover:bg-red-700 text-white text-center py-4 rounded-2xl font-semibold text-lg transition"
+            className="block w-full bg-red-600 hover:bg-red-700 text-white text-center py-4 rounded-2xl font-semibold text-lg transition"
           >
             🆘 Support Center
           </Link>
