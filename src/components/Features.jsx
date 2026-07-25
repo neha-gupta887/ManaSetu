@@ -42,25 +42,30 @@ function Features() {
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-b from-white to-green-50">
+    <section className="py-24 bg-gradient-to-b from-white to-green-50 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6">
 
         {/* Heading */}
         <div className="text-center">
-          <span className="inline-block bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-semibold">
+
+          <span className="inline-block bg-green-100 dark:bg-emerald-900/40 text-green-700 dark:text-emerald-300 px-4 py-2 rounded-full text-sm font-semibold">
             ✨ Our Features
           </span>
 
-          <h2 className="mt-6 text-4xl lg:text-5xl font-bold text-gray-900">
+          <h2 className="mt-6 text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white">
             Everything You Need for
-            <span className="text-green-600"> Better Mental Wellness</span>
+            <span className="text-green-600 dark:text-emerald-400">
+              {" "}
+              Better Mental Wellness
+            </span>
           </h2>
 
-          <p className="mt-5 text-gray-600 max-w-2xl mx-auto leading-8">
+          <p className="mt-5 text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-8">
             ManaSetu brings together powerful tools to help students stay
             emotionally healthy, connected, and supported throughout their
             academic journey.
           </p>
+
         </div>
 
         {/* Cards */}
@@ -69,18 +74,18 @@ function Features() {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="bg-white border border-green-100 rounded-3xl p-8 shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
+              className="bg-white dark:bg-gray-800 border border-green-100 dark:border-gray-700 rounded-3xl p-8 shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
             >
 
-              <div className="w-16 h-16 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-3xl">
+              <div className="w-16 h-16 rounded-full bg-green-100 dark:bg-emerald-900/40 text-green-600 dark:text-emerald-400 flex items-center justify-center text-3xl">
                 {feature.icon}
               </div>
 
-              <h3 className="mt-6 text-2xl font-bold text-gray-900">
+              <h3 className="mt-6 text-2xl font-bold text-gray-900 dark:text-white">
                 {feature.title}
               </h3>
 
-              <p className="mt-4 text-gray-600 leading-7">
+              <p className="mt-4 text-gray-600 dark:text-gray-300 leading-7">
                 {feature.description}
               </p>
 
