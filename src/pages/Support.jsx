@@ -8,16 +8,16 @@ import {
 
 function Support() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-100 via-teal-50 to-cyan-100 p-8">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-100 via-teal-50 to-cyan-100 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 transition-colors duration-300 p-8">
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}
 
-        <h1 className="text-5xl font-bold text-center text-emerald-700">
+        <h1 className="text-5xl font-bold text-center text-emerald-700 dark:text-emerald-400">
           🆘 Support Center
         </h1>
 
-        <p className="text-center text-gray-600 mt-4">
+        <p className="text-center text-gray-600 dark:text-gray-400 mt-4">
           You're never alone. Explore support options, self-care resources,
           and connect with professional support whenever needed.
         </p>
@@ -26,32 +26,30 @@ function Support() {
 
         <div className="mt-14">
 
-          <h2 className="text-3xl font-bold text-emerald-700 mb-8">
+          <h2 className="text-3xl font-bold text-emerald-700 dark:text-emerald-400 mb-8">
             👨‍⚕️ Connect with a Counselor
           </h2>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-
             {counselors.map((counselor) => (
               <CounselorCard
                 key={counselor.id}
                 counselor={counselor}
               />
             ))}
-
           </div>
 
         </div>
 
         {/* Emergency Helplines */}
 
-        <div className="bg-red-50 border-l-4 border-red-500 rounded-2xl p-8 mt-14 shadow-lg">
+        <div className="bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 rounded-2xl p-8 mt-14 shadow-lg transition-colors duration-300">
 
-          <h2 className="text-3xl font-bold text-red-600">
+          <h2 className="text-3xl font-bold text-red-600 dark:text-red-400">
             📞 Emergency Helplines
           </h2>
 
-          <div className="mt-6 space-y-4 text-gray-700">
+          <div className="mt-6 space-y-4 text-gray-700 dark:text-gray-300">
 
             <p>
               <strong>National Emergency:</strong> 112
@@ -69,7 +67,7 @@ function Support() {
               <strong>Police:</strong> 100
             </p>
 
-            <p className="text-sm text-gray-500 mt-4">
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-4">
               If you or someone else is in immediate danger, contact your local
               emergency services right away.
             </p>
@@ -84,9 +82,9 @@ function Support() {
 
         {/* Self Care Tips */}
 
-        <div className="bg-white rounded-3xl shadow-xl p-8 mt-14">
+        <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-8 mt-14 transition-colors duration-300">
 
-          <h2 className="text-3xl font-bold text-emerald-700 mb-8">
+          <h2 className="text-3xl font-bold text-emerald-700 dark:text-emerald-400 mb-8">
             🧘 Self-Care Tips
           </h2>
 
@@ -96,9 +94,9 @@ function Support() {
 
               <div
                 key={index}
-                className="bg-emerald-50 rounded-xl p-5 border border-emerald-200"
+                className="bg-emerald-50 dark:bg-gray-700 rounded-xl p-5 border border-emerald-200 dark:border-gray-600 transition-colors duration-300"
               >
-                <p className="text-gray-700">
+                <p className="text-gray-700 dark:text-gray-200">
                   🌿 {tip}
                 </p>
               </div>
@@ -111,9 +109,9 @@ function Support() {
 
         {/* FAQs */}
 
-        <div className="bg-white rounded-3xl shadow-xl p-8 mt-14">
+        <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-8 mt-14 transition-colors duration-300">
 
-          <h2 className="text-3xl font-bold text-emerald-700 mb-8">
+          <h2 className="text-3xl font-bold text-emerald-700 dark:text-emerald-400 mb-8">
             ❓ Frequently Asked Questions
           </h2>
 
@@ -123,14 +121,14 @@ function Support() {
 
               <div
                 key={index}
-                className="border-b border-gray-200 pb-5"
+                className="border-b border-gray-200 dark:border-gray-700 pb-5"
               >
 
-                <h3 className="text-lg font-semibold text-gray-800">
+                <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
                   {faq.question}
                 </h3>
 
-                <p className="text-gray-600 mt-2">
+                <p className="text-gray-600 dark:text-gray-300 mt-2">
                   {faq.answer}
                 </p>
 
@@ -144,7 +142,7 @@ function Support() {
 
         {/* Footer */}
 
-        <div className="text-center mt-14 text-gray-500">
+        <div className="text-center mt-14 text-gray-500 dark:text-gray-400">
 
           <p>
             💚 Remember: Asking for help is a sign of strength, not weakness.
