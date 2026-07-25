@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import LoadingSpinner from "../components/LoadingSpinner";
-
+import StatCard from "../components/ui/StatCard";
 import Sidebar from "../components/dashboard/Sidebar";
 import Topbar from "../components/dashboard/Topbar";
 import WelcomeCard from "../components/dashboard/WelcomeCard";
@@ -42,6 +42,36 @@ function Dashboard() {
         {/* Welcome Card */}
         <div className="mt-8">
           <WelcomeCard />
+          {/* Dashboard Statistics */}
+<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mt-8">
+  <StatCard
+    title="Wellness Score"
+    value="88%"
+    icon="🌿"
+    color="emerald"
+  />
+
+  <StatCard
+    title="Current Streak"
+    value="12 Days"
+    icon="🔥"
+    color="yellow"
+  />
+
+  <StatCard
+    title="Journal Entries"
+    value="27"
+    icon="📖"
+    color="blue"
+  />
+
+  <StatCard
+    title="Mood"
+    value="Happy"
+    icon="😊"
+    color="purple"
+  />
+</div>
         </div>
 
         {/* Daily Mood Reminder */}
