@@ -1,3 +1,4 @@
+import NotFound from "./pages/NotFound";
 import Settings from "./pages/Settings";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -25,6 +26,7 @@ function App() {
         <Route path="/analytics" element={<MoodAnalytics />} />
         <Route path="/support" element={<Support />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
