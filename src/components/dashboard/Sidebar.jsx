@@ -15,18 +15,18 @@ function Sidebar() {
     { icon: <FaBook />, label: "Journal", path: "/journal" },
     { icon: <FaRobot />, label: "AI Companion", path: "/dashboard" },
     { icon: <FaChartLine />, label: "Analytics", path: "/dashboard" },
-    { icon: <FaCog />, label: "Settings", path: "/dashboard" },
+    { icon: <FaCog />, label: "Settings", path: "/settings" },
   ];
 
   return (
-    <aside className="w-72 bg-white shadow-lg h-screen fixed left-0 top-0 p-6">
+    <aside className="hidden lg:flex w-72 bg-white shadow-lg h-screen fixed left-0 top-0 p-6 flex-col">
       {/* Logo */}
       <h1 className="text-3xl font-bold text-green-600 mb-12">
         🌿 ManaSetu
       </h1>
 
       {/* Navigation */}
-      <nav className="space-y-3">
+      <nav className="space-y-3 flex-1">
         {menuItems.map((item) => (
           <NavLink
             key={item.label}
@@ -46,7 +46,7 @@ function Sidebar() {
       </nav>
 
       {/* Bottom */}
-      <div className="absolute bottom-8 left-6 right-6">
+      <div className="mt-auto">
         <button className="w-full bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl transition">
           Logout
         </button>
