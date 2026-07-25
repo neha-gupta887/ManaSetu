@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FaRobot, FaPaperPlane } from "react-icons/fa";
 import { getAIResponse } from "../services/aiService";
+
 function AICompanion() {
   const [messages, setMessages] = useState([
     {
@@ -54,19 +55,23 @@ function AICompanion() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex justify-center p-8">
-      <div className="w-full max-w-4xl bg-white rounded-3xl shadow-lg flex flex-col">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300 flex justify-center p-8">
+      <div className="w-full max-w-4xl bg-white dark:bg-gray-800 rounded-3xl shadow-lg flex flex-col transition-colors duration-300">
 
-        <div className="bg-green-600 text-white p-6 rounded-t-3xl flex items-center gap-3">
+        {/* Header */}
+        <div className="bg-green-600 dark:bg-emerald-700 text-white p-6 rounded-t-3xl flex items-center gap-3">
           <FaRobot size={28} />
+
           <div>
             <h1 className="text-2xl font-bold">Mana AI</h1>
-            <p className="text-green-100 text-sm">
+
+            <p className="text-green-100">
               Your AI Wellness Companion
             </p>
           </div>
         </div>
 
+        {/* Chat Area */}
         <div className="flex-1 p-6 space-y-4 overflow-y-auto h-[500px]">
           {messages.map((msg, index) => (
             <div
@@ -78,10 +83,10 @@ function AICompanion() {
               }`}
             >
               <div
-                className={`max-w-[75%] px-5 py-3 rounded-2xl ${
+                className={`max-w-[75%] px-5 py-3 rounded-2xl transition-colors duration-300 ${
                   msg.sender === "user"
                     ? "bg-green-600 text-white"
-                    : "bg-gray-200 text-gray-800"
+                    : "bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white"
                 }`}
               >
                 {msg.text}
@@ -91,14 +96,15 @@ function AICompanion() {
 
           {loading && (
             <div className="flex justify-start">
-              <div className="bg-gray-200 text-gray-800 px-5 py-3 rounded-2xl">
+              <div className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white px-5 py-3 rounded-2xl">
                 Thinking...
               </div>
             </div>
           )}
         </div>
 
-        <div className="border-t p-5 flex gap-3">
+        {/* Input Area */}
+        <div className="border-t border-gray-200 dark:border-gray-700 p-5 flex gap-3">
           <input
             type="text"
             placeholder="Type your message..."
@@ -109,15 +115,16 @@ function AICompanion() {
                 handleSend();
               }
             }}
-            className="flex-1 border rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="flex-1 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500"
           />
 
           <button
             onClick={handleSend}
             disabled={loading}
-            className="bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white px-6 rounded-xl flex items-center gap-2"
+            className="bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white px-6 rounded-xl flex items-center gap-2 transition"
           >
             <FaPaperPlane />
+
             {loading ? "Thinking..." : "Send"}
           </button>
         </div>
