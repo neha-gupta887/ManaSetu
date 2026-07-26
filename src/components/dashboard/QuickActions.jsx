@@ -1,24 +1,29 @@
 import { FaRobot, FaBookOpen, FaLeaf, FaChartBar } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const actions = [
   {
     title: "AI Companion",
     description: "Chat with your wellness assistant.",
+    path: "/ai-companion",
     icon: <FaRobot className="text-3xl text-green-600" />,
   },
   {
     title: "Journal",
     description: "Write your daily thoughts and feelings.",
+    path: "/journal",
     icon: <FaBookOpen className="text-3xl text-blue-600" />,
   },
   {
     title: "Meditation",
     description: "Practice guided breathing and relaxation.",
+    path: "/breathing",
     icon: <FaLeaf className="text-3xl text-emerald-600" />,
   },
   {
     title: "Mood History",
     description: "View your mood trends over time.",
+    path: "/analytics",
     icon: <FaChartBar className="text-3xl text-purple-600" />,
   },
 ];
@@ -32,9 +37,10 @@ function QuickActions() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
         {actions.map((action) => (
-          <div
+          <Link
             key={action.title}
-            className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer"
+            to={action.path}
+            className="block bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
           >
             {action.icon}
 
@@ -45,7 +51,7 @@ function QuickActions() {
             <p className="text-gray-500 dark:text-gray-400 mt-2 text-sm">
               {action.description}
             </p>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
