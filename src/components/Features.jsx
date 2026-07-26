@@ -42,8 +42,11 @@ function Features() {
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-b from-white to-green-50 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-6">
+    <section
+      id="features"
+      className="py-20 bg-gradient-to-b from-white to-green-50 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300 scroll-mt-20"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Heading */}
         <div className="text-center">
@@ -52,7 +55,7 @@ function Features() {
             ✨ Our Features
           </span>
 
-          <h2 className="mt-6 text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white">
+          <h2 className="mt-6 text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white leading-tight">
             Everything You Need for
             <span className="text-green-600 dark:text-emerald-400">
               {" "}
@@ -60,7 +63,7 @@ function Features() {
             </span>
           </h2>
 
-          <p className="mt-5 text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-8">
+          <p className="mt-5 text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-7 text-base sm:text-lg">
             ManaSetu brings together powerful tools to help students stay
             emotionally healthy, connected, and supported throughout their
             academic journey.
@@ -69,19 +72,19 @@ function Features() {
         </div>
 
         {/* Cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-14">
 
           {features.map((feature, index) => (
             <div
               key={index}
-              className="bg-white dark:bg-gray-800 border border-green-100 dark:border-gray-700 rounded-3xl p-8 shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
+              className="bg-white dark:bg-gray-800 border border-green-100 dark:border-gray-700 rounded-3xl p-6 sm:p-8 shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
             >
 
               <div className="w-16 h-16 rounded-full bg-green-100 dark:bg-emerald-900/40 text-green-600 dark:text-emerald-400 flex items-center justify-center text-3xl">
                 {feature.icon}
               </div>
 
-              <h3 className="mt-6 text-2xl font-bold text-gray-900 dark:text-white">
+              <h3 className="mt-6 text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
                 {feature.title}
               </h3>
 
