@@ -11,13 +11,17 @@ function Home() {
   return (
     <>
       <Navbar />
-      <Hero />
-      <Features />
-      <HowItWorks />
-      <WhyChoose />
-      <Testimonials />
-      <CallToAction />
-      <Footer />
+
+      {/* Prevent content from hiding behind fixed navbar */}
+      <main className="pt-20">
+        <Hero />
+        <Features />
+        <HowItWorks />
+        <WhyChoose />
+        <Testimonials />
+        <CallToAction />
+        <Footer />
+      </main>
     </>
   );
 }

@@ -5,22 +5,24 @@ import { FaBars, FaTimes } from "react-icons/fa";
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const closeMenu = () => setMenuOpen(false);
+
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg shadow-md transition-all duration-300">
+    <nav className="fixed top-0 left-0 w-full z-50 bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg border-b border-gray-200 dark:border-gray-800 shadow-sm transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <div className="flex items-center justify-between h-20">
+        <div className="h-20 flex items-center justify-between">
 
           {/* Logo */}
           <Link
             to="/"
-            className="text-2xl font-extrabold text-green-600 dark:text-emerald-400 tracking-wide"
+            className="text-2xl font-extrabold text-green-600 dark:text-emerald-400"
           >
             🌿 ManaSetu
           </Link>
 
-          {/* Desktop Menu */}
-          <ul className="hidden lg:flex items-center gap-8 font-medium text-gray-700 dark:text-gray-300">
+          {/* Desktop Navigation */}
+          <ul className="hidden lg:flex items-center gap-8 text-gray-700 dark:text-gray-300 font-medium">
 
             <li>
               <a
@@ -73,20 +75,20 @@ function Navbar() {
           <div className="hidden lg:flex items-center gap-4">
 
             <Link to="/login">
-              <button className="px-5 py-2 rounded-lg border border-green-600 text-green-600 hover:bg-green-50 dark:border-emerald-400 dark:text-emerald-400 dark:hover:bg-gray-800 transition">
+              <button className="px-5 py-2 rounded-lg border border-green-600 dark:border-emerald-400 text-green-600 dark:text-emerald-400 hover:bg-green-50 dark:hover:bg-gray-800 transition">
                 Login
               </button>
             </Link>
 
             <Link to="/signup">
-              <button className="bg-green-600 hover:bg-green-700 dark:bg-emerald-600 dark:hover:bg-emerald-700 text-white px-5 py-2 rounded-lg transition">
+              <button className="px-5 py-2 rounded-lg bg-green-600 hover:bg-green-700 dark:bg-emerald-600 dark:hover:bg-emerald-700 text-white transition">
                 Get Started
               </button>
             </Link>
 
           </div>
 
-          {/* Mobile Button */}
+          {/* Mobile Menu Button */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="lg:hidden text-2xl text-green-600 dark:text-emerald-400"
@@ -95,57 +97,68 @@ function Navbar() {
           </button>
 
         </div>
-
-        {/* Mobile Menu */}
+                {/* Mobile Menu */}
         {menuOpen && (
-          <div className="lg:hidden pb-6">
+          <div className="lg:hidden pb-6 animate-in fade-in duration-200">
+            <div className="flex flex-col gap-4 rounded-2xl bg-white dark:bg-gray-900 shadow-lg p-5 border border-gray-200 dark:border-gray-800">
 
-            <ul className="flex flex-col gap-5 text-gray-700 dark:text-gray-300">
+              <a
+                href="#"
+                onClick={closeMenu}
+                className="hover:text-green-600 dark:hover:text-emerald-400 transition"
+              >
+                Home
+              </a>
 
-              <li>
-                <a href="#" onClick={() => setMenuOpen(false)}>
-                  Home
-                </a>
-              </li>
+              <a
+                href="#features"
+                onClick={closeMenu}
+                className="hover:text-green-600 dark:hover:text-emerald-400 transition"
+              >
+                Features
+              </a>
 
-              <li>
-                <a href="#features" onClick={() => setMenuOpen(false)}>
-                  Features
-                </a>
-              </li>
+              <a
+                href="#how-it-works"
+                onClick={closeMenu}
+                className="hover:text-green-600 dark:hover:text-emerald-400 transition"
+              >
+                How It Works
+              </a>
 
-              <li>
-                <a href="#how-it-works" onClick={() => setMenuOpen(false)}>
-                  How It Works
-                </a>
-              </li>
+              <a
+                href="#why-choose"
+                onClick={closeMenu}
+                className="hover:text-green-600 dark:hover:text-emerald-400 transition"
+              >
+                Why Choose
+              </a>
 
-              <li>
-                <a href="#why-choose" onClick={() => setMenuOpen(false)}>
-                  Why Choose
-                </a>
-              </li>
+              <a
+                href="#testimonials"
+                onClick={closeMenu}
+                className="hover:text-green-600 dark:hover:text-emerald-400 transition"
+              >
+                Testimonials
+              </a>
 
-              <li>
-                <a href="#testimonials" onClick={() => setMenuOpen(false)}>
-                  Testimonials
-                </a>
-              </li>
+              <div className="flex flex-col gap-3 mt-3">
 
-              <Link to="/login">
-                <button className="w-full border border-green-600 text-green-600 dark:border-emerald-400 dark:text-emerald-400 rounded-lg py-2">
-                  Login
-                </button>
-              </Link>
+                <Link to="/login" onClick={closeMenu}>
+                  <button className="w-full py-3 rounded-lg border border-green-600 dark:border-emerald-400 text-green-600 dark:text-emerald-400 hover:bg-green-50 dark:hover:bg-gray-800 transition">
+                    Login
+                  </button>
+                </Link>
 
-              <Link to="/signup">
-                <button className="w-full bg-green-600 text-white rounded-lg py-2">
-                  Get Started
-                </button>
-              </Link>
+                <Link to="/signup" onClick={closeMenu}>
+                  <button className="w-full py-3 rounded-lg bg-green-600 hover:bg-green-700 dark:bg-emerald-600 dark:hover:bg-emerald-700 text-white transition">
+                    Get Started
+                  </button>
+                </Link>
 
-            </ul>
+              </div>
 
+            </div>
           </div>
         )}
 
