@@ -14,8 +14,7 @@ function Sidebar() {
     { icon: <FaHome />, label: "Dashboard", path: "/dashboard" },
     { icon: <FaSmile />, label: "Mood Tracker", path: "/dashboard" },
     { icon: <FaBook />, label: "Journal", path: "/journal" },
-    { icon: <FaRobot />, label: "AI Companion", path: "/dashboard" },
-    { icon: <FaChartLine />, label: "Analytics", path: "/analytics" },
+    { icon: <FaRobot />, label: "AI Companion", path: "/ai-companion" },    { icon: <FaChartLine />, label: "Analytics", path: "/analytics" },
     { icon: <FaCog />, label: "Settings", path: "/settings" },
   ];
 
