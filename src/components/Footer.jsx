@@ -4,13 +4,14 @@ import {
   FaEnvelope,
   FaHeart,
 } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-300 pt-20 pb-8 transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
 
           {/* Brand */}
           <div>
@@ -32,10 +33,43 @@ function Footer() {
             </h3>
 
             <ul className="space-y-3">
-              <li><a href="#" className="hover:text-green-400 transition-colors">Home</a></li>
-              <li><a href="#" className="hover:text-green-400 transition-colors">Features</a></li>
-              <li><a href="#" className="hover:text-green-400 transition-colors">About</a></li>
-              <li><a href="#" className="hover:text-green-400 transition-colors">Testimonials</a></li>
+
+              <li>
+                <a
+                  href="#"
+                  className="hover:text-green-400 transition-colors"
+                >
+                  Home
+                </a>
+              </li>
+
+              <li>
+                <a
+                  href="#features"
+                  className="hover:text-green-400 transition-colors"
+                >
+                  Features
+                </a>
+              </li>
+
+              <li>
+                <a
+                  href="#why-choose"
+                  className="hover:text-green-400 transition-colors"
+                >
+                  Why Choose
+                </a>
+              </li>
+
+              <li>
+                <a
+                  href="#testimonials"
+                  className="hover:text-green-400 transition-colors"
+                >
+                  Testimonials
+                </a>
+              </li>
+
             </ul>
           </div>
 
@@ -46,10 +80,43 @@ function Footer() {
             </h3>
 
             <ul className="space-y-3">
-              <li><a href="#" className="hover:text-green-400 transition-colors">Mental Health Tips</a></li>
-              <li><a href="#" className="hover:text-green-400 transition-colors">Breathing Exercises</a></li>
-              <li><a href="#" className="hover:text-green-400 transition-colors">FAQs</a></li>
-              <li><a href="#" className="hover:text-green-400 transition-colors">Support</a></li>
+
+              <li>
+                <Link
+                  to="/breathing"
+                  className="hover:text-green-400 transition-colors"
+                >
+                  Breathing Exercises
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/journal"
+                  className="hover:text-green-400 transition-colors"
+                >
+                  Mood Journal
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/ai-companion"
+                  className="hover:text-green-400 transition-colors"
+                >
+                  AI Companion
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/support"
+                  className="hover:text-green-400 transition-colors"
+                >
+                  Support
+                </Link>
+              </li>
+
             </ul>
           </div>
 
@@ -60,34 +127,49 @@ function Footer() {
             </h3>
 
             <div className="flex gap-5 text-2xl">
-              <a href="#" className="hover:text-green-400 transition-colors">
+
+              <a
+                href="https://github.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-green-400 transition-colors"
+              >
                 <FaGithub />
               </a>
 
-              <a href="#" className="hover:text-green-400 transition-colors">
+              <a
+                href="https://linkedin.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-green-400 transition-colors"
+              >
                 <FaLinkedin />
               </a>
 
-              <a href="#" className="hover:text-green-400 transition-colors">
+              <a
+                href="mailto:support@manasetu.com"
+                className="hover:text-green-400 transition-colors"
+              >
                 <FaEnvelope />
               </a>
+
             </div>
 
-            <p className="mt-6 text-gray-400">
-              Email: support@manasetu.com
+            <p className="mt-6 text-gray-400 break-all">
+              support@manasetu.com
             </p>
           </div>
 
         </div>
 
         {/* Bottom */}
-        <div className="border-t border-gray-700 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center">
+        <div className="border-t border-gray-700 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
 
-          <p className="text-gray-400">
+          <p className="text-gray-400 text-center md:text-left">
             © 2026 ManaSetu. All Rights Reserved.
           </p>
 
-          <p className="flex items-center gap-2 mt-4 md:mt-0 text-gray-400">
+          <p className="flex items-center gap-2 text-gray-400 text-center">
             Made with <FaHeart className="text-red-500" /> for Student Well-being
           </p>
 
