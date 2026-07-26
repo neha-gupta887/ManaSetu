@@ -7,57 +7,65 @@ import {
   FaCog,
   FaSignOutAlt,
 } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { auth } from "../../services/firebase";
 
 function Sidebar() {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate("/login");
+    } catch (error) {
+      console.error(error);
+      alert("Logout failed!");
+    }
+  };
+
   const menuItems = [
     { icon: <FaHome />, label: "Dashboard", path: "/dashboard" },
     { icon: <FaSmile />, label: "Mood Tracker", path: "/dashboard" },
     { icon: <FaBook />, label: "Journal", path: "/journal" },
-    { icon: <FaRobot />, label: "AI Companion", path: "/ai-companion" },    { icon: <FaChartLine />, label: "Analytics", path: "/analytics" },
+    { icon: <FaRobot />, label: "AI Companion", path: "/ai-companion" },
+    { icon: <FaChartLine />, label: "Analytics", path: "/analytics" },
     { icon: <FaCog />, label: "Settings", path: "/settings" },
   ];
 
   return (
-    <aside className="hidden lg:flex fixed left-0 top-0 h-screen w-72 flex-col bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-r border-gray-200 dark:border-gray-800 shadow-xl transition-colors duration-300">
-
+    <aside className="hidden lg:flex w-72 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 shadow-lg h-screen fixed left-0 top-0 p-6 flex-col transition-colors duration-300">
       {/* Logo */}
-      <div className="px-8 pt-8 pb-10 border-b border-gray-200 dark:border-gray-800">
-        <h1 className="text-3xl font-extrabold text-emerald-600 dark:text-emerald-400">
-          🌿 ManaSetu
-        </h1>
-
-        <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-          Your Mental Wellness Companion
-        </p>
-      </div>
+      <h1 className="text-3xl font-bold text-green-600 dark:text-emerald-400 mb-12">
+        🌿 ManaSetu
+      </h1>
 
       {/* Navigation */}
-      <nav className="flex-1 px-5 py-6 space-y-2 overflow-y-auto">
+      <nav className="space-y-3 flex-1">
         {menuItems.map((item) => (
           <NavLink
             key={item.label}
             to={item.path}
             className={({ isActive }) =>
-              `group flex items-center gap-4 rounded-2xl px-5 py-3 font-medium transition-all duration-300 ${
+              `w-full flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-300 ${
                 isActive
-                  ? "bg-gradient-to-r from-emerald-600 to-green-600 text-white shadow-lg"
-                  : "text-gray-700 dark:text-gray-300 hover:bg-emerald-50 dark:hover:bg-gray-800 hover:text-emerald-600 dark:hover:text-emerald-400"
+                  ? "bg-green-600 text-white"
+                  : "text-gray-700 dark:text-gray-300 hover:bg-green-100 dark:hover:bg-gray-800 hover:text-green-700 dark:hover:text-emerald-400"
               }`
             }
           >
-            <span className="text-xl transition-transform duration-300 group-hover:scale-110">
-              {item.icon}
-            </span>
-
-            <span>{item.label}</span>
+            <span className="text-xl">{item.icon}</span>
+            <span className="font-medium">{item.label}</span>
           </NavLink>
         ))}
       </nav>
 
-      {/* Bottom */}
-      <div className="p-5 border-t border-gray-200 dark:border-gray-800">
-        <button className="flex w-full items-center justify-center gap-3 rounded-2xl bg-red-500 py-3 font-semibold text-white transition hover:bg-red-600 hover:shadow-lg">
+      {/* Logout */}
+      <div className="mt-auto">
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center justify-center gap-2 bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl transition"
+        >
           <FaSignOutAlt />
           Logout
         </button>
