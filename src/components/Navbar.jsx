@@ -10,9 +10,7 @@ function Navbar() {
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg border-b border-gray-200 dark:border-gray-800 shadow-sm transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
         <div className="h-20 flex items-center justify-between">
-
           {/* Logo */}
           <Link
             to="/"
@@ -23,10 +21,9 @@ function Navbar() {
 
           {/* Desktop Navigation */}
           <ul className="hidden lg:flex items-center gap-8 text-gray-700 dark:text-gray-300 font-medium">
-
             <li>
               <a
-                href="#"
+                href="#top"
                 className="hover:text-green-600 dark:hover:text-emerald-400 transition"
               >
                 Home
@@ -68,12 +65,10 @@ function Navbar() {
                 Testimonials
               </a>
             </li>
-
           </ul>
 
           {/* Desktop Buttons */}
           <div className="hidden lg:flex items-center gap-4">
-
             <Link to="/login">
               <button className="px-5 py-2 rounded-lg border border-green-600 dark:border-emerald-400 text-green-600 dark:text-emerald-400 hover:bg-green-50 dark:hover:bg-gray-800 transition">
                 Login
@@ -85,7 +80,6 @@ function Navbar() {
                 Get Started
               </button>
             </Link>
-
           </div>
 
           {/* Mobile Menu Button */}
@@ -95,15 +89,14 @@ function Navbar() {
           >
             {menuOpen ? <FaTimes /> : <FaBars />}
           </button>
-
         </div>
-                {/* Mobile Menu */}
+
+        {/* Mobile Menu */}
         {menuOpen && (
           <div className="lg:hidden pb-6 animate-in fade-in duration-200">
             <div className="flex flex-col gap-4 rounded-2xl bg-white dark:bg-gray-900 shadow-lg p-5 border border-gray-200 dark:border-gray-800">
-
               <a
-                href="#"
+                href="#top"
                 onClick={closeMenu}
                 className="hover:text-green-600 dark:hover:text-emerald-400 transition"
               >
@@ -143,7 +136,6 @@ function Navbar() {
               </a>
 
               <div className="flex flex-col gap-3 mt-3">
-
                 <Link to="/login" onClick={closeMenu}>
                   <button className="w-full py-3 rounded-lg border border-green-600 dark:border-emerald-400 text-green-600 dark:text-emerald-400 hover:bg-green-50 dark:hover:bg-gray-800 transition">
                     Login
@@ -155,13 +147,10 @@ function Navbar() {
                     Get Started
                   </button>
                 </Link>
-
               </div>
-
             </div>
           </div>
         )}
-
       </div>
     </nav>
   );
