@@ -2,8 +2,11 @@ import { Link } from "react-router-dom";
 
 function Hero() {
   return (
-    <section className="bg-gradient-to-br from-green-50 via-white to-green-100 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 transition-colors duration-300 min-h-[85vh] flex items-center py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+    <section
+  id="top"
+  className="bg-gradient-to-br from-green-50 via-white to-green-100 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 transition-colors duration-300 min-h-[85vh] flex items-center py-16"
+>      
+<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
         
         {/* Left Section */}
         <div>
