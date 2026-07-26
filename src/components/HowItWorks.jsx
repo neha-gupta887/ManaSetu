@@ -38,17 +38,18 @@ function HowItWorks() {
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-6">
-
+    <section
+      id="how-it-works"
+      className="py-20 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 transition-colors duration-300 scroll-mt-20"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Heading */}
         <div className="text-center">
-
           <span className="inline-block bg-green-100 dark:bg-emerald-900/40 text-green-700 dark:text-emerald-300 px-5 py-2 rounded-full text-sm font-semibold">
             🚀 How It Works
           </span>
 
-          <h2 className="mt-6 text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white">
+          <h2 className="mt-6 text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white leading-tight">
             Start Your Wellness Journey
             <span className="text-green-600 dark:text-emerald-400">
               {" "}
@@ -56,24 +57,21 @@ function HowItWorks() {
             </span>
           </h2>
 
-          <p className="mt-5 text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-8">
+          <p className="mt-5 text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-8">
             ManaSetu guides you step by step toward better mental well-being
             with a simple, supportive, and personalized experience.
           </p>
-
         </div>
 
         {/* Steps */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mt-20">
-
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-16">
           {steps.map((step, index) => (
             <div
               key={index}
-              className="relative bg-white dark:bg-gray-800 border border-green-100 dark:border-gray-700 rounded-3xl p-8 shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
+              className="relative bg-white dark:bg-gray-800 border border-green-100 dark:border-gray-700 rounded-3xl p-6 sm:p-8 shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
             >
-
               {/* Step Number */}
-              <div className="absolute top-5 right-5 text-5xl font-bold text-green-100 dark:text-gray-700">
+              <div className="absolute top-5 right-5 text-4xl sm:text-5xl font-bold text-green-100 dark:text-gray-700">
                 {step.number}
               </div>
 
@@ -94,12 +92,9 @@ function HowItWorks() {
 
               {/* Bottom Accent */}
               <div className="mt-8 w-16 h-1 bg-green-500 rounded-full"></div>
-
             </div>
           ))}
-
         </div>
-
       </div>
     </section>
   );
