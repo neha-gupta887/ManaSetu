@@ -23,32 +23,42 @@ function Testimonials() {
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-b from-white to-green-50">
-      <div className="max-w-7xl mx-auto px-6">
+    <section
+      id="testimonials"
+      className="py-20 bg-gradient-to-b from-white to-green-50 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300 scroll-mt-20"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
         {/* Heading */}
         <div className="text-center">
-          <span className="inline-block px-5 py-2 bg-green-100 text-green-700 rounded-full text-sm font-semibold">
+
+          <span className="inline-block px-5 py-2 bg-green-100 dark:bg-emerald-900/40 text-green-700 dark:text-emerald-300 rounded-full text-sm font-semibold">
             💬 Testimonials
           </span>
 
-          <h2 className="mt-6 text-4xl lg:text-5xl font-bold text-gray-900">
+          <h2 className="mt-6 text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white">
             Loved by
-            <span className="text-green-600"> Students</span>
+            <span className="text-green-600 dark:text-emerald-400">
+              {" "}Students
+            </span>
           </h2>
 
-          <p className="mt-5 max-w-3xl mx-auto text-gray-600 text-lg leading-8">
+          <p className="mt-5 max-w-3xl mx-auto text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-8">
             See what students are saying about their experience with
             ManaSetu and how it has helped improve their mental well-being.
           </p>
+
         </div>
 
-        {/* Testimonial Cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-20">
+        {/* Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-16">
+
           {testimonials.map((testimonial, index) => (
             <div
               key={index}
-              className="bg-white border border-green-100 rounded-3xl p-8 shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
+              className="bg-white dark:bg-gray-800 border border-green-100 dark:border-gray-700 rounded-3xl p-6 sm:p-8 shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
             >
+
               {/* Stars */}
               <div className="flex text-yellow-400 text-lg">
                 {[...Array(5)].map((_, i) => (
@@ -57,26 +67,31 @@ function Testimonials() {
               </div>
 
               {/* Review */}
-              <p className="mt-6 text-gray-600 leading-7 italic">
+              <p className="mt-6 text-gray-600 dark:text-gray-300 leading-7 italic">
                 "{testimonial.review}"
               </p>
 
               {/* User */}
               <div className="flex items-center mt-8">
-                <FaUserCircle className="text-5xl text-green-500" />
+                <FaUserCircle className="text-5xl text-green-500 dark:text-emerald-400" />
 
                 <div className="ml-4">
-                  <h4 className="font-bold text-gray-900">
+                  <h4 className="font-bold text-gray-900 dark:text-white">
                     {testimonial.name}
                   </h4>
-                  <p className="text-gray-500 text-sm">
+
+                  <p className="text-gray-500 dark:text-gray-400 text-sm">
                     {testimonial.role}
                   </p>
                 </div>
+
               </div>
+
             </div>
           ))}
+
         </div>
+
       </div>
     </section>
   );
