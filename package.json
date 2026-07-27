@@ -12,6 +12,7 @@
   "dependencies": {
     "@google/genai": "^2.13.0",
     "@tailwindcss/vite": "^4.3.3",
+    "firebase": "^12.16.0",
     "framer-motion": "^12.42.2",
     "jspdf": "^4.2.1",
     "lucide-react": "^1.26.0",
