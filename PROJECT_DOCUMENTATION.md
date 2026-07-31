@@ -9,12 +9,11 @@ We envision a future where every student has instant access to intelligent, comp
 
 ## 📖 Overview
 
-ManaSetu is a student-focused digital mental wellness platform designed to support university students in managing stress, improving emotional well-being, and developing healthy daily habits.
+**ManaSetu** is an AI-powered digital mental wellness platform built to support students in navigating the emotional challenges of academic life. It provides a secure and accessible space where users can monitor their emotional well-being, develop healthy habits, and access personalized wellness tools—all within a single platform.
 
-The platform provides a safe and user-friendly environment where students can monitor their mood, maintain a personal journal, practice guided breathing exercises, interact with an AI wellness companion, and visualize their emotional progress through analytics.
+Designed with a student-first approach, ManaSetu combines **AI-assisted wellness support**, **mood tracking**, **digital journaling**, **guided breathing exercises**, and **emotional analytics** to encourage self-awareness and proactive mental well-being. Instead of relying on disconnected wellness applications, the platform brings together essential mental health resources into one seamless experience.
 
-ManaSetu aims to bridge the gap between technology and mental health by making wellness resources easily accessible to every student.
-
+The vision behind ManaSetu is to make mental wellness support **simple, personalized, and accessible**, empowering students to better understand their emotions, manage everyday stress, and build long-term emotional resilience through the thoughtful integration of technology and wellness practices.
 ---
 
 ## 🎯 Problem Statement
