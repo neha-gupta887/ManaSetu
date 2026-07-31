@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
+import { updateProfile } from "firebase/auth";
+import { auth } from "../services/firebase";
 import { signup } from "../services/authService";
 
 function Signup() {
@@ -34,9 +36,18 @@ function Signup() {
     try {
       setLoading(true);
 
-      await signup(email, password);
+      // Create user
+      const userCredential = await signup(email, password);
 
-      alert("🎉 Account created successfully!");
+      // Save user's name in Firebase Authentication
+      await updateProfile(userCredential.user, {
+        displayName: name,
+      });
+
+      // Refresh current user
+      await auth.currentUser.reload();
+
+      alert(`🎉 Welcome ${name}! Your account has been created successfully.`);
 
       navigate("/login");
     } catch (error) {
@@ -86,6 +97,7 @@ function Signup() {
             {/* Full Name */}
             <div className="relative">
               <FaUser className="absolute left-4 top-4 text-gray-400" />
+
               <input
                 type="text"
                 placeholder="Full Name"
@@ -98,6 +110,7 @@ function Signup() {
             {/* Email */}
             <div className="relative">
               <FaEnvelope className="absolute left-4 top-4 text-gray-400" />
+
               <input
                 type="email"
                 placeholder="Email Address"
@@ -110,6 +123,7 @@ function Signup() {
             {/* Password */}
             <div className="relative">
               <FaLock className="absolute left-4 top-4 text-gray-400" />
+
               <input
                 type="password"
                 placeholder="Password"
@@ -122,6 +136,7 @@ function Signup() {
             {/* Confirm Password */}
             <div className="relative">
               <FaLock className="absolute left-4 top-4 text-gray-400" />
+
               <input
                 type="password"
                 placeholder="Confirm Password"
