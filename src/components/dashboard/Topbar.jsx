@@ -4,15 +4,66 @@ import {
   FaUserCircle,
   FaBars,
   FaSearch,
+  FaBook,
+  FaSmile,
+  FaLeaf,
+  FaCheckDouble,
+  FaChartLine,
+  FaRobot,
 } from "react-icons/fa";
 
 function Topbar() {
   const [showNotifications, setShowNotifications] = useState(false);
+
+  const [notifications, setNotifications] = useState([
+    {
+      id: 1,
+      icon: <FaSmile className="text-yellow-500 text-lg" />,
+      title: "Daily Mood Check",
+      message:
+        "Take a minute to record your mood today and build self-awareness.",
+      time: "5 min ago",
+    },
+    {
+      id: 2,
+      icon: <FaBook className="text-blue-500 text-lg" />,
+      title: "Journal Reminder",
+      message:
+        "Reflect on your day by writing a short journal entry.",
+      time: "20 min ago",
+    },
+    {
+      id: 3,
+      icon: <FaLeaf className="text-emerald-500 text-lg" />,
+      title: "Mindfulness Exercise",
+      message:
+        "Complete today's 5-minute breathing exercise for relaxation.",
+      time: "Today",
+    },
+    {
+      id: 4,
+      icon: <FaChartLine className="text-purple-500 text-lg" />,
+      title: "Weekly Mood Insights",
+      message:
+        "Your emotional trends for this week are now available.",
+      time: "Yesterday",
+    },
+    {
+      id: 5,
+      icon: <FaRobot className="text-pink-500 text-lg" />,
+      title: "AI Wellness Companion",
+      message:
+        "Your AI companion has a personalized wellness suggestion waiting.",
+      time: "Yesterday",
+    },
+  ]);
+
   const notificationRef = useRef(null);
 
   const hour = new Date().getHours();
 
   let greeting = "Good Evening";
+
   if (hour < 12) greeting = "Good Morning";
   else if (hour < 17) greeting = "Good Afternoon";
 
@@ -21,19 +72,6 @@ function Topbar() {
     day: "numeric",
     month: "short",
   });
-
-  const notifications = [
-    {
-      id: 1,
-      title: "Welcome to ManaSetu 🎉",
-      time: "Just now",
-    },
-    {
-      id: 2,
-      title: "Don't forget today's mood check 😊",
-      time: "Today",
-    },
-  ];
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -51,12 +89,18 @@ function Topbar() {
       document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const markAllRead = () => {
+    setNotifications([]);
+  };
+
   return (
-    <header className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md shadow-lg rounded-3xl px-4 sm:px-6 lg:px-8 py-5 transition-colors duration-300">
+    <header className="relative z-50 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md shadow-lg rounded-3xl px-4 sm:px-6 lg:px-8 py-5 transition-colors duration-300">
+
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
 
         {/* Left */}
         <div className="flex items-center gap-4">
+
           <button className="lg:hidden text-2xl text-gray-700 dark:text-gray-300 hover:text-emerald-600 transition">
             <FaBars />
           </button>
@@ -70,6 +114,7 @@ function Topbar() {
               {today} • Take care of your mind today.
             </p>
           </div>
+
         </div>
 
         {/* Right */}
@@ -77,6 +122,7 @@ function Topbar() {
 
           {/* Search */}
           <div className="hidden md:flex items-center bg-gray-100 dark:bg-gray-700 rounded-xl px-4 py-2 w-72">
+
             <FaSearch className="text-gray-400 mr-3" />
 
             <input
@@ -84,58 +130,117 @@ function Topbar() {
               placeholder="Search..."
               className="bg-transparent outline-none w-full text-gray-700 dark:text-white placeholder-gray-400"
             />
+
           </div>
 
           {/* Notifications */}
           <div className="relative" ref={notificationRef}>
+
             <button
               onClick={() => setShowNotifications(!showNotifications)}
-              className="relative w-12 h-12 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-emerald-900 transition"
+              className="relative w-12 h-12 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-emerald-900 transition duration-300"
             >
+
               <FaBell className="text-xl text-gray-700 dark:text-gray-200" />
 
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-semibold w-5 h-5 rounded-full flex items-center justify-center">
-                {notifications.length}
-              </span>
-            </button>
+              {notifications.length > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-semibold w-5 h-5 rounded-full flex items-center justify-center">
+                  {notifications.length}
+                </span>
+              )}
 
-            {showNotifications && (
-              <div className="absolute right-0 mt-3 w-80 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 z-50 overflow-hidden">
-                <div className="px-5 py-4 border-b dark:border-gray-700">
-                  <h3 className="font-bold text-gray-800 dark:text-white">
-                    Notifications
+            </button>
+                        {showNotifications && (
+              <div className="absolute right-0 top-14 w-96 max-w-[90vw] bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 z-[9999] overflow-hidden">
+
+                {/* Header */}
+                <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200 dark:border-gray-700">
+
+                  <h3 className="font-bold text-lg text-gray-800 dark:text-white">
+                    🔔 Notifications
                   </h3>
+
+                  {notifications.length > 0 && (
+                    <button
+                      onClick={markAllRead}
+                      className="flex items-center gap-1 text-sm font-medium text-emerald-600 hover:text-emerald-700 transition"
+                    >
+                      <FaCheckDouble />
+                      Mark all read
+                    </button>
+                  )}
+
                 </div>
 
-                {notifications.length === 0 ? (
-                  <div className="p-5 text-center text-gray-500">
-                    No new notifications.
-                  </div>
-                ) : (
-                  notifications.map((item) => (
-                    <div
-                      key={item.id}
-                      className="px-5 py-4 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer transition"
-                    >
-                      <p className="font-medium text-gray-800 dark:text-white">
-                        {item.title}
+                {/* Body */}
+                <div className="max-h-96 overflow-y-auto">
+
+                  {notifications.length === 0 ? (
+
+                    <div className="flex flex-col items-center justify-center py-10 px-6">
+
+                      <FaLeaf className="text-5xl text-emerald-500 mb-4" />
+
+                      <h4 className="font-semibold text-gray-700 dark:text-white">
+                        You're all caught up!
+                      </h4>
+
+                      <p className="text-sm text-gray-500 dark:text-gray-400 text-center mt-2">
+                        No new notifications. Keep taking care of your mental well-being 💚
                       </p>
 
-                      <span className="text-sm text-gray-500">
-                        {item.time}
-                      </span>
                     </div>
-                  ))
-                )}
+
+                  ) : (
+
+                    notifications.map((item) => (
+
+                      <div
+                        key={item.id}
+                        className="flex items-start gap-4 px-5 py-4 hover:bg-emerald-50 dark:hover:bg-gray-700 transition cursor-pointer border-b border-gray-100 dark:border-gray-700 last:border-b-0"
+                      >
+
+                        <div className="mt-1">
+                          {item.icon}
+                        </div>
+
+                        <div className="flex-1">
+
+                          <h4 className="font-semibold text-gray-800 dark:text-white">
+                            {item.title}
+                          </h4>
+
+                          <p className="text-sm text-gray-600 dark:text-gray-300 mt-1 leading-relaxed">
+                            {item.message}
+                          </p>
+
+                          <span className="text-xs text-gray-400 mt-2 block">
+                            {item.time}
+                          </span>
+
+                        </div>
+
+                      </div>
+
+                    ))
+
+                  )}
+
+                </div>
+
               </div>
             )}
+
           </div>
 
           {/* Profile */}
-          <div className="flex items-center gap-3 bg-gray-100 dark:bg-gray-700 rounded-2xl px-4 py-2 hover:shadow-md transition">
+
+          <div className="flex items-center gap-3 bg-gray-100 dark:bg-gray-700 rounded-2xl px-4 py-2 hover:shadow-lg transition duration-300 cursor-pointer">
+
             <FaUserCircle className="text-4xl text-emerald-600 dark:text-emerald-400" />
 
             <div className="hidden sm:block">
+
               <h3 className="font-semibold text-gray-800 dark:text-white">
                 Student
               </h3>
@@ -143,11 +248,15 @@ function Topbar() {
               <p className="text-sm text-gray-500 dark:text-gray-400">
                 ManaSetu User
               </p>
+
             </div>
+
           </div>
 
         </div>
+
       </div>
+
     </header>
   );
 }
