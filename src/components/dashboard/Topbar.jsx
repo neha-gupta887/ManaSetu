@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from "react";
 import {
   FaBell,
   FaUserCircle,
@@ -6,6 +7,9 @@ import {
 } from "react-icons/fa";
 
 function Topbar() {
+  const [showNotifications, setShowNotifications] = useState(false);
+  const notificationRef = useRef(null);
+
   const hour = new Date().getHours();
 
   let greeting = "Good Evening";
@@ -17,6 +21,35 @@ function Topbar() {
     day: "numeric",
     month: "short",
   });
+
+  const notifications = [
+    {
+      id: 1,
+      title: "Welcome to ManaSetu 🎉",
+      time: "Just now",
+    },
+    {
+      id: 2,
+      title: "Don't forget today's mood check 😊",
+      time: "Today",
+    },
+  ];
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        notificationRef.current &&
+        !notificationRef.current.contains(event.target)
+      ) {
+        setShowNotifications(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () =>
+      document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <header className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md shadow-lg rounded-3xl px-4 sm:px-6 lg:px-8 py-5 transition-colors duration-300">
@@ -54,13 +87,49 @@ function Topbar() {
           </div>
 
           {/* Notifications */}
-          <button className="relative w-12 h-12 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-emerald-900 transition">
-            <FaBell className="text-xl text-gray-700 dark:text-gray-200" />
+          <div className="relative" ref={notificationRef}>
+            <button
+              onClick={() => setShowNotifications(!showNotifications)}
+              className="relative w-12 h-12 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-emerald-900 transition"
+            >
+              <FaBell className="text-xl text-gray-700 dark:text-gray-200" />
 
-            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-semibold w-5 h-5 rounded-full flex items-center justify-center">
-              2
-            </span>
-          </button>
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-semibold w-5 h-5 rounded-full flex items-center justify-center">
+                {notifications.length}
+              </span>
+            </button>
+
+            {showNotifications && (
+              <div className="absolute right-0 mt-3 w-80 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 z-50 overflow-hidden">
+                <div className="px-5 py-4 border-b dark:border-gray-700">
+                  <h3 className="font-bold text-gray-800 dark:text-white">
+                    Notifications
+                  </h3>
+                </div>
+
+                {notifications.length === 0 ? (
+                  <div className="p-5 text-center text-gray-500">
+                    No new notifications.
+                  </div>
+                ) : (
+                  notifications.map((item) => (
+                    <div
+                      key={item.id}
+                      className="px-5 py-4 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer transition"
+                    >
+                      <p className="font-medium text-gray-800 dark:text-white">
+                        {item.title}
+                      </p>
+
+                      <span className="text-sm text-gray-500">
+                        {item.time}
+                      </span>
+                    </div>
+                  ))
+                )}
+              </div>
+            )}
+          </div>
 
           {/* Profile */}
           <div className="flex items-center gap-3 bg-gray-100 dark:bg-gray-700 rounded-2xl px-4 py-2 hover:shadow-md transition">
