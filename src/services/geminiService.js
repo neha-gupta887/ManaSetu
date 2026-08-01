@@ -6,6 +6,9 @@ const ai = new GoogleGenAI({
   apiKey,
 });
 
+/**
+ * Returns plain text response from Gemini.
+ */
 export async function getAIResponse(prompt) {
   try {
     if (!apiKey) {
@@ -24,24 +27,31 @@ export async function getAIResponse(prompt) {
     console.error("========== GEMINI ERROR ==========");
     console.error(error);
 
-    console.log("Name:", error?.name);
-    console.log("Message:", error?.message);
-    console.log("Status:", error?.status);
-    console.log("Error Object:", error?.error);
-    console.log("Complete Error:", JSON.stringify(error, null, 2));
-
-    let errorMessage = "Unknown error";
-
-    if (error?.message) {
-      errorMessage = error.message;
-    } else if (error?.error?.message) {
-      errorMessage = error.error.message;
-    } else {
-      errorMessage = JSON.stringify(error, null, 2);
-    }
-
-    alert(errorMessage);
-
     return "Sorry, I'm having trouble responding right now.";
+  }
+}
+
+/**
+ * Returns parsed JSON response.
+ * Used by AI Agents.
+ */
+export async function getAIJsonResponse(prompt) {
+  try {
+    const text = await getAIResponse(prompt);
+
+    // Remove markdown if Gemini returns ```json ... ```
+    const cleaned = text
+      .replace(/```json/g, "")
+      .replace(/```/g, "")
+      .trim();
+
+    return JSON.parse(cleaned);
+  } catch (error) {
+    console.error("JSON Parsing Error:", error);
+
+    return {
+      success: false,
+      error: "Failed to parse AI response.",
+    };
   }
 }
