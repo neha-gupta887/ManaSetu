@@ -1,3 +1,4 @@
+import AICommandCenter from "./pages/AICommandCenter";
 import NotFound from "./pages/NotFound";
 import Settings from "./pages/Settings";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -16,6 +17,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/command-center" element={<AICommandCenter />} />
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
