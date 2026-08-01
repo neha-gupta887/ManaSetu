@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FaRobot, FaPaperPlane } from "react-icons/fa";
 import { generateWellnessPlan } from "../agents/orchestrator/wellnessOrchestrator";
+
 function AICompanion() {
   const [messages, setMessages] = useState([
     {
@@ -11,6 +12,7 @@ function AICompanion() {
 
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [activeAgents, setActiveAgents] = useState([]);
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -37,16 +39,42 @@ function AICompanion() {
         exam: "",
       });
 
-      const aiReply = `
-🧠 Mood Analysis
-${result.mood}
+      // Update Active AI Agents
+      setActiveAgents(result.selectedAgents || []);
 
-😴 Sleep Analysis
-${result.sleep}
+      let aiReply = "✨ Personalized Wellness Report\n\n";
 
-📚 Study Plan
-${result.study}
-`;
+      if (result.mood) {
+        aiReply += `🧠 Mood Agent\n${JSON.stringify(
+          result.mood,
+          null,
+          2
+        )}\n\n`;
+      }
+
+      if (result.sleep) {
+        aiReply += `😴 Sleep Agent\n${JSON.stringify(
+          result.sleep,
+          null,
+          2
+        )}\n\n`;
+      }
+
+      if (result.study) {
+        aiReply += `📚 Study Agent\n${JSON.stringify(
+          result.study,
+          null,
+          2
+        )}\n\n`;
+      }
+
+      if (result.crisis) {
+        aiReply += `🚨 Crisis Agent\n${JSON.stringify(
+          result.crisis,
+          null,
+          2
+        )}\n\n`;
+      }
 
       setMessages((prev) => [
         ...prev,
@@ -62,62 +90,82 @@ ${result.study}
         ...prev,
         {
           sender: "ai",
-          text: "Sorry, I couldn't generate a wellness plan.",
+          text: "❌ Sorry, I couldn't generate your wellness plan.",
         },
       ]);
     }
 
     setLoading(false);
   };
-
-  return (
+    return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300 flex justify-center p-8">
-      <div className="w-full max-w-4xl bg-white dark:bg-gray-800 rounded-3xl shadow-lg flex flex-col">
+      <div className="w-full max-w-5xl bg-white dark:bg-gray-800 rounded-3xl shadow-lg flex flex-col overflow-hidden">
 
         {/* Header */}
-        <div className="bg-green-600 dark:bg-emerald-700 text-white p-6 rounded-t-3xl flex items-center gap-3">
-          <FaRobot size={28} />
+        <div className="bg-gradient-to-r from-green-600 to-emerald-700 text-white p-6 flex items-center gap-3">
+          <FaRobot size={30} />
 
           <div>
-            <h1 className="text-2xl font-bold">
-              Mana AI
-            </h1>
-
+            <h1 className="text-3xl font-bold">Mana AI</h1>
             <p className="text-green-100">
               Agentic AI Wellness Companion
             </p>
           </div>
         </div>
 
-        {/* AI Agent Status */}
-        <div className="px-6 py-4 bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
-          <h2 className="font-semibold mb-3 text-gray-800 dark:text-white">
+        {/* Active Agents */}
+        <div className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 p-6">
+          <h2 className="font-bold text-lg mb-4 dark:text-white">
             🤖 Active AI Agents
           </h2>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
 
-            <div className="bg-green-100 text-green-700 rounded-xl p-3 text-center font-medium">
+            <div
+              className={`rounded-xl p-4 text-center font-semibold transition ${
+                activeAgents.includes("mood")
+                  ? "bg-green-500 text-white"
+                  : "bg-gray-200 dark:bg-gray-700 dark:text-white"
+              }`}
+            >
               🧠 Mood Agent
             </div>
 
-            <div className="bg-blue-100 text-blue-700 rounded-xl p-3 text-center font-medium">
+            <div
+              className={`rounded-xl p-4 text-center font-semibold transition ${
+                activeAgents.includes("sleep")
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200 dark:bg-gray-700 dark:text-white"
+              }`}
+            >
               😴 Sleep Agent
             </div>
 
-            <div className="bg-purple-100 text-purple-700 rounded-xl p-3 text-center font-medium">
+            <div
+              className={`rounded-xl p-4 text-center font-semibold transition ${
+                activeAgents.includes("study")
+                  ? "bg-purple-500 text-white"
+                  : "bg-gray-200 dark:bg-gray-700 dark:text-white"
+              }`}
+            >
               📚 Study Agent
             </div>
 
-            <div className="bg-red-100 text-red-700 rounded-xl p-3 text-center font-medium">
+            <div
+              className={`rounded-xl p-4 text-center font-semibold transition ${
+                activeAgents.includes("crisis")
+                  ? "bg-red-500 text-white"
+                  : "bg-gray-200 dark:bg-gray-700 dark:text-white"
+              }`}
+            >
               🚨 Crisis Agent
             </div>
 
           </div>
         </div>
 
-        {/* Chat Area */}
-        <div className="flex-1 p-6 space-y-4 overflow-y-auto h-[500px]">
+        {/* Chat */}
+        <div className="flex-1 p-6 overflow-y-auto h-[500px] space-y-5">
 
           {messages.map((msg, index) => (
             <div
@@ -129,10 +177,10 @@ ${result.study}
               }`}
             >
               <div
-                className={`max-w-[80%] whitespace-pre-wrap px-5 py-3 rounded-2xl ${
+                className={`max-w-[80%] whitespace-pre-wrap rounded-2xl px-5 py-4 shadow ${
                   msg.sender === "user"
                     ? "bg-green-600 text-white"
-                    : "bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white"
+                    : "bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white"
                 }`}
               >
                 {msg.text}
@@ -142,8 +190,8 @@ ${result.study}
 
           {loading && (
             <div className="flex justify-start">
-              <div className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white px-5 py-3 rounded-2xl">
-                🤖 AI Agents are analyzing your wellness...
+              <div className="bg-yellow-100 text-yellow-900 px-5 py-3 rounded-xl shadow">
+                🤖 AI Agents are collaborating...
               </div>
             </div>
           )}
@@ -154,8 +202,6 @@ ${result.study}
         <div className="border-t border-gray-200 dark:border-gray-700 p-5 flex gap-3">
 
           <input
-            type="text"
-            placeholder="Describe how you're feeling..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => {
@@ -163,17 +209,16 @@ ${result.study}
                 handleSend();
               }
             }}
-            className="flex-1 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500"
+            placeholder="Describe your thoughts..."
+            className="flex-1 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500"
           />
 
           <button
             onClick={handleSend}
             disabled={loading}
-            className="bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white px-6 rounded-xl flex items-center gap-2 transition"
+            className="bg-green-600 hover:bg-green-700 text-white px-6 rounded-xl transition"
           >
-            <FaPaperPlane />
-
-            {loading ? "Analyzing..." : "Send"}
+            {loading ? "Analyzing..." : <FaPaperPlane />}
           </button>
 
         </div>
