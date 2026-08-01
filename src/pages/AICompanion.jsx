@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { FaRobot, FaPaperPlane } from "react-icons/fa";
-import { getAIResponse } from "../services/aiService";
+import { generateWellnessPlan } from "../orchestrator/wellnessOrchestrator";
 
 function AICompanion() {
   const [messages, setMessages] = useState([
     {
       sender: "ai",
-      text: "Hello! 👋 I'm Mana AI, your wellness companion. How are you feeling today?",
+      text: "Hello! 👋 I'm Mana AI, your Agentic Wellness Companion. How are you feeling today?",
     },
   ]);
 
@@ -30,7 +30,24 @@ function AICompanion() {
     setLoading(true);
 
     try {
-      const aiReply = await getAIResponse(userMessage);
+      const result = await generateWellnessPlan({
+        mood: userMessage,
+        stress: "Unknown",
+        sleep: "Unknown",
+        journal: "",
+        exam: "",
+      });
+
+      const aiReply = `
+🧠 Mood Analysis
+${result.mood}
+
+😴 Sleep Analysis
+${result.sleep}
+
+📚 Study Plan
+${result.study}
+`;
 
       setMessages((prev) => [
         ...prev,
@@ -46,7 +63,7 @@ function AICompanion() {
         ...prev,
         {
           sender: "ai",
-          text: "Sorry, I couldn't generate a response.",
+          text: "Sorry, I couldn't generate a wellness plan.",
         },
       ]);
     }
@@ -56,23 +73,53 @@ function AICompanion() {
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300 flex justify-center p-8">
-      <div className="w-full max-w-4xl bg-white dark:bg-gray-800 rounded-3xl shadow-lg flex flex-col transition-colors duration-300">
+      <div className="w-full max-w-4xl bg-white dark:bg-gray-800 rounded-3xl shadow-lg flex flex-col">
 
         {/* Header */}
         <div className="bg-green-600 dark:bg-emerald-700 text-white p-6 rounded-t-3xl flex items-center gap-3">
           <FaRobot size={28} />
 
           <div>
-            <h1 className="text-2xl font-bold">Mana AI</h1>
+            <h1 className="text-2xl font-bold">
+              Mana AI
+            </h1>
 
             <p className="text-green-100">
-              Your AI Wellness Companion
+              Agentic AI Wellness Companion
             </p>
+          </div>
+        </div>
+
+        {/* AI Agent Status */}
+        <div className="px-6 py-4 bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+          <h2 className="font-semibold mb-3 text-gray-800 dark:text-white">
+            🤖 Active AI Agents
+          </h2>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+
+            <div className="bg-green-100 text-green-700 rounded-xl p-3 text-center font-medium">
+              🧠 Mood Agent
+            </div>
+
+            <div className="bg-blue-100 text-blue-700 rounded-xl p-3 text-center font-medium">
+              😴 Sleep Agent
+            </div>
+
+            <div className="bg-purple-100 text-purple-700 rounded-xl p-3 text-center font-medium">
+              📚 Study Agent
+            </div>
+
+            <div className="bg-red-100 text-red-700 rounded-xl p-3 text-center font-medium">
+              🚨 Crisis Agent
+            </div>
+
           </div>
         </div>
 
         {/* Chat Area */}
         <div className="flex-1 p-6 space-y-4 overflow-y-auto h-[500px]">
+
           {messages.map((msg, index) => (
             <div
               key={index}
@@ -83,7 +130,7 @@ function AICompanion() {
               }`}
             >
               <div
-                className={`max-w-[75%] px-5 py-3 rounded-2xl transition-colors duration-300 ${
+                className={`max-w-[80%] whitespace-pre-wrap px-5 py-3 rounded-2xl ${
                   msg.sender === "user"
                     ? "bg-green-600 text-white"
                     : "bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white"
@@ -97,17 +144,19 @@ function AICompanion() {
           {loading && (
             <div className="flex justify-start">
               <div className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white px-5 py-3 rounded-2xl">
-                Thinking...
+                🤖 AI Agents are analyzing your wellness...
               </div>
             </div>
           )}
+
         </div>
 
-        {/* Input Area */}
+        {/* Input */}
         <div className="border-t border-gray-200 dark:border-gray-700 p-5 flex gap-3">
+
           <input
             type="text"
-            placeholder="Type your message..."
+            placeholder="Describe how you're feeling..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => {
@@ -125,8 +174,9 @@ function AICompanion() {
           >
             <FaPaperPlane />
 
-            {loading ? "Thinking..." : "Send"}
+            {loading ? "Analyzing..." : "Send"}
           </button>
+
         </div>
 
       </div>
