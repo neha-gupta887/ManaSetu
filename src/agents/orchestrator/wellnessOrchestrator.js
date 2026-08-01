@@ -1,6 +1,7 @@
 import { analyzeMood } from "../agents/moodAgent";
 import { generateStudyPlan } from "../agents/studyAgent";
 import { analyzeSleep } from "../agents/sleepAgent";
+import { analyzeCrisis } from "../agents/crisisAgent";
 import { selectAgents } from "./agentCoordinator";
 
 export async function generateWellnessPlan(userData) {
@@ -21,6 +22,10 @@ export async function generateWellnessPlan(userData) {
 
     if (selectedAgents.includes("sleep")) {
       result.sleep = await analyzeSleep(userData);
+    }
+
+    if (selectedAgents.includes("crisis")) {
+      result.crisis = await analyzeCrisis(userData);
     }
 
     return result;
