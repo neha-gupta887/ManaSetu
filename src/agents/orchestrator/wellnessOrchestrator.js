@@ -1,7 +1,7 @@
-import { analyzeMood } from "../agents/moodAgent";
-import { generateStudyPlan } from "../agents/studyAgent";
-import { analyzeSleep } from "../agents/sleepAgent";
-import { analyzeCrisis } from "../agents/crisisAgent";
+import { analyzeMood } from "../MoodAgent";
+import { generateStudyPlan } from "../StudyAgent";
+import { analyzeSleep } from "../SleepAgent";
+import { analyzeCrisis } from "../CrisisAgent";
 import { selectAgents } from "./agentCoordinator";
 
 export async function generateWellnessPlan(userData) {

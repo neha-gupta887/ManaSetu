@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { FaRobot, FaPaperPlane } from "react-icons/fa";
-import { generateWellnessPlan } from "../orchestrator/wellnessOrchestrator";
-
+import { generateWellnessPlan } from "../agents/orchestrator/wellnessOrchestrator";
 function AICompanion() {
   const [messages, setMessages] = useState([
     {
