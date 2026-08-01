@@ -1,29 +1,34 @@
 import { analyzeMood } from "../agents/moodAgent";
 import { generateStudyPlan } from "../agents/studyAgent";
 import { analyzeSleep } from "../agents/sleepAgent";
+import { selectAgents } from "./agentCoordinator";
 
 export async function generateWellnessPlan(userData) {
   try {
-    // Run all independent agents in parallel
-    const [mood, study, sleep] = await Promise.all([
-      analyzeMood(userData),
-      generateStudyPlan(userData),
-      analyzeSleep(userData),
-    ]);
+    const selectedAgents = selectAgents(userData);
 
-    return {
-      success: true,
-      mood,
-      study,
-      sleep,
-      generatedAt: new Date().toISOString(),
+    const result = {
+      selectedAgents,
     };
+
+    if (selectedAgents.includes("mood")) {
+      result.mood = await analyzeMood(userData);
+    }
+
+    if (selectedAgents.includes("study")) {
+      result.study = await generateStudyPlan(userData);
+    }
+
+    if (selectedAgents.includes("sleep")) {
+      result.sleep = await analyzeSleep(userData);
+    }
+
+    return result;
   } catch (error) {
-    console.error("Wellness Orchestrator Error:", error);
+    console.error(error);
 
     return {
-      success: false,
-      error: "Failed to generate wellness plan.",
+      error: "Unable to generate wellness plan.",
     };
   }
 }
