@@ -1,25 +1,33 @@
-export function generateDecision(agentResult) {
+export async function generateDecision(result) {
   const tasks = [];
+  let priority = "Low";
+  let score = 90;
 
-  if (agentResult?.mood) {
-    tasks.push("😊 Practice 10 minutes of mindfulness.");
+  if (result.mood?.stressLevel === "High") {
+    tasks.push("Take a 10-minute breathing exercise.");
+    score -= 15;
+    priority = "High";
   }
 
-  if (agentResult?.sleep) {
-    tasks.push("😴 Sleep at least 7-8 hours tonight.");
+  if (result.sleep) {
+    tasks.push("Sleep before 11 PM tonight.");
+    score -= 5;
   }
 
-  if (agentResult?.study) {
-    tasks.push("📚 Study using two 45-minute Pomodoro sessions.");
+  if (result.study) {
+    tasks.push("Complete two focused Pomodoro sessions.");
+    score -= 5;
   }
 
-  if (agentResult?.crisis) {
-    tasks.push("❤️ Reach out to a trusted friend or counselor if you feel overwhelmed.");
+  if (result.crisis) {
+    tasks.push("Reach out to a trusted friend or counselor.");
+    score -= 20;
+    priority = "Critical";
   }
 
   return {
-    wellnessScore: 82,
-    priority: "Medium",
+    wellnessScore: Math.max(score, 0),
+    priority,
     tasks,
   };
 }
