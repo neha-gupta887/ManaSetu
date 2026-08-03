@@ -105,19 +105,29 @@ function Login() {
                 className="w-full border rounded-xl py-3 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-green-500"
               />
             </div>
+            
+{/* Password */}
+<div className="relative">
 
-            {/* Password */}
-            <div className="relative">
-              <FaLock className="absolute left-4 top-4 text-gray-400" />
-              <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full border rounded-xl py-3 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
-            </div>
+  <FaLock className="absolute left-4 top-4 text-gray-400" />
 
+  <input
+    type={showPassword ? "text" : "password"}
+    placeholder="Password"
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+    className="w-full border rounded-xl py-3 pl-12 pr-12 focus:outline-none focus:ring-2 focus:ring-green-500"
+  />
+
+  <button
+    type="button"
+    onClick={() => setShowPassword(!showPassword)}
+    className="absolute right-4 top-4 text-gray-500 hover:text-green-600"
+  >
+    {showPassword ? <FaEyeSlash /> : <FaEye />}
+  </button>
+
+</div>
             {/* Options */}
             <div className="flex justify-between items-center text-sm">
               <label className="flex items-center gap-2 text-gray-600">
