@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import {
   FaHome,
   FaSmile,
@@ -22,7 +23,7 @@ function Sidebar() {
       navigate("/login");
     } catch (error) {
       console.error(error);
-      alert("Logout failed!");
+      toast.success("Logout failed!");
     }
   };
 

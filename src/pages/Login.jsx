@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaEnvelope, FaLock, FaGoogle } from "react-icons/fa";
@@ -14,7 +15,7 @@ function Login() {
     e.preventDefault();
 
     if (!email || !password) {
-      alert("Please enter your email and password.");
+      toast.success("Please enter your email and password.");
       return;
     }
 
@@ -23,11 +24,11 @@ function Login() {
 
       await login(email, password);
 
-      alert("🎉 Login successful!");
+      toast.success("🎉 Login successful!");
 
       navigate("/dashboard");
     } catch (error) {
-      alert(error.message);
+      toast.success(error.message);
     } finally {
       setLoading(false);
     }
@@ -39,11 +40,11 @@ function Login() {
 
       await googleLogin();
 
-      alert("🎉 Google Login Successful!");
+      toast.success("🎉 Google Login Successful!");
 
       navigate("/dashboard");
     } catch (error) {
-      alert(error.message);
+      toast.success(error.message);
     } finally {
       setLoading(false);
     }

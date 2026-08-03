@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 import { FaBookOpen, FaSave, FaTrash, FaEdit, FaTimes } from "react-icons/fa";
 import {
@@ -37,7 +38,7 @@ function Journal() {
   // Save or Update Journal
   const handleSave = async () => {
     if (!journal.trim()) {
-      alert("Please write something before saving.");
+      toast.success("Please write something before saving.");
       return;
     }
 
@@ -49,13 +50,13 @@ function Journal() {
       success = await updateJournal(editId, journal);
 
       if (success) {
-        alert("✅ Journal updated successfully!");
+        toast.success("✅ Journal updated successfully!");
       }
     } else {
       success = await saveJournal(journal);
 
       if (success) {
-        alert("✅ Journal saved successfully!");
+        toast.success("✅ Journal saved successfully!");
       }
     }
 
@@ -65,7 +66,7 @@ function Journal() {
       setEditId(null);
       await loadJournals();
     } else {
-      alert("❌ Something went wrong.");
+      toast.success("❌ Something went wrong.");
     }
 
     setLoading(false);
@@ -78,7 +79,7 @@ function Journal() {
     const success = await deleteJournal(id);
 
     if (success) {
-      alert("🗑 Journal deleted.");
+      toast.success("🗑 Journal deleted.");
       await loadJournals();
     }
   };

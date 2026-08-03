@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
@@ -19,17 +20,17 @@ function Signup() {
     e.preventDefault();
 
     if (!name || !email || !password || !confirmPassword) {
-      alert("Please fill in all fields.");
+      toast.success("Please fill in all fields.");
       return;
     }
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match.");
+      toast.success("Passwords do not match.");
       return;
     }
 
     if (!agree) {
-      alert("Please agree to the Terms & Conditions.");
+      toast.success("Please agree to the Terms & Conditions.");
       return;
     }
 
@@ -47,11 +48,11 @@ function Signup() {
       // Refresh current user
       await auth.currentUser.reload();
 
-      alert(`🎉 Welcome ${name}! Your account has been created successfully.`);
+      toast.success(`🎉 Welcome ${name}! Your account has been created successfully.`);
 
       navigate("/login");
     } catch (error) {
-      alert(error.message);
+      toast.success(error.message);
     } finally {
       setLoading(false);
     }

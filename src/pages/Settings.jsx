@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { useState } from "react";
 import { useTheme } from "../context/ThemeContext";
 
@@ -126,7 +127,7 @@ function Settings() {
         {/* Save Button */}
         <div className="text-center mt-8">
           <button
-            onClick={() => alert("Settings Saved Successfully!")}
+            onClick={() => toast.success("Settings Saved Successfully!")}
             className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 rounded-xl font-semibold shadow-lg transition duration-300"
           >
             💾 Save Settings

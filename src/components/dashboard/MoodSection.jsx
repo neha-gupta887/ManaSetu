@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { useState } from "react";
 import { saveMood } from "../../services/moodService";
 
@@ -18,9 +19,9 @@ function MoodSection() {
     const success = await saveMood(mood);
 
     if (success) {
-      alert("✅ Mood saved successfully!");
+      toast.success("✅ Mood saved successfully!");
     } else {
-      alert("❌ Failed to save mood.");
+      toast.success("❌ Failed to save mood.");
     }
   };
 

@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { emergencyContacts, getEmergencyTips } from "../services/emergencyService";
 
 function SOSCard() {
@@ -22,7 +23,7 @@ function SOSCard() {
         <button
           className="bg-red-600 hover:bg-red-700 text-white px-10 py-5 rounded-full text-xl font-bold shadow-lg transition"
           onClick={() =>
-            alert(
+            toast.success(
               "🚨 Stay calm.\n\nContact a trusted person immediately.\nIf this is a medical emergency, contact your local emergency services."
             )
           }
