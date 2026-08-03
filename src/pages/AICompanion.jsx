@@ -422,7 +422,7 @@ function AICompanion() {
               🩺 AI Wellness Dashboard
             </h2>
 
-            <div className="grid md:grid-cols-2 gap-5"></div>
+            <div className="grid md:grid-cols-2 gap-5">
                           {/* ===========================
                   🧠 Mood Analysis
               ============================ */}
@@ -604,7 +604,7 @@ function AICompanion() {
 
                   <ul className="list-disc ml-6 mt-4">
 
-                    {latestResult.support.actions.map(
+                    {latestResult.support.actions?.map(
                       (action, index) => (
                         <li key={index}>
                           {action}
