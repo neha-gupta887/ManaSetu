@@ -6,26 +6,40 @@ import AgentExecution from "../components/AgentExecution";
 import { useAgent } from "../context/AgentContext";
 
 function AICompanion() {
+  // Chat Messages
   const [messages, setMessages] = useState([
     {
       sender: "ai",
-      text: "👋 Hello! I'm Mana AI, your Agentic Wellness Companion. Tell me how you're feeling today.",
+      text:
+        "👋 Hello! I'm Mana AI, your Agentic Wellness Companion. Tell me how you're feeling today.",
     },
   ]);
 
+  // Input
   const [input, setInput] = useState("");
+
+  // Loading
   const [loading, setLoading] = useState(false);
 
+  // Active AI Agents
   const [activeAgents, setActiveAgents] = useState([]);
+
+  // Latest AI Analysis
   const [latestResult, setLatestResult] = useState(null);
 
+  // Global Context
   const { setAgentResult } = useAgent();
+
+  // ===========================
+  // Handle Send
+  // ===========================
 
   const handleSend = async () => {
     if (!input.trim()) return;
 
-    const userMessage = input;
+    const userMessage = input.trim();
 
+    // Add user message
     setMessages((prev) => [
       ...prev,
       {
@@ -38,6 +52,7 @@ function AICompanion() {
     setLoading(true);
 
     try {
+      // Run AI Workflow
       const result = await generateWellnessPlan({
         mood: userMessage,
         stress: "Unknown",
@@ -52,124 +67,116 @@ function AICompanion() {
       // Save globally
       setAgentResult(result);
 
-      // Save latest analysis for dashboard cards
+      // Save latest analysis
       setLatestResult(result);
 
+      // Build AI Report
       let aiReply = "🩺 ManaSetu AI Wellness Report\n";
       aiReply += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n";
-            /* ===========================
-         🧠 Mood Analysis
-      =========================== */
+            // ===========================
+      // 🧠 Mood Analysis
+      // ===========================
 
       if (result.mood) {
         aiReply += "🧠 MOOD ANALYSIS\n\n";
 
-        aiReply += `😊 Emotion : ${
+        aiReply += `😊 Emotion: ${
           result.mood.emotion || "Unknown"
         }\n`;
 
-        aiReply += `📊 Stress Level : ${
+        aiReply += `📊 Stress Level: ${
           result.mood.stressLevel || "Unknown"
         }\n`;
 
-        aiReply += `⚠ Burnout Risk : ${
+        aiReply += `⚠ Burnout Risk: ${
           result.mood.burnoutRisk || "Unknown"
         }\n\n`;
 
-        aiReply += `📝 Summary\n`;
-        aiReply += `${result.mood.summary || "Not Available"}\n\n`;
+        aiReply += `📝 Summary:\n${
+          result.mood.summary || "No summary available."
+        }\n\n`;
 
-        aiReply += `💡 Recommendation\n`;
-        aiReply += `${
+        aiReply += `💡 Recommendation:\n${
           result.mood.recommendation ||
-          "Maintain healthy daily habits."
-        }\n`;
+          "Take care of yourself and maintain healthy habits."
+        }\n\n`;
 
-        aiReply += "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n";
+        aiReply += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n";
       }
 
-      /* ===========================
-         😴 Sleep Analysis
-      =========================== */
+      // ===========================
+      // 😴 Sleep Analysis
+      // ===========================
 
       if (result.sleep) {
         aiReply += "😴 SLEEP ANALYSIS\n\n";
 
-        aiReply += `📝 Summary\n`;
-        aiReply += `${
-          result.sleep.summary ||
-          "No sleep concerns detected."
+        aiReply += `📝 Summary:\n${
+          result.sleep.summary || "No sleep issues detected."
         }\n\n`;
 
-        aiReply += `💡 Recommendation\n`;
-        aiReply += `${
+        aiReply += `💡 Recommendation:\n${
           result.sleep.recommendation ||
-          "Sleep at least 7-8 hours."
-        }\n`;
+          "Aim for 7-8 hours of quality sleep."
+        }\n\n`;
 
-        aiReply += "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n";
+        aiReply += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n";
       }
 
-      /* ===========================
-         📚 Study Analysis
-      =========================== */
+      // ===========================
+      // 📚 Study Analysis
+      // ===========================
 
       if (result.study) {
         aiReply += "📚 STUDY ANALYSIS\n\n";
 
-        aiReply += `📝 Summary\n`;
-        aiReply += `${
-          result.study.summary ||
-          "Study performance looks good."
+        aiReply += `📝 Summary:\n${
+          result.study.summary || "Study analysis unavailable."
         }\n\n`;
 
-        aiReply += `💡 Recommendation\n`;
-        aiReply += `${
+        aiReply += `💡 Recommendation:\n${
           result.study.recommendation ||
-          "Continue following your study schedule."
-        }\n`;
+          "Stay focused and follow your study schedule."
+        }\n\n`;
 
-        aiReply += "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n";
+        aiReply += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n";
       }
 
-      /* ===========================
-         🚨 Crisis Analysis
-      =========================== */
+      // ===========================
+      // 🚨 Crisis Analysis
+      // ===========================
 
       if (result.crisis) {
         aiReply += "🚨 CRISIS ANALYSIS\n\n";
 
-        aiReply += `⚠ Risk Level : ${
+        aiReply += `⚠ Risk Level: ${
           result.crisis.risk || "Low"
         }\n\n`;
 
-        aiReply += `📝 Summary\n`;
-        aiReply += `${
-          result.crisis.summary ||
-          "No immediate concerns detected."
+        aiReply += `📝 Summary:\n${
+          result.crisis.summary || "No immediate concerns detected."
         }\n\n`;
 
-        aiReply += `💡 Recommendation\n`;
-        aiReply += `${
+        aiReply += `💡 Recommendation:\n${
           result.crisis.recommendation ||
           "Continue monitoring your wellbeing."
-        }\n`;
+        }\n\n`;
 
-        aiReply += "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n";
+        aiReply += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n";
       }
 
-      /* ===========================
-         🎯 Decision Agent
-      =========================== */
+      // ===========================
+      // 🎯 Decision Agent
+      // ===========================
 
       if (result.decision) {
         aiReply += "🎯 TODAY'S WELLNESS PLAN\n\n";
 
-        aiReply += `💚 Wellness Score : ${
+        aiReply += `💚 Wellness Score: ${
           result.decision.wellnessScore || 80
         }/100\n`;
 
-        aiReply += `🔥 Priority : ${
+        aiReply += `🔥 Priority: ${
           result.decision.priority || "Medium"
         }\n\n`;
 
@@ -177,7 +184,7 @@ function AICompanion() {
           result.decision.tasks &&
           result.decision.tasks.length > 0
         ) {
-          aiReply += "📋 Today's Tasks\n\n";
+          aiReply += "📋 Today's Tasks:\n\n";
 
           result.decision.tasks.forEach((task) => {
             aiReply += `✔ ${task}\n`;
@@ -185,17 +192,15 @@ function AICompanion() {
 
           aiReply += "\n";
         }
+
+        aiReply += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n";
       }
 
+      aiReply += "🌿 Thank you for using ManaSetu.\n";
       aiReply +=
-        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
+        "Remember: Small positive habits every day create better mental wellbeing. 💚";
 
-      aiReply +=
-        "💚 Thank you for using ManaSetu.\n";
-
-      aiReply +=
-        "Remember: Small positive habits every day create better mental wellbeing.\n\n";
-
+      // Add AI response to chat
       setMessages((prev) => [
         ...prev,
         {
@@ -203,7 +208,8 @@ function AICompanion() {
           text: aiReply,
         },
       ]);
-          } catch (error) {
+
+    } catch (error) {
       console.error(error);
 
       setMessages((prev) => [
@@ -217,10 +223,8 @@ function AICompanion() {
 
     setLoading(false);
   };
-
-  return (
+    return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300 flex justify-center p-8">
-
       <div className="w-full max-w-6xl bg-white dark:bg-gray-800 rounded-3xl shadow-xl overflow-hidden">
 
         {/* ===========================
@@ -228,34 +232,30 @@ function AICompanion() {
         ============================ */}
 
         <div className="bg-gradient-to-r from-green-600 to-emerald-700 text-white p-6">
-
           <div className="flex items-center gap-4">
 
-            <div className="bg-white/20 p-3 rounded-2xl">
+            <div className="bg-white/20 rounded-2xl p-3">
               <FaRobot size={32} />
             </div>
 
             <div>
-
               <h1 className="text-3xl font-bold">
                 Mana AI
               </h1>
 
               <p className="text-green-100">
-                Agentic AI Wellness Companion
+                Your Agentic Wellness Companion
               </p>
-
             </div>
 
           </div>
-
         </div>
 
         {/* ===========================
              Active Agents
         ============================ */}
 
-        <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+        <div className="border-b border-gray-200 dark:border-gray-700 p-6">
 
           <h2 className="text-xl font-bold mb-5 dark:text-white">
             🤖 Active AI Agents
@@ -311,18 +311,16 @@ function AICompanion() {
              Agent Execution
         ============================ */}
 
-        <div className="p-6 border-b border-gray-200 dark:border-gray-700">
-
+        <div className="border-b border-gray-200 dark:border-gray-700 p-6">
           <AgentExecution activeAgents={activeAgents} />
-
         </div>
 
         {/* ===========================
              Chat Area
         ============================ */}
 
-        <div className="h-[450px] overflow-y-auto p-6 space-y-5"></div>
-                  {/* Chat Messages */}
+        <div className="h-[420px] overflow-y-auto p-6 space-y-5">
+
           {messages.map((msg, index) => (
             <div
               key={index}
@@ -344,14 +342,14 @@ function AICompanion() {
             </div>
           ))}
 
-          {/* Loading */}
           {loading && (
             <div className="flex justify-start">
-              <div className="bg-yellow-100 text-yellow-900 px-5 py-3 rounded-xl shadow animate-pulse">
+              <div className="bg-yellow-100 text-yellow-900 rounded-xl px-5 py-3 shadow animate-pulse">
                 🤖 Mana AI is analyzing your wellness...
               </div>
             </div>
           )}
+
         </div>
 
         {/* ===========================
@@ -366,67 +364,143 @@ function AICompanion() {
             </h2>
 
             <div className="grid md:grid-cols-2 gap-5">
-
-              {/* Mood */}
+                            {/* Mood Card */}
               {latestResult.mood && (
                 <div className="bg-green-50 dark:bg-green-900 rounded-2xl p-5 shadow">
 
-                  <h3 className="text-xl font-bold mb-3 text-green-700 dark:text-green-200">
+                  <h3 className="text-xl font-bold text-green-700 dark:text-green-200 mb-4">
                     🧠 Mood Analysis
                   </h3>
 
-                  <p><strong>Emotion:</strong> {latestResult.mood.emotion}</p>
+                  <p className="mb-2">
+                    <strong>Emotion:</strong>{" "}
+                    {latestResult.mood.emotion || "Unknown"}
+                  </p>
 
-                  <p><strong>Stress:</strong> {latestResult.mood.stressLevel}</p>
+                  <p className="mb-2">
+                    <strong>Stress:</strong>{" "}
+                    {latestResult.mood.stressLevel || "Unknown"}
+                  </p>
 
-                  <p><strong>Burnout:</strong> {latestResult.mood.burnoutRisk}</p>
+                  <p className="mb-2">
+                    <strong>Burnout:</strong>{" "}
+                    {latestResult.mood.burnoutRisk || "Unknown"}
+                  </p>
 
-                  <p className="mt-3">
+                  <p className="mt-4">
                     {latestResult.mood.summary}
                   </p>
 
                 </div>
               )}
 
-              {/* Sleep */}
+              {/* Sleep Card */}
               {latestResult.sleep && (
                 <div className="bg-blue-50 dark:bg-blue-900 rounded-2xl p-5 shadow">
 
-                  <h3 className="text-xl font-bold mb-3 text-blue-700 dark:text-blue-200">
+                  <h3 className="text-xl font-bold text-blue-700 dark:text-blue-200 mb-4">
                     😴 Sleep Analysis
                   </h3>
 
-                  <p>{latestResult.sleep.summary}</p>
+                  <p className="mb-3">
+                    {latestResult.sleep.summary}
+                  </p>
+
+                  <p className="text-sm">
+                    <strong>Recommendation:</strong>
+                  </p>
+
+                  <p>
+                    {latestResult.sleep.recommendation}
+                  </p>
 
                 </div>
               )}
 
-              {/* Study */}
+              {/* Study Card */}
               {latestResult.study && (
                 <div className="bg-purple-50 dark:bg-purple-900 rounded-2xl p-5 shadow">
 
-                  <h3 className="text-xl font-bold mb-3 text-purple-700 dark:text-purple-200">
+                  <h3 className="text-xl font-bold text-purple-700 dark:text-purple-200 mb-4">
                     📚 Study Analysis
                   </h3>
 
-                  <p>{latestResult.study.summary}</p>
+                  <p className="mb-3">
+                    {latestResult.study.summary}
+                  </p>
+
+                  <p className="text-sm">
+                    <strong>Recommendation:</strong>
+                  </p>
+
+                  <p>
+                    {latestResult.study.recommendation}
+                  </p>
 
                 </div>
               )}
 
-              {/* Crisis */}
+              {/* Crisis Card */}
               {latestResult.crisis && (
                 <div className="bg-red-50 dark:bg-red-900 rounded-2xl p-5 shadow">
 
-                  <h3 className="text-xl font-bold mb-3 text-red-700 dark:text-red-200">
+                  <h3 className="text-xl font-bold text-red-700 dark:text-red-200 mb-4">
                     🚨 Crisis Analysis
                   </h3>
 
-                  <p><strong>Risk:</strong> {latestResult.crisis.risk}</p>
+                  <p className="mb-2">
+                    <strong>Risk:</strong>{" "}
+                    {latestResult.crisis.risk || "Low"}
+                  </p>
 
-                  <p className="mt-2">
+                  <p className="mb-3">
                     {latestResult.crisis.summary}
                   </p>
+
+                  <p className="text-sm">
+                    <strong>Recommendation:</strong>
+                  </p>
+
+                  <p>
+                    {latestResult.crisis.recommendation}
+                  </p>
+
+                </div>
+              )}
+
+              {/* Decision Card */}
+              {latestResult.decision && (
+                <div className="md:col-span-2 bg-emerald-50 dark:bg-emerald-900 rounded-2xl p-6 shadow">
+
+                  <h3 className="text-2xl font-bold text-emerald-700 dark:text-emerald-200 mb-4">
+                    🎯 Today's Wellness Plan
+                  </h3>
+
+                  <p className="mb-2">
+                    <strong>Wellness Score:</strong>{" "}
+                    {latestResult.decision.wellnessScore}/100
+                  </p>
+
+                  <p className="mb-5">
+                    <strong>Priority:</strong>{" "}
+                    {latestResult.decision.priority}
+                  </p>
+
+                  {latestResult.decision.tasks?.length > 0 && (
+                    <div>
+
+                      <h4 className="font-semibold mb-3">
+                        📋 Recommended Tasks
+                      </h4>
+
+                      <ul className="list-disc ml-6 space-y-2">
+                        {latestResult.decision.tasks.map((task, index) => (
+                          <li key={index}>{task}</li>
+                        ))}
+                      </ul>
+
+                    </div>
+                  )}
 
                 </div>
               )}
@@ -436,23 +510,21 @@ function AICompanion() {
           </div>
         )}
 
-        {/* ===========================
-             Input Area
-        ============================ */}
+        {/* Input Area */}
 
         <div className="border-t border-gray-200 dark:border-gray-700 p-5 flex gap-3">
 
           <input
             type="text"
+            placeholder="Tell Mana AI how you're feeling..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Tell Mana AI how you're feeling..."
-            className="flex-1 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500"
             onKeyDown={(e) => {
               if (e.key === "Enter" && !loading) {
                 handleSend();
               }
             }}
+            className="flex-1 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500"
           />
 
           <button
@@ -460,13 +532,12 @@ function AICompanion() {
             disabled={loading}
             className="bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white px-6 rounded-xl flex items-center justify-center transition"
           >
-            <FaPaperPlane />
+            {loading ? "Analyzing..." : <FaPaperPlane />}
           </button>
 
         </div>
 
       </div>
-
     </div>
   );
 }
