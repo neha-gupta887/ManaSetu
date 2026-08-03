@@ -356,6 +356,29 @@ function AICompanion() {
         {/* ===========================
              AI Wellness Dashboard
         ============================ */}
+        {latestResult?.support?.show && (
+  <div className="md:col-span-2 bg-red-50 dark:bg-red-900 rounded-2xl p-6 shadow">
+
+    <h3 className="text-2xl font-bold text-red-700 dark:text-red-200 mb-4">
+      {latestResult.support.title}
+    </h3>
+
+    <p className="mb-5">
+      {latestResult.support.message}
+    </p>
+
+    <h4 className="font-semibold mb-3">
+      Recommended Actions
+    </h4>
+
+    <ul className="list-disc ml-6 space-y-2">
+      {latestResult.support.actions.map((action, index) => (
+        <li key={index}>{action}</li>
+      ))}
+    </ul>
+
+  </div>
+)}
 
         {latestResult && (
           <div className="border-t border-gray-200 dark:border-gray-700 p-6">
