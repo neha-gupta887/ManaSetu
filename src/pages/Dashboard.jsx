@@ -1,3 +1,4 @@
+import AIWorkflow from "../components/AIWorkflow";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
@@ -156,6 +157,9 @@ function Dashboard() {
         <div className="mt-6">
           <AIInsightCard />
         </div>
+        <div className="mt-6">
+   <AIWorkflow />
+</div>
 
         {/* Habit Tracker */}
         <div className="mt-6">
