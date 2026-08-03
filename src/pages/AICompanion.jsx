@@ -2,6 +2,8 @@ import { useState } from "react";
 import { FaRobot, FaPaperPlane } from "react-icons/fa";
 import { generateWellnessPlan } from "../agents/orchestrator/wellnessOrchestrator";
 import AgentExecution from "../components/AgentExecution";
+import { useAgent } from "../context/AgentContext";
+
 function AICompanion() {
   const [messages, setMessages] = useState([
     {
@@ -13,6 +15,9 @@ function AICompanion() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [activeAgents, setActiveAgents] = useState([]);
+
+  // Global Agent Context
+  const { setAgentResult } = useAgent();
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -41,6 +46,9 @@ function AICompanion() {
 
       // Update Active AI Agents
       setActiveAgents(result.selectedAgents || []);
+
+      // Save globally
+      setAgentResult(result);
 
       let aiReply = "✨ Personalized Wellness Report\n\n";
 
@@ -97,7 +105,8 @@ function AICompanion() {
 
     setLoading(false);
   };
-    return (
+
+  return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300 flex justify-center p-8">
       <div className="w-full max-w-5xl bg-white dark:bg-gray-800 rounded-3xl shadow-lg flex flex-col overflow-hidden">
 
@@ -113,7 +122,7 @@ function AICompanion() {
           </div>
         </div>
 
-        {/* Active Agents */}
+        {/* Active AI Agents */}
         <div className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 p-6">
           <h2 className="font-bold text-lg mb-4 dark:text-white">
             🤖 Active AI Agents
@@ -162,6 +171,11 @@ function AICompanion() {
             </div>
 
           </div>
+        </div>
+
+        {/* Agent Execution Timeline */}
+        <div className="p-6">
+          <AgentExecution activeAgents={activeAgents} />
         </div>
 
         {/* Chat */}
@@ -216,7 +230,7 @@ function AICompanion() {
           <button
             onClick={handleSend}
             disabled={loading}
-            className="bg-green-600 hover:bg-green-700 text-white px-6 rounded-xl transition"
+            className="bg-green-600 hover:bg-green-700 text-white px-6 rounded-xl transition flex items-center justify-center"
           >
             {loading ? "Analyzing..." : <FaPaperPlane />}
           </button>
