@@ -1,59 +1,142 @@
-import { FaRobot, FaBookOpen, FaLeaf, FaChartBar } from "react-icons/fa";
+import {
+  FaRobot,
+  FaBookOpen,
+  FaLeaf,
+  FaChartBar,
+  FaArrowRight,
+} from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const actions = [
   {
     title: "AI Companion",
-    description: "Chat with your wellness assistant.",
+    description: "Talk with Mana AI and receive personalized wellness guidance.",
     path: "/ai-companion",
-    icon: <FaRobot className="text-3xl text-green-600" />,
+    icon: "🤖",
+    color: "from-emerald-500 to-green-600",
   },
   {
-    title: "Journal",
-    description: "Write your daily thoughts and feelings.",
+    title: "Smart Journal",
+    description: "Write your thoughts and let AI understand your emotions.",
     path: "/journal",
-    icon: <FaBookOpen className="text-3xl text-blue-600" />,
+    icon: "📖",
+    color: "from-blue-500 to-cyan-600",
   },
   {
     title: "Meditation",
-    description: "Practice guided breathing and relaxation.",
+    description: "Relax your mind with breathing and mindfulness exercises.",
     path: "/breathing",
-    icon: <FaLeaf className="text-3xl text-emerald-600" />,
+    icon: "🧘",
+    color: "from-teal-500 to-emerald-600",
   },
   {
-    title: "Mood History",
-    description: "View your mood trends over time.",
+    title: "Analytics",
+    description: "View mood trends, wellness insights and AI reports.",
     path: "/analytics",
-    icon: <FaChartBar className="text-3xl text-purple-600" />,
+    icon: "📊",
+    color: "from-purple-500 to-pink-600",
   },
 ];
 
 function QuickActions() {
   return (
-    <div className="mt-8">
-      <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-5">
-        Quick Actions
-      </h2>
+    <div className="mt-10">
+
+      {/* Heading */}
+
+      <div className="flex items-center justify-between mb-6">
+
+        <div>
+
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+            🚀 Quick Actions
+          </h2>
+
+          <p className="text-gray-500 dark:text-gray-400 mt-2">
+            Access your most-used wellness tools instantly.
+          </p>
+
+        </div>
+
+      </div>
+
+      {/* Cards */}
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-        {actions.map((action) => (
-          <Link
+
+        {actions.map((action, index) => (
+
+          <motion.div
             key={action.title}
-            to={action.path}
-            className="block bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            whileHover={{
+              y: -8,
+              scale: 1.03,
+            }}
+            transition={{
+              duration: 0.3,
+              delay: index * 0.1,
+            }}
+            viewport={{ once: true }}
           >
-            {action.icon}
 
-            <h3 className="mt-4 text-xl font-semibold text-gray-800 dark:text-white">
-              {action.title}
-            </h3>
+            <Link
+              to={action.path}
+              className="relative overflow-hidden block rounded-3xl border border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 h-full"
+            >
 
-            <p className="text-gray-500 dark:text-gray-400 mt-2 text-sm">
-              {action.description}
-            </p>
-          </Link>
+              {/* Glow */}
+
+              <div
+                className={`absolute -top-12 -right-12 w-36 h-36 rounded-full bg-gradient-to-r ${action.color} opacity-20 blur-3xl`}
+              ></div>
+
+              <div className="relative z-10">
+
+                {/* Icon */}
+
+                <div
+                  className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${action.color} flex items-center justify-center text-3xl shadow-lg`}
+                >
+                  {action.icon}
+                </div>
+
+                {/* Title */}
+
+                <h3 className="mt-6 text-xl font-bold text-gray-900 dark:text-white">
+                  {action.title}
+                </h3>
+
+                {/* Description */}
+
+                <p className="mt-3 text-sm leading-6 text-gray-500 dark:text-gray-400">
+                  {action.description}
+                </p>
+
+                {/* Footer */}
+
+                <div className="mt-8 flex items-center justify-between">
+
+                  <span className="text-sm font-semibold text-emerald-600">
+                    Open
+                  </span>
+
+                  <FaArrowRight className="text-emerald-600 group-hover:translate-x-1 transition-transform" />
+
+                </div>
+
+              </div>
+
+            </Link>
+
+          </motion.div>
+
         ))}
+
       </div>
+
     </div>
   );
 }
