@@ -1,4 +1,5 @@
-import { FaStar, FaUserCircle } from "react-icons/fa";
+import { FaStar, FaUserCircle, FaQuoteLeft } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 function Testimonials() {
   const testimonials = [
@@ -25,74 +26,211 @@ function Testimonials() {
   return (
     <section
       id="testimonials"
-      className="py-20 bg-gradient-to-b from-white to-green-50 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300 scroll-mt-20"
+      className="relative overflow-hidden py-24 bg-gradient-to-b from-white via-emerald-50 to-green-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-800 scroll-mt-20"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Background Glow */}
+
+      <div className="absolute left-0 top-0 w-96 h-96 rounded-full bg-green-300/20 blur-[120px]"></div>
+
+      <div className="absolute right-0 bottom-0 w-96 h-96 rounded-full bg-cyan-300/20 blur-[120px]"></div>
+
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
 
         {/* Heading */}
-        <div className="text-center">
 
-          <span className="inline-block px-5 py-2 bg-green-100 dark:bg-emerald-900/40 text-green-700 dark:text-emerald-300 rounded-full text-sm font-semibold">
-            💬 Testimonials
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="text-center"
+        >
+
+          <span className="inline-flex items-center gap-2 rounded-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl border border-green-200 dark:border-gray-700 px-5 py-2 font-semibold text-emerald-700 dark:text-emerald-300 shadow">
+
+            💬 Student Testimonials
+
           </span>
 
-          <h2 className="mt-6 text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white">
-            Loved by
-            <span className="text-green-600 dark:text-emerald-400">
-              {" "}Students
+          <h2 className="mt-8 text-5xl lg:text-6xl font-extrabold text-gray-900 dark:text-white">
+
+            Trusted By
+
+            <br />
+
+            <span className="bg-gradient-to-r from-emerald-600 via-green-500 to-teal-500 bg-clip-text text-transparent">
+
+              Students Everywhere
+
             </span>
+
           </h2>
 
-          <p className="mt-5 max-w-3xl mx-auto text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-8">
-            See what students are saying about their experience with
-            ManaSetu and how it has helped improve their mental well-being.
+          <p className="mt-8 max-w-3xl mx-auto text-lg leading-8 text-gray-600 dark:text-gray-300">
+
+            Hear how ManaSetu has helped students improve their mental
+            wellbeing through AI-powered guidance and daily wellness support.
+
           </p>
 
-        </div>
+        </motion.div>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-16">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mt-20">
 
           {testimonials.map((testimonial, index) => (
-            <div
-              key={index}
-              className="bg-white dark:bg-gray-800 border border-green-100 dark:border-gray-700 rounded-3xl p-6 sm:p-8 shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
+
+            <motion.div
+              key={testimonial.name}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{
+                duration: 0.5,
+                delay: index * 0.1,
+              }}
+              whileHover={{
+                y: -10,
+                scale: 1.03,
+              }}
+              className="group relative overflow-hidden rounded-[30px] bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl border border-white dark:border-gray-700 shadow-xl hover:shadow-2xl transition-all duration-500"
             >
 
-              {/* Stars */}
-              <div className="flex text-yellow-400 text-lg">
-                {[...Array(5)].map((_, i) => (
-                  <FaStar key={i} />
-                ))}
-              </div>
+              {/* Background Glow */}
 
-              {/* Review */}
-              <p className="mt-6 text-gray-600 dark:text-gray-300 leading-7 italic">
-                "{testimonial.review}"
-              </p>
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-10 bg-gradient-to-br from-emerald-500 to-teal-500 transition-all duration-500"></div>
 
-              {/* User */}
-              <div className="flex items-center mt-8">
-                <FaUserCircle className="text-5xl text-green-500 dark:text-emerald-400" />
+              <div className="relative p-8">
 
-                <div className="ml-4">
-                  <h4 className="font-bold text-gray-900 dark:text-white">
-                    {testimonial.name}
-                  </h4>
+                {/* Quote */}
 
-                  <p className="text-gray-500 dark:text-gray-400 text-sm">
-                    {testimonial.role}
-                  </p>
+                <div className="flex items-center justify-between">
+
+                  <FaQuoteLeft className="text-4xl text-emerald-500" />
+
+                  <div className="flex text-yellow-400 text-lg gap-1">
+
+                    {[...Array(5)].map((_, i) => (
+                      <FaStar key={i} />
+                    ))}
+
+                  </div>
+
+                </div>
+
+                {/* Review */}
+
+                <p className="mt-8 text-gray-600 dark:text-gray-300 leading-8 italic">
+
+                  "{testimonial.review}"
+
+                </p>
+
+                {/* User */}
+
+                <div className="mt-10 flex items-center gap-4">
+
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center text-white text-3xl shadow-lg">
+
+                    <FaUserCircle />
+
+                  </div>
+
+                  <div>
+
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+
+                      {testimonial.name}
+
+                    </h3>
+
+                    <p className="text-gray-500 dark:text-gray-400">
+
+                      {testimonial.role}
+
+                    </p>
+
+                  </div>
+
                 </div>
 
               </div>
 
-            </div>
+            </motion.div>
+
           ))}
 
         </div>
 
+        {/* Trust Banner */}
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="mt-24"
+        >
+
+          <div className="rounded-[36px] bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 p-12 text-white shadow-2xl">
+
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+
+              <div>
+
+                <h2 className="text-5xl font-extrabold">
+                  ⭐ 4.9
+                </h2>
+
+                <p className="mt-3 text-green-100">
+                  Student Rating
+                </p>
+
+              </div>
+
+              <div>
+
+                <h2 className="text-5xl font-extrabold">
+                  10K+
+                </h2>
+
+                <p className="mt-3 text-green-100">
+                  Active Users
+                </p>
+
+              </div>
+
+              <div>
+
+                <h2 className="text-5xl font-extrabold">
+                  98%
+                </h2>
+
+                <p className="mt-3 text-green-100">
+                  Satisfaction
+                </p>
+
+              </div>
+
+              <div>
+
+                <h2 className="text-5xl font-extrabold">
+                  ❤️
+                </h2>
+
+                <p className="mt-3 text-green-100">
+                  Trusted by Students
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </motion.div>
+
       </div>
+
     </section>
   );
 }
