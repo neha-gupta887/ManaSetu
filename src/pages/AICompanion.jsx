@@ -1,3 +1,4 @@
+import { saveWellnessRecord } from "../services/memoryService";
 import { useState } from "react";
 import { FaRobot, FaPaperPlane } from "react-icons/fa";
 
@@ -69,7 +70,7 @@ function AICompanion() {
 
       // Save latest analysis
       setLatestResult(result);
-
+      saveWellnessRecord(result);
       // Build AI Report
       let aiReply = "🩺 ManaSetu AI Wellness Report\n";
       aiReply += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n";
