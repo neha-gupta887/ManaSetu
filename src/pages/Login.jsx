@@ -1,7 +1,13 @@
 import toast from "react-hot-toast";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaEnvelope, FaLock, FaGoogle } from "react-icons/fa";
+import {
+  FaEnvelope,
+  FaLock,
+  FaGoogle,
+  FaEye,
+  FaEyeSlash,
+} from "react-icons/fa";
 import { login, googleLogin } from "../services/authService";
 
 function Login() {
@@ -10,12 +16,13 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     if (!email || !password) {
-      toast.success("Please enter your email and password.");
+      toast.error("Please enter your email and password.");
       return;
     }
 
@@ -28,7 +35,7 @@ function Login() {
 
       navigate("/dashboard");
     } catch (error) {
-      toast.success(error.message);
+      toast.error(error.message);
     } finally {
       setLoading(false);
     }
