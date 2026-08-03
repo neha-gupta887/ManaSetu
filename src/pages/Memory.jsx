@@ -4,23 +4,31 @@ import {
   clearWellnessHistory,
 } from "../services/memoryService";
 
+import TrendCard from "../components/TrendCard";
+import { analyzeTrend } from "../services/trendAnalyzer";
+
 function Memory() {
   const [history, setHistory] = useState([]);
+  const [trend, setTrend] = useState(null);
 
   useEffect(() => {
-    setHistory(getWellnessHistory());
+    const data = getWellnessHistory();
+
+    setHistory(data);
+    setTrend(analyzeTrend(data));
   }, []);
 
   const handleClear = () => {
     clearWellnessHistory();
     setHistory([]);
+    setTrend(null);
   };
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-8">
-
       <div className="max-w-5xl mx-auto">
 
+        {/* Header */}
         <div className="flex justify-between items-center mb-8">
 
           <h1 className="text-4xl font-bold dark:text-white">
@@ -36,6 +44,14 @@ function Memory() {
 
         </div>
 
+        {/* Trend Analysis */}
+        {trend && (
+          <div className="mb-8">
+            <TrendCard trend={trend} />
+          </div>
+        )}
+
+        {/* Empty State */}
         {history.length === 0 ? (
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow p-10 text-center">
 
@@ -76,11 +92,18 @@ function Memory() {
                       🧠 Mood
                     </h3>
 
-                    <p>Emotion: {item.mood?.emotion || "Unknown"}</p>
+                    <p>
+                      Emotion: {item.mood?.emotion || "Unknown"}
+                    </p>
 
-                    <p>Stress: {item.mood?.stressLevel || "Unknown"}</p>
+                    <p>
+                      Stress: {item.mood?.stressLevel || "Unknown"}
+                    </p>
 
-                    <p>Burnout: {item.mood?.burnoutRisk || "Unknown"}</p>
+                    <p>
+                      Burnout: {item.mood?.burnoutRisk || "Unknown"}
+                    </p>
+
                   </div>
 
                   <div>
@@ -89,8 +112,7 @@ function Memory() {
                     </h3>
 
                     <p>
-                      {item.sleep?.summary ||
-                        "No sleep analysis"}
+                      {item.sleep?.summary || "No sleep analysis"}
                     </p>
                   </div>
 
@@ -100,8 +122,7 @@ function Memory() {
                     </h3>
 
                     <p>
-                      {item.study?.summary ||
-                        "No study analysis"}
+                      {item.study?.summary || "No study analysis"}
                     </p>
                   </div>
 
@@ -135,7 +156,7 @@ function Memory() {
                     {item.decision.tasks?.length > 0 && (
                       <>
                         <h4 className="font-semibold mt-4">
-                          Today's Tasks
+                          📋 Today's Tasks
                         </h4>
 
                         <ul className="list-disc ml-6 mt-2">
@@ -156,7 +177,6 @@ function Memory() {
         )}
 
       </div>
-
     </div>
   );
 }
