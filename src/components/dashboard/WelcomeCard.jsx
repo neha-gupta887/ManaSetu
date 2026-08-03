@@ -37,73 +37,169 @@ function WelcomeCard() {
   }, []);
 
   return (
-    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 text-white shadow-2xl p-6 sm:p-8 lg:p-10">
-      {/* Background Glow */}
-      <div className="absolute -top-16 -right-16 w-56 h-56 rounded-full bg-white/10 blur-3xl"></div>
-      <div className="absolute -bottom-16 -left-16 w-56 h-56 rounded-full bg-white/10 blur-3xl"></div>
+    <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-emerald-700 via-green-600 to-teal-600 shadow-2xl text-white">
 
-      <div className="relative z-10">
+      {/* Decorative Glow */}
+      <div className="absolute -top-24 -left-24 w-80 h-80 rounded-full bg-white/10 blur-3xl"></div>
+
+      <div className="absolute -bottom-24 -right-24 w-96 h-96 rounded-full bg-teal-300/10 blur-3xl"></div>
+
+      <div className="absolute top-1/2 right-1/3 w-64 h-64 rounded-full bg-emerald-300/10 blur-3xl"></div>
+
+      <div className="relative z-10 p-8 lg:p-10">
+
+        {/* AI Badge */}
+
+        <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-5 py-2">
+
+          <span className="w-3 h-3 rounded-full bg-green-300 animate-pulse"></span>
+
+          <span className="font-medium">
+            Mana AI is Active
+          </span>
+
+        </div>
+
         {/* Date */}
-        <p className="text-green-100 text-sm sm:text-base">
+
+        <p className="mt-6 text-green-100 tracking-wide">
+
           {today}
+
         </p>
 
         {/* Greeting */}
-        <h2 className="mt-3 text-3xl sm:text-4xl font-bold leading-tight">
-          {emoji} {greeting},{" "}
-          <span className="text-yellow-200">{userName}</span> 👋
+
+        <h2 className="mt-5 text-5xl font-extrabold leading-tight tracking-tight">
+
+          {emoji} {greeting},
+
+          <span className="text-yellow-200">
+
+            {" "}{userName}
+
+          </span>
+
+          👋
+
         </h2>
 
-        {/* Welcome */}
-        <h3 className="mt-2 text-xl sm:text-2xl font-semibold">
+        {/* Title */}
+
+        <h3 className="mt-4 text-3xl font-bold">
+
           Welcome back to ManaSetu 🌿
+
         </h3>
 
         {/* Description */}
-        <p className="mt-5 max-w-2xl text-green-100 leading-8">
-          Every small step toward understanding your emotions is a step toward a
-          healthier and happier life. Pause for a moment, check in with
-          yourself, and continue building healthy habits today.
+
+        <p className="mt-6 max-w-3xl text-lg leading-8 text-green-100">
+
+          Your AI wellness companion is ready to help you
+          improve focus, reduce stress, build healthier
+          habits, and maintain better mental wellbeing.
+
+          Every conversation makes Mana AI smarter and
+          more personalized for you.
+
         </p>
 
         {/* Action Buttons */}
-        <div className="mt-8 flex flex-col sm:flex-row gap-4">
-          <Link to="/journal">
-            <button className="w-full sm:w-auto bg-white text-emerald-600 px-6 py-3 rounded-xl font-semibold shadow-lg hover:scale-105 transition-all duration-300">
+
+        <div className="mt-10 flex flex-wrap gap-4">
+                    <Link to="/journal">
+            <button className="rounded-2xl bg-white px-7 py-3 font-semibold text-emerald-700 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-emerald-300">
               😊 Start Mood Check
             </button>
           </Link>
 
           <Link to="/ai-companion">
-            <button className="w-full sm:w-auto border border-white px-6 py-3 rounded-xl font-semibold hover:bg-white hover:text-emerald-700 transition-all duration-300">
-              🤖 AI Companion
+            <button className="rounded-2xl border border-white/30 bg-white/10 px-7 py-3 font-semibold backdrop-blur-md transition-all duration-300 hover:bg-white hover:text-emerald-700">
+              🤖 Talk to Mana AI
             </button>
           </Link>
+
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-10">
-          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 text-center">
-            <h3 className="text-2xl font-bold">92%</h3>
-            <p className="text-sm text-green-100">Wellness Score</p>
+        {/* Dashboard Stats */}
+
+        <div className="mt-12 grid grid-cols-2 gap-5 lg:grid-cols-5">
+
+          {/* Wellness Score */}
+
+          <div className="rounded-2xl border border-white/20 bg-white/15 p-5 text-center backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 hover:bg-white/20">
+
+            <h3 className="text-3xl font-bold">
+              92%
+            </h3>
+
+            <p className="mt-2 text-sm text-green-100">
+              Wellness Score
+            </p>
+
           </div>
 
-          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 text-center">
-            <h3 className="text-2xl font-bold">🔥 15</h3>
-            <p className="text-sm text-green-100">Day Streak</p>
+          {/* Streak */}
+
+          <div className="rounded-2xl border border-white/20 bg-white/15 p-5 text-center backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 hover:bg-white/20">
+
+            <h3 className="text-3xl font-bold">
+              🔥 15
+            </h3>
+
+            <p className="mt-2 text-sm text-green-100">
+              Day Streak
+            </p>
+
           </div>
 
-          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 text-center">
-            <h3 className="text-2xl font-bold">📖 28</h3>
-            <p className="text-sm text-green-100">Journals</p>
+          {/* Journal */}
+
+          <div className="rounded-2xl border border-white/20 bg-white/15 p-5 text-center backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 hover:bg-white/20">
+
+            <h3 className="text-3xl font-bold">
+              📖 28
+            </h3>
+
+            <p className="mt-2 text-sm text-green-100">
+              Journals
+            </p>
+
           </div>
 
-          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 text-center">
-            <h3 className="text-2xl font-bold">😊 Happy</h3>
-            <p className="text-sm text-green-100">Today's Mood</p>
+          {/* Mood */}
+
+          <div className="rounded-2xl border border-white/20 bg-white/15 p-5 text-center backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 hover:bg-white/20">
+
+            <h3 className="text-3xl font-bold">
+              😊 Happy
+            </h3>
+
+            <p className="mt-2 text-sm text-green-100">
+              Today's Mood
+            </p>
+
           </div>
+
+          {/* AI Status */}
+
+          <div className="rounded-2xl border border-white/20 bg-white/15 p-5 text-center backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 hover:bg-white/20">
+
+            <h3 className="text-3xl font-bold">
+              🤖 Online
+            </h3>
+
+            <p className="mt-2 text-sm text-green-100">
+              Mana AI Status
+            </p>
+
+          </div>
+
         </div>
+
       </div>
+
     </div>
   );
 }
