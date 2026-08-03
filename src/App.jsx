@@ -1,3 +1,4 @@
+import Memory from "./pages/Memory";
 import AICommandCenter from "./pages/AICommandCenter";
 import NotFound from "./pages/NotFound";
 import Settings from "./pages/Settings";
@@ -17,6 +18,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/memory" element={<Memory />} />
         <Route path="/command-center" element={<AICommandCenter />} />
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
