@@ -15,100 +15,85 @@ export async function generateWellnessPlan(userData) {
   try {
     let selectedAgents = [];
 
-    // ===========================
-    // AI Coordinator
-    // ===========================
+    // =====================================
+    // AI Coordinator (Gemini)
+    // =====================================
 
     try {
       const aiResult = await selectAgentsAI(userData);
 
-      selectedAgents =
-        aiResult.selectedAgents || ["mood"];
+      selectedAgents = aiResult?.selectedAgents || ["mood"];
 
-      console.log(
-        "🤖 Gemini Coordinator:",
-        selectedAgents
-      );
+      console.log("🤖 Gemini Coordinator:", selectedAgents);
     } catch (error) {
-      console.log(
-        "⚠ AI Coordinator Failed. Switching to Keyword Coordinator."
+      console.warn(
+        "⚠ Gemini Coordinator failed. Switching to Keyword Coordinator."
       );
 
       selectedAgents = selectAgents(userData);
 
-      console.log(
-        "📝 Keyword Coordinator:",
-        selectedAgents
-      );
+      console.log("📝 Keyword Coordinator:", selectedAgents);
     }
+
+    // Remove duplicate agents
+    selectedAgents = [...new Set(selectedAgents)];
 
     const result = {
       selectedAgents,
     };
 
-    // ===========================
-    // Mood Agent
-    // ===========================
+    // =====================================
+    // Execute Agents
+    // =====================================
 
     if (selectedAgents.includes("mood")) {
       result.mood = await analyzeMood(userData);
     }
 
-    // ===========================
-    // Sleep Agent
-    // ===========================
-
     if (selectedAgents.includes("sleep")) {
       result.sleep = await analyzeSleep(userData);
     }
-
-    // ===========================
-    // Study Agent
-    // ===========================
 
     if (selectedAgents.includes("study")) {
       result.study = await generateStudyPlan(userData);
     }
 
-    // ===========================
-    // Crisis Agent
-    // ===========================
-
     if (selectedAgents.includes("crisis")) {
       result.crisis = await analyzeCrisis(userData);
     }
-        // ===========================
+
+    // =====================================
     // Decision Agent
-    // ===========================
+    // =====================================
 
     result.decision = await generateDecision(result);
 
-    // ===========================
-    // Burnout Prediction
-    // ===========================
+    // =====================================
+    // Burnout Prediction Agent
+    // =====================================
 
     const history = getWellnessHistory();
 
-    result.burnout = predictBurnout(
-      result,
-      history
-    );
+    result.burnout = predictBurnout(result, history);
 
-    // ===========================
+    // =====================================
+    // Timestamp
+    // =====================================
+
+    result.generatedAt = new Date().toISOString();
+
+    // =====================================
     // Return Final Result
-    // ===========================
+    // =====================================
 
     return result;
 
   } catch (error) {
-    console.error(
-      "Wellness Orchestrator Error:",
-      error
-    );
+    console.error("❌ Wellness Orchestrator Error:", error);
 
     return {
       selectedAgents: [],
-      error: "Unable to generate wellness plan.",
+      error: "Unable to generate wellness plan. Please try again later.",
     };
   }
 }
