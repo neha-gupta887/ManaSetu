@@ -1,138 +1,438 @@
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 function Hero() {
   return (
     <section
-  id="top"
-  className="bg-gradient-to-br from-green-50 via-white to-green-100 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 transition-colors duration-300 min-h-[85vh] flex items-center py-16"
->      
-<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-        
-        {/* Left Section */}
-        <div>
-          <span className="inline-block bg-green-100 dark:bg-emerald-900/40 text-green-700 dark:text-emerald-300 px-4 py-2 rounded-full text-sm font-semibold">
-            🌿 ManaSetu – Student Mental Wellness Platform
-          </span>
+      id="top"
+      className="relative overflow-hidden min-h-screen flex items-center bg-gradient-to-br from-emerald-50 via-white to-teal-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-800 transition-colors duration-500"
+    >
+      {/* Background Glow */}
 
-          <h1 className="mt-6 text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 dark:text-white leading-tight">
-            Welcome to
-            <br />
-            <span className="text-green-600 dark:text-emerald-400">
-              ManaSetu
+      <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-emerald-400/20 rounded-full blur-[120px]"></div>
+
+      <div className="absolute bottom-0 right-0 w-[450px] h-[450px] bg-cyan-400/20 rounded-full blur-[120px]"></div>
+
+      <div className="absolute top-1/2 left-1/2 w-[350px] h-[350px] bg-green-300/10 rounded-full blur-[100px]"></div>
+
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-2 gap-20 items-center relative z-10">
+
+        {/* Left Section */}
+
+        <motion.div
+          initial={{ opacity: 0, x: -60 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+
+          {/* Badge */}
+
+          <div className="inline-flex items-center gap-3 rounded-full bg-white/70 dark:bg-gray-800/70 backdrop-blur-xl border border-emerald-200 dark:border-gray-700 px-5 py-2 shadow-lg">
+
+            <span className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></span>
+
+            <span className="font-semibold text-emerald-700 dark:text-emerald-300">
+
+              AI Powered Student Wellness
+
             </span>
+
+          </div>
+
+          {/* Heading */}
+
+          <h1 className="mt-8 text-5xl lg:text-7xl font-extrabold leading-tight text-gray-900 dark:text-white">
+
+            Your Personal
+
+            <br />
+
+            <span className="bg-gradient-to-r from-emerald-600 via-green-500 to-teal-500 bg-clip-text text-transparent">
+
+              AI Wellness
+
+            </span>
+
+            <br />
+
+            Companion
+
           </h1>
 
-          <p className="mt-6 text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-8 max-w-xl">
-            ManaSetu helps students strengthen their mental well-being through
-            mood tracking, AI-powered guidance, mindfulness practices, and
-            meaningful support from mentors—all in one safe and trusted platform.
+          {/* Description */}
+
+          <p className="mt-8 max-w-2xl text-lg leading-8 text-gray-600 dark:text-gray-300">
+
+            ManaSetu combines Agentic AI, mood tracking,
+            personalized wellness planning, AI memory,
+            burnout prediction and emotional support into
+            one intelligent platform built especially for
+            university students.
+
           </p>
 
           {/* Buttons */}
-          <div className="mt-8 flex flex-col sm:flex-row gap-4">
+
+          <div className="mt-10 flex flex-wrap gap-5">
+
             <Link to="/signup">
-              <button className="w-full sm:w-auto bg-green-600 hover:bg-green-700 dark:bg-emerald-600 dark:hover:bg-emerald-700 text-white px-6 py-3 rounded-xl font-semibold transition duration-300 shadow-lg">
-                Get Started
+
+              <button className="rounded-2xl bg-gradient-to-r from-green-600 to-emerald-500 px-8 py-4 font-semibold text-white shadow-xl hover:-translate-y-1 hover:shadow-emerald-300 transition-all duration-300">
+
+                🚀 Get Started
+
               </button>
+
             </Link>
 
             <a href="#features">
-              <button className="w-full sm:w-auto border-2 border-green-600 dark:border-emerald-400 text-green-600 dark:text-emerald-400 hover:bg-green-50 dark:hover:bg-gray-700 px-6 py-3 rounded-xl font-semibold transition duration-300">
-                Explore Features
+
+              <button className="rounded-2xl border border-emerald-500 px-8 py-4 font-semibold text-emerald-600 dark:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-gray-800 transition-all">
+
+                ✨ Explore Features
+
               </button>
+
             </a>
+
           </div>
 
           {/* Statistics */}
-          <div className="mt-12 grid grid-cols-3 gap-6 text-center sm:text-left">
+
+          <div className="grid grid-cols-3 gap-8 mt-14">
+
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-green-600 dark:text-emerald-400">
+
+              <h2 className="text-4xl font-extrabold text-emerald-600">
+
                 10K+
+
               </h2>
-              <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400">
-                Students Supported
+
+              <p className="mt-2 text-gray-500 dark:text-gray-400">
+
+                Students
+
               </p>
+
             </div>
 
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-green-600 dark:text-emerald-400">
-                500+
+
+              <h2 className="text-4xl font-extrabold text-emerald-600">
+
+                98%
+
               </h2>
-              <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400">
-                Expert Mentors
+
+              <p className="mt-2 text-gray-500 dark:text-gray-400">
+
+                AI Accuracy
+
               </p>
+
             </div>
 
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-green-600 dark:text-emerald-400">
-                24/7
+
+              <h2 className="text-4xl font-extrabold text-emerald-600">
+
+                24×7
+
               </h2>
-              <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400">
-                AI Assistance
+
+              <p className="mt-2 text-gray-500 dark:text-gray-400">
+
+                AI Support
+
               </p>
+
             </div>
+
           </div>
-        </div>
+
+        </motion.div>
 
         {/* Right Section */}
-        <div className="space-y-6">
-          {/* Mood Tracker */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 p-6 flex items-center gap-5">
-            <div className="w-16 h-16 rounded-full bg-green-100 dark:bg-emerald-900/40 flex items-center justify-center text-3xl">
-              😊
+                <motion.div
+          initial={{ opacity: 0, x: 60 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+          className="relative"
+        >
+
+          {/* Main AI Card */}
+
+          <div className="rounded-[32px] bg-white/70 dark:bg-gray-900/70 backdrop-blur-2xl border border-white dark:border-gray-700 shadow-2xl p-8">
+
+            {/* Header */}
+
+            <div className="flex items-center justify-between">
+
+              <div className="flex items-center gap-4">
+
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-r from-emerald-500 to-green-600 flex items-center justify-center text-3xl shadow-lg">
+
+                  🤖
+
+                </div>
+
+                <div>
+
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+
+                    Mana AI
+
+                  </h2>
+
+                  <div className="flex items-center gap-2 mt-1">
+
+                    <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
+
+                    <span className="text-sm text-green-600 dark:text-green-400 font-medium">
+
+                      Online
+
+                    </span>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div className="rounded-full bg-emerald-100 dark:bg-emerald-900 px-3 py-1 text-sm font-semibold text-emerald-700 dark:text-emerald-300">
+
+                AI Ready
+
+              </div>
+
             </div>
 
-            <div>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                Mood Tracker
+            {/* AI Summary */}
+
+            <div className="mt-8 rounded-2xl bg-gradient-to-r from-emerald-500 to-green-600 text-white p-6">
+
+              <p className="text-green-100">
+
+                Today's Wellness Score
+
+              </p>
+
+              <h3 className="text-5xl font-extrabold mt-3">
+
+                92%
+
               </h3>
 
-              <p className="text-gray-600 dark:text-gray-300 mt-2">
-                Log your emotions and understand your daily mood patterns.
+              <p className="mt-3">
+
+                Excellent Progress 🎉
+
               </p>
-            </div>
-          </div>
 
-          {/* AI Companion */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 p-6 flex items-center gap-5">
-            <div className="w-16 h-16 rounded-full bg-green-100 dark:bg-emerald-900/40 flex items-center justify-center text-3xl">
-              🤖
             </div>
 
-            <div>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                AI Wellness Companion
+            {/* Feature Cards */}
 
-                <span className="bg-green-100 dark:bg-emerald-900/40 text-green-700 dark:text-emerald-300 text-xs px-2 py-1 rounded-full">
-                  AI
-                </span>
+            <div className="grid grid-cols-2 gap-4 mt-6">
+
+              <div className="rounded-2xl bg-gray-50 dark:bg-gray-800 p-5">
+
+                <div className="text-3xl">
+
+                  😊
+
+                </div>
+
+                <h3 className="font-bold mt-3 text-gray-900 dark:text-white">
+
+                  Mood
+
+                </h3>
+
+                <p className="text-green-600 font-semibold mt-2">
+
+                  Happy
+
+                </p>
+
+              </div>
+
+              <div className="rounded-2xl bg-gray-50 dark:bg-gray-800 p-5">
+
+                <div className="text-3xl">
+
+                  😴
+
+                </div>
+
+                <h3 className="font-bold mt-3 text-gray-900 dark:text-white">
+
+                  Sleep
+
+                </h3>
+
+                <p className="text-blue-600 font-semibold mt-2">
+
+                  Good
+
+                </p>
+
+              </div>
+
+              <div className="rounded-2xl bg-gray-50 dark:bg-gray-800 p-5">
+
+                <div className="text-3xl">
+
+                  📚
+
+                </div>
+
+                <h3 className="font-bold mt-3 text-gray-900 dark:text-white">
+
+                  Focus
+
+                </h3>
+
+                <p className="text-purple-600 font-semibold mt-2">
+
+                  High
+
+                </p>
+
+              </div>
+
+              <div className="rounded-2xl bg-gray-50 dark:bg-gray-800 p-5">
+
+                <div className="text-3xl">
+
+                  🔥
+
+                </div>
+
+                <h3 className="font-bold mt-3 text-gray-900 dark:text-white">
+
+                  Burnout
+
+                </h3>
+
+                <p className="text-emerald-600 font-semibold mt-2">
+
+                  Low
+
+                </p>
+
+              </div>
+
+            </div>
+
+            {/* AI Tips */}
+
+            <div className="mt-6 rounded-2xl bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-700 p-5">
+
+              <h3 className="font-bold text-lg text-gray-900 dark:text-white">
+
+                🤖 Mana AI Suggests
+
               </h3>
 
-              <p className="text-gray-600 dark:text-gray-300 mt-2">
-                Chat with an AI companion for guidance and emotional support.
-              </p>
+              <ul className="mt-4 space-y-3 text-gray-600 dark:text-gray-300">
+
+                <li>✅ Drink enough water today</li>
+
+                <li>✅ Practice 10 minutes of mindfulness</li>
+
+                <li>✅ Complete one journal entry</li>
+
+                <li>✅ Take a short walk between study sessions</li>
+
+              </ul>
+
             </div>
+
           </div>
 
-          {/* Wellness Tip */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 p-6 flex items-center gap-5">
-            <div className="w-16 h-16 rounded-full bg-green-100 dark:bg-emerald-900/40 flex items-center justify-center text-3xl">
-              💚
-            </div>
+          {/* Floating Card */}
 
-            <div>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                Daily Wellness Tip
-              </h3>
+          <div className="hidden lg:block absolute -left-14 top-12 rounded-2xl bg-white dark:bg-gray-800 shadow-2xl p-5">
 
-              <p className="text-gray-600 dark:text-gray-300 mt-2 italic">
-                "A peaceful mind is the strongest bridge to a better life."
-              </p>
-            </div>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+
+              AI Confidence
+
+            </p>
+
+            <h3 className="text-4xl font-extrabold text-emerald-600 mt-2">
+
+              98%
+
+            </h3>
+
           </div>
-        </div>
+
+          {/* Floating Card */}
+
+          <div className="hidden lg:block absolute -right-10 bottom-10 rounded-2xl bg-white dark:bg-gray-800 shadow-2xl p-5">
+
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+
+              Active Agents
+
+            </p>
+
+            <h3 className="text-4xl font-extrabold text-green-600 mt-2">
+
+              6
+
+            </h3>
+
+          </div>
+
+        </motion.div>
+                {/* Floating Background Elements */}
+
+        <motion.div
+          animate={{
+            y: [0, -18, 0],
+          }}
+          transition={{
+            repeat: Infinity,
+            duration: 5,
+          }}
+          className="hidden xl:flex absolute -top-10 -right-10 w-24 h-24 rounded-3xl bg-gradient-to-r from-green-500 to-emerald-500 items-center justify-center text-4xl shadow-2xl"
+        >
+          🌿
+        </motion.div>
+
+        <motion.div
+          animate={{
+            y: [0, 20, 0],
+          }}
+          transition={{
+            repeat: Infinity,
+            duration: 6,
+          }}
+          className="hidden xl:flex absolute bottom-0 left-0 w-20 h-20 rounded-2xl bg-white dark:bg-gray-800 items-center justify-center text-3xl shadow-xl"
+        >
+          😊
+        </motion.div>
+
+        <motion.div
+          animate={{
+            rotate: [0, 8, 0],
+          }}
+          transition={{
+            repeat: Infinity,
+            duration: 7,
+          }}
+          className="hidden xl:flex absolute top-1/2 -right-16 w-20 h-20 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 items-center justify-center text-3xl shadow-xl"
+        >
+          🧠
+        </motion.div>
 
       </div>
+
     </section>
   );
 }
