@@ -1,3 +1,4 @@
+import WellnessInsights from "../components/WellnessInsights";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
@@ -52,6 +53,9 @@ function Dashboard() {
 {/* AI Wellness Score */}
 <div className="mt-6">
   <WellnessScoreCard score={82} />
+</div>
+<div className="mt-6">
+  <WellnessInsights />
 </div>
 
 {/* Dashboard Statistics */}
