@@ -1,3 +1,4 @@
+import { getEmergencySupport } from "../emergencyAgent";
 import { analyzeMood } from "../MoodAgent";
 import { generateStudyPlan } from "../StudyAgent";
 import { analyzeSleep } from "../SleepAgent";
@@ -75,7 +76,7 @@ export async function generateWellnessPlan(userData) {
     const history = getWellnessHistory();
 
     result.burnout = predictBurnout(result, history);
-
+    result.support = getEmergencySupport(result);
     // =====================================
     // Timestamp
     // =====================================
