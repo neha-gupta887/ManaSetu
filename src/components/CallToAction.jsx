@@ -1,75 +1,157 @@
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 function CallToAction() {
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 dark:bg-gray-900 transition-colors duration-300">
-      <div className="max-w-6xl mx-auto">
-        <div className="bg-gradient-to-r from-green-600 to-emerald-500 dark:from-emerald-700 dark:to-green-800 rounded-[32px] sm:rounded-[40px] p-8 sm:p-12 lg:p-20 text-center shadow-2xl transition-colors duration-300">
+    <section className="relative overflow-hidden py-24 px-6 lg:px-8 bg-gradient-to-b from-emerald-50 via-white to-green-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-800">
+
+      {/* Background Glow */}
+
+      <div className="absolute -top-32 left-0 w-[450px] h-[450px] bg-green-400/20 rounded-full blur-[120px]"></div>
+
+      <div className="absolute bottom-0 right-0 w-[450px] h-[450px] bg-cyan-400/20 rounded-full blur-[120px]"></div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.7 }}
+        className="relative z-10 max-w-6xl mx-auto"
+      >
+
+        <div className="overflow-hidden rounded-[40px] bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 p-10 lg:p-16 shadow-[0_30px_80px_rgba(16,185,129,0.35)]">
 
           {/* Badge */}
-          <span className="inline-block bg-white/20 backdrop-blur-md text-white px-5 py-2 rounded-full text-sm font-semibold">
+
+          <span className="inline-flex items-center gap-2 rounded-full bg-white/20 backdrop-blur-xl px-5 py-2 font-semibold text-white border border-white/20">
+
             🌿 Join the ManaSetu Community
+
           </span>
 
           {/* Heading */}
-          <h2 className="mt-8 text-3xl sm:text-4xl lg:text-6xl font-bold text-white leading-tight">
-            Ready to Transform Your
+
+          <h2 className="mt-8 text-4xl lg:text-6xl font-extrabold text-white leading-tight">
+
+            Ready to Build
+
             <br />
-            Mental Wellness Journey?
+
+            A Healthier Mind?
+
           </h2>
 
           {/* Description */}
-          <p className="mt-6 max-w-3xl mx-auto text-base sm:text-lg text-green-50 leading-8">
-            Take the first step toward a healthier, happier, and more balanced
-            life. Join thousands of students using ManaSetu to build better
-            habits and improve their mental well-being every day.
+
+          <p className="mt-8 max-w-3xl text-lg leading-8 text-green-100">
+
+            Experience AI-powered mental wellness with personalized mood
+            tracking, intelligent recommendations, wellness analytics and
+            supportive conversations—all designed specifically for students.
+
           </p>
 
           {/* Buttons */}
-          <div className="mt-10 flex flex-col sm:flex-row justify-center gap-5">
+                    <div className="mt-12 flex flex-col sm:flex-row justify-center gap-5">
 
             <Link to="/signup">
-              <button className="w-full sm:w-auto bg-white text-green-600 dark:bg-gray-100 dark:text-emerald-700 px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:scale-105 transition duration-300">
-                Get Started
+
+              <button className="group rounded-2xl bg-white px-8 py-4 text-lg font-bold text-emerald-700 shadow-xl hover:scale-105 transition-all duration-300">
+
+                🚀 Get Started Free
+
               </button>
+
             </Link>
 
             <a href="#features">
-              <button className="w-full sm:w-auto border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-green-600 transition duration-300">
-                Learn More
+
+              <button className="rounded-2xl border border-white/40 bg-white/10 backdrop-blur-md px-8 py-4 text-lg font-semibold text-white hover:bg-white hover:text-emerald-700 transition-all duration-300">
+
+                ✨ Explore Features
+
               </button>
+
             </a>
 
           </div>
 
-          {/* Stats */}
-          <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-8 text-white">
+          {/* Statistics */}
 
-            <div>
-              <h3 className="text-3xl sm:text-4xl font-bold">10K+</h3>
-              <p className="mt-2 text-green-100">
+          <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-8">
+
+            <div className="rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 p-6 text-center">
+
+              <h3 className="text-5xl font-extrabold text-white">
+
+                10K+
+
+              </h3>
+
+              <p className="mt-3 text-green-100">
+
                 Students Supported
+
               </p>
+
             </div>
 
-            <div>
-              <h3 className="text-3xl sm:text-4xl font-bold">24/7</h3>
-              <p className="mt-2 text-green-100">
-                AI Wellness Companion
+            <div className="rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 p-6 text-center">
+
+              <h3 className="text-5xl font-extrabold text-white">
+
+                24×7
+
+              </h3>
+
+              <p className="mt-3 text-green-100">
+
+                AI Wellness Support
+
               </p>
+
             </div>
 
-            <div>
-              <h3 className="text-3xl sm:text-4xl font-bold">95%</h3>
-              <p className="mt-2 text-green-100">
-                Positive User Feedback
+            <div className="rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 p-6 text-center">
+
+              <h3 className="text-5xl font-extrabold text-white">
+
+                98%
+
+              </h3>
+
+              <p className="mt-3 text-green-100">
+
+                Student Satisfaction
+
               </p>
+
+            </div>
+
+          </div>
+
+          {/* AI Badge */}
+
+          <div className="mt-14 flex justify-center">
+
+            <div className="inline-flex items-center gap-3 rounded-full bg-white/15 backdrop-blur-xl border border-white/20 px-6 py-3 text-white shadow-lg">
+
+              <span className="w-3 h-3 rounded-full bg-green-300 animate-pulse"></span>
+
+              <span className="font-medium">
+
+                Mana AI is online and ready to support your wellness journey
+
+              </span>
+
             </div>
 
           </div>
 
         </div>
-      </div>
+
+      </motion.div>
+
     </section>
   );
 }
