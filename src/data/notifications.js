@@ -104,7 +104,7 @@ function Notifications() {
         <div className="mt-14">
 
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-            Recent Notifications
+            Recent Notifications ({notifications.length})
           </h2>
 
           <div className="mt-6 space-y-5">
