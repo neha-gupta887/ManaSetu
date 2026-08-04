@@ -9,6 +9,7 @@ import NotificationFilters from "../components/notifications/NotificationFilters
 import NotificationList from "../components/notifications/NotificationList";
 import NotificationEmptyState from "../components/notifications/NotificationEmptyState";
 import ClearFiltersButton from "../components/notifications/ClearFiltersButton";
+import NotificationSort from "../components/notifications/NotificationSort";
 
 const stats = [
   {
@@ -46,28 +47,41 @@ const stats = [
 function Notifications() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("All");
+  const [sortBy, setSortBy] = useState("latest");
 
-  const filteredNotifications = notifications.filter((notification) => {
-    const search = searchTerm.toLowerCase();
+  const filteredNotifications = [...notifications]
+    .filter((notification) => {
+      const search = searchTerm.toLowerCase();
 
-    const matchesSearch =
-      notification.title.toLowerCase().includes(search) ||
-      notification.message.toLowerCase().includes(search);
+      const matchesSearch =
+        notification.title.toLowerCase().includes(search) ||
+        notification.message.toLowerCase().includes(search);
 
-    let matchesFilter = true;
+      let matchesFilter = true;
 
-    if (selectedFilter === "Unread") {
-      matchesFilter = !notification.read;
-    }
+      if (selectedFilter === "Unread") {
+        matchesFilter = !notification.read;
+      }
 
-    if (selectedFilter === "Today") {
-      matchesFilter =
-        notification.time.includes("min") ||
-        notification.time.includes("hour");
-    }
+      if (selectedFilter === "Today") {
+        matchesFilter =
+          notification.time.includes("min") ||
+          notification.time.includes("hour");
+      }
 
-    return matchesSearch && matchesFilter;
-  });
+      return matchesSearch && matchesFilter;
+    })
+    .sort((a, b) => {
+      if (sortBy === "unread") {
+        return Number(a.read) - Number(b.read);
+      }
+
+      if (sortBy === "oldest") {
+        return a.id - b.id;
+      }
+
+      return b.id - a.id;
+    });
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
@@ -114,6 +128,13 @@ function Notifications() {
             <> • Filter: {selectedFilter}</>
           )}
         </p>
+
+        {/* Sort */}
+
+        <NotificationSort
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+        />
 
         {/* Notification List */}
 
