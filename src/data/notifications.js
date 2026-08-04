@@ -36,6 +36,7 @@ const stats = [
 ];
 
 function Notifications() {
+    const [filter, setFilter] = useState("all");
   const getIcon = (type) => {
     switch (type) {
       case "ai":
@@ -97,7 +98,27 @@ function Notifications() {
           ))}
 
         </div>
+          {/* Filters */}
 
+<div className="mt-10 flex flex-wrap gap-3">
+
+  {["all", "unread", "today"].map((item) => (
+
+    <button
+      key={item}
+      onClick={() => setFilter(item)}
+      className={`px-5 py-2 rounded-full font-medium transition ${
+        filter === item
+          ? "bg-emerald-600 text-white"
+          : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300"
+      }`}
+    >
+      {item.charAt(0).toUpperCase() + item.slice(1)}
+    </button>
+
+  ))}
+
+</div>
         {/* Notification List */}
 
         <div className="mt-14">
