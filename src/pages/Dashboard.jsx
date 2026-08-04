@@ -8,6 +8,7 @@ import MoodSection from "../components/dashboard/MoodSection";
 import QuickActions from "../components/dashboard/QuickActions";
 import QuoteCard from "../components/dashboard/QuoteCard";
 import MoodHistory from "../components/dashboard/MoodHistory";
+import DashboardOverview from "../components/dashboard/DashboardOverview";
 
 import MoodReminder from "../components/MoodReminder";
 import HabitTrackerCard from "../components/HabitTrackerCard";
@@ -19,7 +20,6 @@ import AIInsightCard from "../components/AIInsightCard";
 import AIWorkflow from "../components/AIWorkflow";
 
 import LoadingSpinner from "../components/LoadingSpinner";
-import StatCard from "../components/ui/StatCard";
 
 import { getDashboardStats } from "../services/dashboardStatsService";
 
@@ -41,105 +41,52 @@ function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br
+    <div
+      className="min-h-screen bg-gradient-to-br
       from-emerald-50
       via-white
       to-cyan-50
       dark:from-gray-950
       dark:via-gray-900
       dark:to-black
-      transition-all duration-500">
-
-      {/* Sidebar */}
-
+      transition-all duration-500"
+    >
       <Sidebar />
 
-      {/* Main Content */}
-
       <main className="lg:ml-72 px-5 sm:px-8 py-8">
-
-        {/* Topbar */}
-
         <Topbar />
 
-        {/* Dashboard Heading */}
-
         <div className="mt-8">
-
           <span className="rounded-full bg-emerald-100 dark:bg-emerald-900/40 px-4 py-2 text-sm font-semibold text-emerald-700 dark:text-emerald-300">
-
             🌿 AI Powered Mental Wellness Platform
-
           </span>
 
           <h1 className="mt-5 text-4xl lg:text-5xl font-extrabold text-gray-900 dark:text-white">
-
             AI Wellness Dashboard
-
           </h1>
 
           <p className="mt-3 max-w-3xl text-lg leading-8 text-gray-600 dark:text-gray-300">
-
             Welcome back! Monitor your emotional wellbeing,
             mood history, AI insights, wellness score,
             daily habits and personalized recommendations
             in one intelligent dashboard.
-
           </p>
-
         </div>
-
-        {/* Welcome */}
 
         <div className="mt-10">
-
           <WelcomeCard />
-
         </div>
-
-        {/* Wellness Score */}
 
         <div className="mt-8">
-
           <WellnessScoreCard score={stats.wellnessScore} />
-
         </div>
 
-        {/* Statistics */}
-
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 mt-8">
-
-          <StatCard
-            title="Wellness Score"
-            value={`${stats.wellnessScore}%`}
-            icon="🌿"
-            color="emerald"
-          />
-
-          <StatCard
-            title="Current Streak"
-            value={`${stats.streak} Days`}
-            icon="🔥"
-            color="yellow"
-          />
-
-          <StatCard
-            title="Journal Entries"
-            value={stats.journalEntries}
-            icon="📖"
-            color="blue"
-          />
-
-          <StatCard
-            title="Today's Mood"
-            value={stats.currentMood}
-            icon="😊"
-            color="purple"
-          />
-
+        {/* Dashboard Overview */}
+        <div className="mt-8">
+          <DashboardOverview stats={stats} />
         </div>
-                {/* Quick Access */}
 
+        {/* Quick Access */}
         <div className="grid md:grid-cols-3 gap-6 mt-10">
 
           <Link
@@ -161,7 +108,6 @@ function Dashboard() {
             <div className="mt-6 font-semibold">
               Open Analytics →
             </div>
-
           </Link>
 
           <Link
@@ -183,7 +129,6 @@ function Dashboard() {
             <div className="mt-6 font-semibold">
               Open AI Center →
             </div>
-
           </Link>
 
           <Link
@@ -205,141 +150,86 @@ function Dashboard() {
             <div className="mt-6 font-semibold">
               Get Support →
             </div>
-
           </Link>
 
         </div>
 
-        {/* Mood Reminder */}
-
         <div className="mt-8">
-
           <MoodReminder />
-
         </div>
 
-        {/* Mood + Quick Actions */}
-
         <div className="grid xl:grid-cols-2 gap-8 mt-8">
-
           <MoodSection />
-
           <QuickActions />
-
         </div>
 
-        {/* Wellness Insights + AI */}
-
         <div className="grid xl:grid-cols-2 gap-8 mt-8">
-
           <WellnessInsights />
-
           <AIInsightCard />
-
         </div>
 
-        {/* Mood Charts */}
-
         <div className="grid xl:grid-cols-2 gap-8 mt-8">
-
           <MoodHistory />
-
           <WellnessTimeline />
-
         </div>
-                {/* AI Workflow */}
 
         <div className="mt-8">
-
           <AIWorkflow />
-
         </div>
-
-        {/* Habit Tracker + Daily Challenge */}
 
         <div className="grid xl:grid-cols-2 gap-8 mt-8">
-
           <HabitTrackerCard />
-
           <DailyChallengeCard />
-
         </div>
-
-        {/* Daily Quote */}
 
         <div className="mt-8">
-
           <QuoteCard />
-
         </div>
-
-        {/* Footer */}
 
         <div className="mt-12 rounded-3xl bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 p-8 text-white shadow-2xl">
 
           <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
 
             <div>
-
               <h2 className="text-3xl font-bold">
-
                 🌿 Keep Building Healthy Habits
-
               </h2>
 
               <p className="mt-3 max-w-2xl text-green-100 leading-7">
-
                 Every mood you track, every journal you write,
                 and every healthy habit you complete helps
                 Mana AI understand you better and provide
                 smarter wellness recommendations.
-
               </p>
-
             </div>
 
             <Link to="/analytics">
-
               <button className="rounded-2xl bg-white px-8 py-4 text-lg font-bold text-emerald-700 shadow-xl hover:scale-105 transition-all duration-300">
-
                 📊 View Full Analytics
-
               </button>
-
             </Link>
 
           </div>
 
         </div>
 
-        {/* Dashboard Footer */}
-
         <div className="mt-10 flex flex-col md:flex-row items-center justify-between gap-4 text-gray-500 dark:text-gray-400">
 
           <p>
-
             © {new Date().getFullYear()} ManaSetu • AI Powered Mental Wellness Platform
-
           </p>
 
           <div className="flex gap-6 text-sm">
-
             <span>🌿 Wellness</span>
-
             <span>🤖 AI Companion</span>
-
             <span>📈 Analytics</span>
-
             <span>💚 Self Care</span>
-
           </div>
 
         </div>
 
       </main>
-
     </div>
-
   );
 }
 
