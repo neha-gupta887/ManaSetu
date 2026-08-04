@@ -154,6 +154,7 @@ function Notifications() {
             <NotificationList
               notifications={filteredNotifications}
               onMarkAsRead={handleMarkAsRead}
+              onDelete={handleDeleteNotification}
             />
           )}
 
