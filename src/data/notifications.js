@@ -126,9 +126,25 @@ function Notifications() {
 
                     <div className="flex items-center gap-3">
 
-                      <h3 className="font-bold text-lg text-gray-900 dark:text-white">
-                        {notification.title}
-                      </h3>
+                      <div className="flex items-center gap-3">
+
+  <h3 className="font-bold text-gray-900 dark:text-white">
+
+    {notification.title}
+
+  </h3>
+
+  {!notification.read && (
+
+    <span className="rounded-full bg-red-500 text-white text-xs px-2 py-1">
+
+      New
+
+    </span>
+
+  )}
+
+</div>
 
                       {!notification.read && (
                         <span className="px-3 py-1 text-xs rounded-full bg-red-100 text-red-600 font-semibold">
