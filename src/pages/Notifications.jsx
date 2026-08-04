@@ -5,6 +5,7 @@ import { notifications } from "../data/notifications";
 import NotificationHeader from "../components/notifications/NotificationHeader";
 import NotificationStats from "../components/notifications/NotificationStats";
 import NotificationSearch from "../components/notifications/NotificationSearch";
+import NotificationFilters from "../components/notifications/NotificationFilters";
 import NotificationList from "../components/notifications/NotificationList";
 
 const stats = [
@@ -42,6 +43,7 @@ const stats = [
 
 function Notifications() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedFilter, setSelectedFilter] = useState("All");
 
   const filteredNotifications = notifications.filter((notification) => {
     const search = searchTerm.toLowerCase();
@@ -69,6 +71,13 @@ function Notifications() {
         <NotificationSearch
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
+        />
+
+        {/* Filters */}
+
+        <NotificationFilters
+          selectedFilter={selectedFilter}
+          setSelectedFilter={setSelectedFilter}
         />
 
         {/* Notification List */}
