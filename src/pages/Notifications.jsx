@@ -30,7 +30,6 @@ const stats = [
 ];
 
 function Notifications() {
-
   const getNotificationIcon = (type) => {
     switch (type) {
       case "ai":
@@ -113,11 +112,19 @@ function Notifications() {
                     {getNotificationIcon(notification.type)}
                   </div>
 
-                  <div>
+                  <div className="flex-1">
 
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                      {notification.title}
-                    </h3>
+                    <div className="flex justify-between items-start">
+
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                        {notification.title}
+                      </h3>
+
+                      <span className="text-sm text-gray-500 dark:text-gray-400">
+                        {notification.time}
+                      </span>
+
+                    </div>
 
                     <p className="mt-2 text-gray-600 dark:text-gray-300">
                       {notification.message}
