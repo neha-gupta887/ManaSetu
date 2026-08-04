@@ -60,7 +60,6 @@ function Notifications() {
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
-
       <div className="max-w-7xl mx-auto px-6 py-10">
 
         {/* Header */}
@@ -109,74 +108,92 @@ function Notifications() {
 
           <div className="mt-6 space-y-5">
 
-            {notifications.map((notification) => (
+            {notifications.length === 0 ? (
 
-              <div
-                key={notification.id}
-className={`rounded-2xl shadow-lg p-6 flex items-start justify-between hover:shadow-2xl hover:-translate-y-1 transition-all duration-300
-${
-  notification.read
-    ? "bg-white dark:bg-gray-800"
-    : "bg-emerald-50 dark:bg-emerald-900/20 border-l-4 border-emerald-500"
-}`}              >
+              <div className="rounded-3xl bg-white dark:bg-gray-800 p-10 shadow-lg text-center">
 
-                <div className="flex gap-5">
-
-                  <div>
-                    {getIcon(notification.type)}
-                  </div>
-
-                  <div>
-
-                    <div className="flex items-center gap-3">
-
-                      <div className="flex items-center gap-3">
-
-  <h3 className="font-bold text-gray-900 dark:text-white">
-
-    {notification.title}
-
-  </h3>
-
-  {!notification.read && (
-
-    <span className="rounded-full bg-red-500 text-white text-xs px-2 py-1">
-
-      New
-
-    </span>
-
-  )}
-
-</div>
-
-                      {!notification.read && (
-                        <span className="px-3 py-1 text-xs rounded-full bg-red-100 text-red-600 font-semibold">
-                          NEW
-                        </span>
-                      )}
-
-                    </div>
-
-                    <p className="mt-2 text-gray-600 dark:text-gray-300 leading-7">
-                      {notification.message}
-                    </p>
-
-                  </div>
-
+                <div className="text-6xl">
+                  🔔
                 </div>
 
-                <span className={`text-sm ${
-  notification.read
-    ? "text-gray-500"
-    : "text-emerald-600 font-semibold"
-}`}>
-                  {notification.time}
-                </span>
+                <h3 className="mt-5 text-2xl font-bold text-gray-900 dark:text-white">
+                  No Notifications
+                </h3>
+
+                <p className="mt-3 text-gray-600 dark:text-gray-300">
+                  You're all caught up! New notifications will appear here.
+                </p>
 
               </div>
 
-            ))}
+            ) : (
+
+              notifications.map((notification) => (
+
+                <div
+                  key={notification.id}
+                  className={`rounded-2xl shadow-lg p-6 flex items-start justify-between hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 ${
+                    notification.read
+                      ? "bg-white dark:bg-gray-800"
+                      : "bg-emerald-50 dark:bg-emerald-900/20 border-l-4 border-emerald-500"
+                  }`}
+                >
+
+                  <div className="flex gap-5">
+
+                    <div className="mt-1">
+                      {getIcon(notification.type)}
+                    </div>
+
+                    <div>
+
+                      <div className="flex items-center gap-3">
+
+                        <h3 className="font-bold text-gray-900 dark:text-white">
+
+                          {notification.title}
+
+                        </h3>
+
+                        {!notification.read && (
+
+                          <span className="rounded-full bg-red-500 text-white text-xs px-2 py-1">
+
+                            New
+
+                          </span>
+
+                        )}
+
+                      </div>
+
+                      <p className="mt-2 text-gray-600 dark:text-gray-300 leading-7">
+
+                        {notification.message}
+
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                  <span
+                    className={`text-sm ${
+                      notification.read
+                        ? "text-gray-500"
+                        : "text-emerald-600 font-semibold"
+                    }`}
+                  >
+
+                    {notification.time}
+
+                  </span>
+
+                </div>
+
+              ))
+
+            )}
 
           </div>
 
