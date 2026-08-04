@@ -97,10 +97,12 @@ function Notifications() {
 
         {/* Clear Filters */}
 
-        <ClearFiltersButton
-          setSearchTerm={setSearchTerm}
-          setSelectedFilter={setSelectedFilter}
-        />
+        {(searchTerm || selectedFilter !== "All") && (
+          <ClearFiltersButton
+            setSearchTerm={setSearchTerm}
+            setSelectedFilter={setSelectedFilter}
+          />
+        )}
 
         {/* Notification List */}
 
