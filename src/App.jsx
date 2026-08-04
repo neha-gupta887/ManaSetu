@@ -1,3 +1,4 @@
+import Notifications from "./pages/Notifications";
 import Memory from "./pages/Memory";
 import AICommandCenter from "./pages/AICommandCenter";
 import NotFound from "./pages/NotFound";
@@ -18,6 +19,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/notifications" element={<Notifications />} />
         <Route path="/memory" element={<Memory />} />
         <Route path="/command-center" element={<AICommandCenter />} />
         <Route path="/" element={<Home />} />
