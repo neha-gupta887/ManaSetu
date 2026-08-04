@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   FaBell,
   FaRobot,
@@ -21,7 +22,11 @@ const stats = [
   },
   {
     title: "Today",
-    value: 2,
+    value: notifications.filter(
+      (n) =>
+        n.time.includes("min") ||
+        n.time.includes("hour")
+    ).length,
     color: "text-blue-500",
   },
   {
@@ -36,7 +41,8 @@ const stats = [
 ];
 
 function Notifications() {
-    const [filter, setFilter] = useState("all");
+  const [filter, setFilter] = useState("all");
+
   const getIcon = (type) => {
     switch (type) {
       case "ai":
@@ -58,6 +64,21 @@ function Notifications() {
         return <FaBell className="text-gray-500 text-2xl" />;
     }
   };
+
+  const filteredNotifications = notifications.filter((notification) => {
+    if (filter === "unread") {
+      return !notification.read;
+    }
+
+    if (filter === "today") {
+      return (
+        notification.time.includes("min") ||
+        notification.time.includes("hour")
+      );
+    }
+
+    return true;
+  });
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
@@ -98,38 +119,48 @@ function Notifications() {
           ))}
 
         </div>
-          {/* Filters */}
 
-<div className="mt-10 flex flex-wrap gap-3">
+        {/* Filters */}
 
-  {["all", "unread", "today"].map((item) => (
+        <div className="mt-10 flex flex-wrap gap-3">
 
-    <button
-      key={item}
-      onClick={() => setFilter(item)}
-      className={`px-5 py-2 rounded-full font-medium transition ${
-        filter === item
-          ? "bg-emerald-600 text-white"
-          : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300"
-      }`}
-    >
-      {item.charAt(0).toUpperCase() + item.slice(1)}
-    </button>
+          {["all", "unread", "today"].map((item) => (
 
-  ))}
+            <button
+              key={item}
+              onClick={() => setFilter(item)}
+              className={`px-5 py-2 rounded-full font-semibold transition-all duration-300 hover:scale-105 ${
+                filter === item
+                  ? "bg-gradient-to-r from-emerald-600 to-green-600 text-white shadow-lg"
+                  : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+              }`}
+            >
+              {item.charAt(0).toUpperCase() + item.slice(1)}
+            </button>
 
-</div>
+          ))}
+
+        </div>
+
         {/* Notification List */}
 
         <div className="mt-14">
 
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-            Recent Notifications ({notifications.length})
+            Recent Notifications ({filteredNotifications.length})
           </h2>
+
+          <p className="mt-2 text-gray-500 dark:text-gray-400">
+            Showing:
+            <span className="font-semibold capitalize ml-1">
+              {filter}
+            </span>{" "}
+            notifications
+          </p>
 
           <div className="mt-6 space-y-5">
 
-            {notifications.length === 0 ? (
+            {filteredNotifications.length === 0 ? (
 
               <div className="rounded-3xl bg-white dark:bg-gray-800 p-10 shadow-lg text-center">
 
@@ -142,14 +173,14 @@ function Notifications() {
                 </h3>
 
                 <p className="mt-3 text-gray-600 dark:text-gray-300">
-                  You're all caught up! New notifications will appear here.
+                  You're all caught up!
                 </p>
 
               </div>
 
             ) : (
 
-              notifications.map((notification) => (
+              filteredNotifications.map((notification) => (
 
                 <div
                   key={notification.id}
@@ -171,27 +202,19 @@ function Notifications() {
                       <div className="flex items-center gap-3">
 
                         <h3 className="font-bold text-gray-900 dark:text-white">
-
                           {notification.title}
-
                         </h3>
 
                         {!notification.read && (
-
                           <span className="rounded-full bg-red-500 text-white text-xs px-2 py-1">
-
                             New
-
                           </span>
-
                         )}
 
                       </div>
 
                       <p className="mt-2 text-gray-600 dark:text-gray-300 leading-7">
-
                         {notification.message}
-
                       </p>
 
                     </div>
@@ -205,9 +228,7 @@ function Notifications() {
                         : "text-emerald-600 font-semibold"
                     }`}
                   >
-
                     {notification.time}
-
                   </span>
 
                 </div>
@@ -221,7 +242,6 @@ function Notifications() {
         </div>
 
       </div>
-
     </div>
   );
 }
