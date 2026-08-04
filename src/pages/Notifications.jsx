@@ -87,7 +87,9 @@ function Notifications() {
       title: "Read Rate",
       value: notificationList.length
         ? `${Math.round(
-            (notificationList.filter((notification) => notification.read).length /
+            (notificationList.filter(
+              (notification) => notification.read
+            ).length /
               notificationList.length) *
               100
           )}%`
@@ -158,6 +160,7 @@ function Notifications() {
         <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
           Showing {filteredNotifications.length} notification
           {filteredNotifications.length !== 1 ? "s" : ""}
+
           {selectedFilter !== "All" && (
             <> • Filter: {selectedFilter}</>
           )}
@@ -168,23 +171,31 @@ function Notifications() {
           setSortBy={setSortBy}
         />
 
-        <div className="mt-6 flex justify-end gap-3">
+        <div className="mt-6 flex flex-wrap justify-end gap-3">
           <button
             onClick={handleMarkAllAsRead}
-            className="rounded-xl bg-emerald-600 px-5 py-2 text-white transition hover:bg-emerald-700"
+            disabled={
+              notificationList.length === 0 ||
+              notificationList.every(
+                (notification) => notification.read
+              )
+            }
+            className="rounded-xl bg-emerald-600 px-5 py-2 text-white transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
           >
             Mark All as Read
           </button>
 
           <button
             onClick={handleClearAllNotifications}
-            className="rounded-xl bg-red-600 px-5 py-2 text-white transition hover:bg-red-700"
+            disabled={notificationList.length === 0}
+            className="rounded-xl bg-red-600 px-5 py-2 text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
           >
             Clear All
           </button>
         </div>
 
         <div className="mt-12">
+
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
             Recent Notifications ({filteredNotifications.length})
           </h2>
@@ -198,6 +209,7 @@ function Notifications() {
               onDelete={handleDeleteNotification}
             />
           )}
+
         </div>
 
       </div>
