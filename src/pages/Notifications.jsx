@@ -1,3 +1,9 @@
+import {
+  FaBell,
+  FaRobot,
+  FaCalendarAlt,
+  FaTrophy,
+} from "react-icons/fa";
 import { notifications } from "../data/notifications";
 
 const stats = [
@@ -24,6 +30,26 @@ const stats = [
 ];
 
 function Notifications() {
+
+  const getNotificationIcon = (type) => {
+    switch (type) {
+      case "ai":
+        return <FaRobot className="text-blue-500 text-2xl" />;
+
+      case "reminder":
+        return <FaBell className="text-yellow-500 text-2xl" />;
+
+      case "appointment":
+        return <FaCalendarAlt className="text-green-500 text-2xl" />;
+
+      case "achievement":
+        return <FaTrophy className="text-orange-500 text-2xl" />;
+
+      default:
+        return <FaBell className="text-gray-500 text-2xl" />;
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6 py-10">
@@ -81,13 +107,25 @@ function Notifications() {
                 className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6"
               >
 
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                  {notification.title}
-                </h3>
+                <div className="flex gap-4">
 
-                <p className="mt-2 text-gray-600 dark:text-gray-300">
-                  {notification.message}
-                </p>
+                  <div className="mt-1">
+                    {getNotificationIcon(notification.type)}
+                  </div>
+
+                  <div>
+
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                      {notification.title}
+                    </h3>
+
+                    <p className="mt-2 text-gray-600 dark:text-gray-300">
+                      {notification.message}
+                    </p>
+
+                  </div>
+
+                </div>
 
               </div>
 
