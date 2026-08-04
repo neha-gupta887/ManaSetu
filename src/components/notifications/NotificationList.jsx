@@ -3,6 +3,7 @@ import NotificationCard from "./NotificationCard";
 function NotificationList({
   notifications,
   onMarkAsRead,
+  onDelete,
 }) {
   return (
     <div className="mt-6 space-y-4">
@@ -11,6 +12,7 @@ function NotificationList({
           key={notification.id}
           notification={notification}
           onMarkAsRead={onMarkAsRead}
+          onDelete={onDelete}
         />
       ))}
     </div>
