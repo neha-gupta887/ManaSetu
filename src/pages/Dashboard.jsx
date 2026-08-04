@@ -1,3 +1,4 @@
+import DailyGoals from "../components/dashboard/DailyGoals";
 import WeeklyProgress from "../components/dashboard/WeeklyProgress";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -179,11 +180,13 @@ function Dashboard() {
 
 {/* Mood + Quick Actions */}
 
-<div className="grid xl:grid-cols-2 gap-8 mt-8">
+<div className="grid xl:grid-cols-3 gap-8 mt-8">
 
   <MoodSection />
 
   <QuickActions />
+
+  <DailyGoals />
 
 </div>
 
