@@ -2,7 +2,7 @@ import { notifications } from "../data/notifications";
 
 import NotificationHeader from "../components/notifications/NotificationHeader";
 import NotificationStats from "../components/notifications/NotificationStats";
-import NotificationCard from "../components/notifications/NotificationCard";
+import NotificationList from "../components/notifications/NotificationList";
 
 const stats = [
   {
@@ -43,31 +43,19 @@ function Notifications() {
       <div className="max-w-7xl mx-auto px-6 py-10">
 
         {/* Header */}
-
         <NotificationHeader />
 
         {/* Statistics */}
-
         <NotificationStats stats={stats} />
 
         {/* Notification List */}
-
         <div className="mt-12">
 
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
             Recent Notifications
           </h2>
 
-          <div className="mt-6 space-y-4">
-
-            {notifications.map((notification) => (
-              <NotificationCard
-                key={notification.id}
-                notification={notification}
-              />
-            ))}
-
-          </div>
+          <NotificationList notifications={notifications} />
 
         </div>
 
