@@ -113,7 +113,7 @@ function Notifications() {
 
               <div
                 key={notification.id}
-className={`rounded-2xl shadow-lg p-6 flex items-start justify-between hover:shadow-xl transition
+className={`rounded-2xl shadow-lg p-6 flex items-start justify-between hover:shadow-2xl hover:-translate-y-1 transition-all duration-300
 ${
   notification.read
     ? "bg-white dark:bg-gray-800"
