@@ -1,3 +1,4 @@
+import { generateWellnessReport } from "../services/reportService";
 import { motion } from "framer-motion";
 import {
   FaFileMedical,
@@ -399,8 +400,9 @@ function WellnessReport() {
               </div>
 
               <button
-                className="flex items-center gap-3 rounded-2xl bg-white px-8 py-4 text-lg font-bold text-emerald-700 shadow-xl hover:scale-105 transition-all duration-300"
-              >
+  onClick={() => generateWellnessReport(report)}
+  className="flex items-center gap-3 rounded-2xl bg-white px-8 py-4 text-lg font-bold text-emerald-700 shadow-xl hover:scale-105 transition-all duration-300"
+>
 
                 <FaDownload />
 
