@@ -30,7 +30,11 @@ const stats = [
   },
   {
     title: "Read Rate",
-    value: "99%",
+    value: `${Math.round(
+      (notifications.filter((notification) => notification.read).length /
+        notifications.length) *
+        100
+    )}%`,
     color: "text-purple-500",
   },
 ];
