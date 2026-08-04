@@ -28,6 +28,15 @@ function Notifications() {
     );
   };
 
+  const handleMarkAllAsRead = () => {
+    setNotificationList((prevNotifications) =>
+      prevNotifications.map((notification) => ({
+        ...notification,
+        read: true,
+      }))
+    );
+  };
+
   const handleDeleteNotification = (id) => {
     const confirmed = window.confirm(
       "Are you sure you want to delete this notification?"
@@ -138,15 +147,22 @@ function Notifications() {
           Showing {filteredNotifications.length} notification
           {filteredNotifications.length !== 1 ? "s" : ""}
 
-          {selectedFilter !== "All" && (
-            <> • Filter: {selectedFilter}</>
-          )}
+          {selectedFilter !== "All" && <> • Filter: {selectedFilter}</>}
         </p>
 
         <NotificationSort
           sortBy={sortBy}
           setSortBy={setSortBy}
         />
+
+        <div className="mt-6 flex justify-end">
+          <button
+            onClick={handleMarkAllAsRead}
+            className="rounded-xl bg-emerald-600 px-5 py-2 text-white transition hover:bg-emerald-700"
+          >
+            Mark All as Read
+          </button>
+        </div>
 
         <div className="mt-12">
 
