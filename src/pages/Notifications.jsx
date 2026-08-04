@@ -48,10 +48,23 @@ function Notifications() {
   const filteredNotifications = notifications.filter((notification) => {
     const search = searchTerm.toLowerCase();
 
-    return (
+    const matchesSearch =
       notification.title.toLowerCase().includes(search) ||
-      notification.message.toLowerCase().includes(search)
-    );
+      notification.message.toLowerCase().includes(search);
+
+    let matchesFilter = true;
+
+    if (selectedFilter === "Unread") {
+      matchesFilter = !notification.read;
+    }
+
+    if (selectedFilter === "Today") {
+      matchesFilter =
+        notification.time.includes("min") ||
+        notification.time.includes("hour");
+    }
+
+    return matchesSearch && matchesFilter;
   });
 
   return (
