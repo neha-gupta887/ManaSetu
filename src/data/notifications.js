@@ -42,6 +42,7 @@ const stats = [
 
 function Notifications() {
   const [filter, setFilter] = useState("all");
+  const [searchTerm, setSearchTerm] = useState("");
 
   const getIcon = (type) => {
     switch (type) {
@@ -66,18 +67,23 @@ function Notifications() {
   };
 
   const filteredNotifications = notifications.filter((notification) => {
-    if (filter === "unread") {
-      return !notification.read;
-    }
+    const matchesFilter =
+      filter === "all"
+        ? true
+        : filter === "unread"
+        ? !notification.read
+        : notification.time.includes("min") ||
+          notification.time.includes("hour");
 
-    if (filter === "today") {
-      return (
-        notification.time.includes("min") ||
-        notification.time.includes("hour")
-      );
-    }
+    const matchesSearch =
+      notification.title
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      notification.message
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
 
-    return true;
+    return matchesFilter && matchesSearch;
   });
 
   return (
@@ -98,14 +104,11 @@ function Notifications() {
         {/* Statistics */}
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
-
           {stats.map((stat) => (
-
             <div
               key={stat.title}
               className="bg-white dark:bg-gray-800 rounded-3xl shadow-lg p-6"
             >
-
               <p className={`text-4xl font-bold ${stat.color}`}>
                 {stat.value}
               </p>
@@ -113,11 +116,8 @@ function Notifications() {
               <p className="mt-2 text-gray-600 dark:text-gray-300">
                 {stat.title}
               </p>
-
             </div>
-
           ))}
-
         </div>
 
         {/* Filters */}
@@ -142,6 +142,20 @@ function Notifications() {
 
         </div>
 
+        {/* Search */}
+
+        <div className="mt-6">
+
+          <input
+            type="text"
+            placeholder="🔍 Search notifications..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 px-5 py-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          />
+
+        </div>
+
         {/* Notification List */}
 
         <div className="mt-14">
@@ -151,29 +165,29 @@ function Notifications() {
           </h2>
 
           <p className="mt-2 text-gray-500 dark:text-gray-400">
-            Showing:
-            <span className="font-semibold capitalize ml-1">
+            Showing
+            <span className="font-semibold capitalize ml-2">
               {filter}
-            </span>{" "}
-            notifications
+            </span>
+            {" "}notifications
           </p>
 
           <div className="mt-6 space-y-5">
 
             {filteredNotifications.length === 0 ? (
 
-              <div className="rounded-3xl bg-white dark:bg-gray-800 p-10 shadow-lg text-center">
+              <div className="rounded-3xl bg-white dark:bg-gray-800 shadow-lg p-10 text-center">
 
                 <div className="text-6xl">
                   🔔
                 </div>
 
-                <h3 className="mt-5 text-2xl font-bold text-gray-900 dark:text-white">
-                  No Notifications
+                <h3 className="mt-4 text-2xl font-bold dark:text-white">
+                  No Notifications Found
                 </h3>
 
                 <p className="mt-3 text-gray-600 dark:text-gray-300">
-                  You're all caught up!
+                  Try changing the filter or search keyword.
                 </p>
 
               </div>
@@ -184,7 +198,7 @@ function Notifications() {
 
                 <div
                   key={notification.id}
-                  className={`rounded-2xl shadow-lg p-6 flex items-start justify-between hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 ${
+                  className={`rounded-2xl shadow-lg p-6 flex justify-between items-start hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 ${
                     notification.read
                       ? "bg-white dark:bg-gray-800"
                       : "bg-emerald-50 dark:bg-emerald-900/20 border-l-4 border-emerald-500"
