@@ -1,3 +1,4 @@
+import WeeklyProgress from "../components/dashboard/WeeklyProgress";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
@@ -89,9 +90,13 @@ function Dashboard() {
           <DashboardOverview stats={stats} />
         </div>
 
-        <div className="mt-8">
-          <RecentActivity />
-        </div>
+        <div className="grid xl:grid-cols-2 gap-8 mt-8">
+
+  <RecentActivity />
+
+  <WeeklyProgress />
+
+</div>
 
         {/* Quick Access */}
         {/* Quick Access */}
