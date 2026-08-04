@@ -29,6 +29,12 @@ function Notifications() {
   };
 
   const handleDeleteNotification = (id) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this notification?"
+    );
+
+    if (!confirmed) return;
+
     setNotificationList((prevNotifications) =>
       prevNotifications.filter(
         (notification) => notification.id !== id
