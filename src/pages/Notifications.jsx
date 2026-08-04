@@ -1,3 +1,4 @@
+import { notifications } from "../data/notifications";
 const stats = [
   {
     title: "Total",
