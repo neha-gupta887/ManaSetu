@@ -1,5 +1,15 @@
-import { useState } from "react";
-import { FaRobot, FaPaperPlane } from "react-icons/fa";
+import { useEffect, useRef, useState } from "react";
+import {
+  FaRobot,
+  FaPaperPlane,
+  FaBrain,
+  FaMoon,
+  FaBookOpen,
+  FaHeartbeat,
+  FaCircle,
+} from "react-icons/fa";
+
+import { motion } from "framer-motion";
 
 import { generateWellnessPlan } from "../agents/orchestrator/wellnessOrchestrator";
 import AgentExecution from "../components/AgentExecution";
@@ -7,6 +17,7 @@ import { useAgent } from "../context/AgentContext";
 import { saveWellnessRecord } from "../services/memoryService";
 
 function AICompanion() {
+
   // ===========================
   // States
   // ===========================
@@ -14,7 +25,11 @@ function AICompanion() {
   const [messages, setMessages] = useState([
     {
       sender: "ai",
-      text: "👋 Hello! I'm Mana AI, your Agentic Wellness Companion. Tell me how you're feeling today.",
+      text: "👋 Hello! I'm Mana AI.\n\nI'm your Agentic Wellness Companion.\n\nTell me how you're feeling today and I'll analyze your wellbeing using multiple AI agents.",
+      time: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
     },
   ]);
 
@@ -28,47 +43,93 @@ function AICompanion() {
 
   const { setAgentResult } = useAgent();
 
+  const chatRef = useRef(null);
+
+  // ===========================
+  // Suggested Prompts
+  // ===========================
+
+  const suggestions = [
+    "😔 I'm feeling stressed about exams",
+    "😴 I'm not sleeping well",
+    "😕 I feel anxious lately",
+    "😊 I'm feeling happy today",
+  ];
+
+  // ===========================
+  // Auto Scroll
+  // ===========================
+
+  useEffect(() => {
+    if (chatRef.current) {
+      chatRef.current.scrollTop =
+        chatRef.current.scrollHeight;
+    }
+  }, [messages, loading]);
+
   // ===========================
   // Send Message
   // ===========================
+  // ===========================
+  // Send Message
+  // ===========================
+const handleSend = async () => {
 
-  const handleSend = async () => {
-    if (!input.trim()) return;
+  if (!input.trim()) return;
 
-    const userMessage = input.trim();
+  const userMessage = input.trim();
 
-    setMessages((prev) => [
-      ...prev,
-      {
-        sender: "user",
-        text: userMessage,
-      },
-    ]);
+  // Add User Message
 
-    setInput("");
+  setMessages((prev) => [
+    ...prev,
+    {
+      sender: "user",
+      text: userMessage,
+      time: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+    },
+  ]);
 
-    setLoading(true);
+  setInput("");
 
-    try {
-      const result = await generateWellnessPlan({
-        mood: userMessage,
-        stress: "Unknown",
-        sleep: "Unknown",
-        journal: "",
-        exam: "",
-      });
+  setLoading(true);
 
-      // Active Agents
-      setActiveAgents(result.selectedAgents || []);
+  try {
 
-      // Global Context
-      setAgentResult(result);
+    // ===========================
+    // Run Agentic AI
+    // ===========================
 
-      // Dashboard Data
-      setLatestResult(result);
+    const result = await generateWellnessPlan({
+      mood: userMessage,
+      stress: "Unknown",
+      sleep: "Unknown",
+      journal: "",
+      exam: "",
+    });
 
-      // Save to Memory
-      saveWellnessRecord(result);
+    // Active Agents
+
+    setActiveAgents(result.selectedAgents || []);
+
+    // Global Context
+
+    setAgentResult(result);
+
+    // Dashboard
+
+    setLatestResult(result);
+
+    // Save Memory
+
+    await saveWellnessRecord(result);
+
+    // ===========================
+    // Build AI Report
+    // ===========================
 
       // ===========================
       // Build AI Report
@@ -247,12 +308,16 @@ function AICompanion() {
         "Remember: Small positive habits every day create better mental wellbeing. 💚";
 
       setMessages((prev) => [
-        ...prev,
-        {
-          sender: "ai",
-          text: aiReply,
-        },
-      ]);
+  ...prev,
+  {
+    sender: "ai",
+    text: aiReply,
+    time: new Date().toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    }),
+  },
+]);
 
     } catch (error) {
       console.error(error);
@@ -261,7 +326,11 @@ function AICompanion() {
         ...prev,
         {
           sender: "ai",
-          text: "❌ Sorry, I couldn't generate your wellness report. Please try again.",
+          
+          time: new Date().toLocaleTimeString([], {
+  hour: "2-digit",
+  minute: "2-digit",
+}),
         },
       ]);
     }
@@ -269,108 +338,256 @@ function AICompanion() {
     setLoading(false);
   };
     return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300 flex justify-center p-8">
+  <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-cyan-50 dark:from-gray-950 dark:via-gray-900 dark:to-black p-6">
 
-      <div className="w-full max-w-6xl bg-white dark:bg-gray-800 rounded-3xl shadow-lg overflow-hidden">
+    <div className="max-w-7xl mx-auto">
 
-        {/* ===========================
-            Header
-        ============================ */}
+      {/* Header */}
 
-        <div className="bg-gradient-to-r from-green-600 to-emerald-700 text-white p-6 flex items-center gap-4">
+      <motion.div
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="rounded-[32px] bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 text-white shadow-2xl overflow-hidden"
+      >
 
-          <FaRobot size={34} />
+        <div className="relative p-8">
+
+          {/* Background Glow */}
+
+          <div className="absolute -top-12 -right-12 w-44 h-44 rounded-full bg-white/10 blur-3xl"></div>
+
+          <div className="absolute -bottom-12 -left-12 w-44 h-44 rounded-full bg-white/10 blur-3xl"></div>
+
+          <div className="relative flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+
+            <div className="flex items-center gap-5">
+
+              <div className="w-20 h-20 rounded-3xl bg-white/20 backdrop-blur-xl flex items-center justify-center shadow-xl">
+
+                <FaRobot className="text-4xl" />
+
+              </div>
+
+              <div>
+
+                <h1 className="text-4xl font-extrabold">
+
+                  Mana AI
+
+                </h1>
+
+                <p className="mt-2 text-green-100">
+
+                  Agentic Wellness Companion
+
+                </p>
+
+              </div>
+
+            </div>
+
+            <div className="flex items-center gap-4">
+
+              <div className="rounded-full bg-white/20 backdrop-blur-xl px-5 py-3 flex items-center gap-3">
+
+                <FaCircle className="text-green-300 animate-pulse text-xs" />
+
+                <span className="font-medium">
+
+                  AI Online
+
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </motion.div>
+
+      {/* Active AI Agents */}
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.2 }}
+        className="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-5"
+      >
+
+        {[
+          {
+            key: "mood",
+            title: "Mood Agent",
+            icon: <FaBrain />,
+            color: "bg-emerald-500",
+          },
+          {
+            key: "sleep",
+            title: "Sleep Agent",
+            icon: <FaMoon />,
+            color: "bg-blue-500",
+          },
+          {
+            key: "study",
+            title: "Study Agent",
+            icon: <FaBookOpen />,
+            color: "bg-purple-500",
+          },
+          {
+            key: "crisis",
+            title: "Crisis Agent",
+            icon: <FaHeartbeat />,
+            color: "bg-red-500",
+          },
+        ].map((agent) => (
+
+          <motion.div
+            whileHover={{
+              y: -6,
+              scale: 1.03,
+            }}
+            key={agent.key}
+            className="rounded-3xl bg-white dark:bg-gray-900 shadow-xl border border-gray-200 dark:border-gray-700 p-6"
+          >
+
+            <div className="flex items-center justify-between">
+
+              <div
+                className={`w-14 h-14 rounded-2xl ${agent.color} flex items-center justify-center text-white text-2xl`}
+              >
+                {agent.icon}
+              </div>
+
+              <FaCircle
+                className={`text-xs ${
+                  activeAgents.includes(agent.key)
+                    ? "text-green-500 animate-pulse"
+                    : "text-gray-300"
+                }`}
+              />
+
+            </div>
+
+            <h3 className="mt-6 text-xl font-bold dark:text-white">
+
+              {agent.title}
+
+            </h3>
+
+            <p className="mt-2 text-gray-500 dark:text-gray-400">
+
+              {activeAgents.includes(agent.key)
+                ? "Currently analyzing"
+                : "Waiting"}
+
+            </p>
+
+          </motion.div>
+
+        ))}
+
+      </motion.div>
+
+      {/* Agent Execution */}
+
+      <div className="mt-8 rounded-3xl bg-white dark:bg-gray-900 shadow-xl border border-gray-200 dark:border-gray-700 p-6">
+
+        <h2 className="text-2xl font-bold dark:text-white mb-6">
+
+          ⚙️ Agent Execution
+
+        </h2>
+
+        <AgentExecution activeAgents={activeAgents} />
+
+      </div>
+      {/* ===========================
+          Chat Section
+      =========================== */}
+
+      <div className="mt-8 rounded-3xl bg-white dark:bg-gray-900 shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+
+        {/* Chat Header */}
+
+        <div className="border-b border-gray-200 dark:border-gray-700 p-5 flex items-center justify-between">
 
           <div>
 
-            <h1 className="text-3xl font-bold">
-              Mana AI
-            </h1>
+            <h2 className="text-2xl font-bold dark:text-white">
+              💬 Conversation
+            </h2>
 
-            <p className="text-green-100">
-              Your Agentic AI Wellness Companion
+            <p className="text-gray-500 dark:text-gray-400">
+              Chat naturally with Mana AI
             </p>
 
           </div>
 
-        </div>
+          <div className="hidden md:flex items-center gap-2 rounded-full bg-emerald-100 dark:bg-emerald-900 px-4 py-2">
 
-        {/* ===========================
-            Active AI Agents
-        ============================ */}
+            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
 
-        <div className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 p-6">
+            <span className="text-sm font-medium text-emerald-700 dark:text-emerald-300">
 
-          <h2 className="text-xl font-bold mb-5 dark:text-white">
-            🤖 Active AI Agents
-          </h2>
+              Online
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-
-            <div
-              className={`rounded-xl p-4 text-center font-semibold transition ${
-                activeAgents.includes("mood")
-                  ? "bg-green-500 text-white"
-                  : "bg-gray-200 dark:bg-gray-700 dark:text-white"
-              }`}
-            >
-              🧠 Mood Agent
-            </div>
-
-            <div
-              className={`rounded-xl p-4 text-center font-semibold transition ${
-                activeAgents.includes("sleep")
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-200 dark:bg-gray-700 dark:text-white"
-              }`}
-            >
-              😴 Sleep Agent
-            </div>
-
-            <div
-              className={`rounded-xl p-4 text-center font-semibold transition ${
-                activeAgents.includes("study")
-                  ? "bg-purple-500 text-white"
-                  : "bg-gray-200 dark:bg-gray-700 dark:text-white"
-              }`}
-            >
-              📚 Study Agent
-            </div>
-
-            <div
-              className={`rounded-xl p-4 text-center font-semibold transition ${
-                activeAgents.includes("crisis")
-                  ? "bg-red-500 text-white"
-                  : "bg-gray-200 dark:bg-gray-700 dark:text-white"
-              }`}
-            >
-              🚨 Crisis Agent
-            </div>
+            </span>
 
           </div>
 
         </div>
 
-        {/* ===========================
-            Agent Execution Timeline
-        ============================ */}
+        {/* Suggested Prompts */}
 
-        <div className="p-6">
+        {messages.length === 1 && (
 
-          <AgentExecution activeAgents={activeAgents} />
+          <div className="px-6 pt-6">
 
-        </div>
+            <p className="font-semibold text-gray-700 dark:text-gray-300 mb-3">
 
-        {/* ===========================
-            Chat Section
-        ============================ */}
+              Try asking:
 
-        <div className="px-6 pb-6 h-[450px] overflow-y-auto space-y-5">
+            </p>
+
+            <div className="flex flex-wrap gap-3">
+
+              {suggestions.map((prompt) => (
+
+                <button
+                  key={prompt}
+                  onClick={() => setInput(prompt)}
+                  className="rounded-full border border-emerald-200 dark:border-gray-700 bg-emerald-50 dark:bg-gray-800 px-4 py-2 text-sm hover:bg-emerald-100 dark:hover:bg-gray-700 transition"
+                >
+
+                  {prompt}
+
+                </button>
+
+              ))}
+
+            </div>
+
+          </div>
+
+        )}
+
+        {/* Messages */}
+
+        <div
+          ref={chatRef}
+          className="h-[520px] overflow-y-auto px-6 py-6 space-y-6"
+        >
 
           {messages.map((msg, index) => (
 
-            <div
+            <motion.div
               key={index}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
               className={`flex ${
                 msg.sender === "user"
                   ? "justify-end"
@@ -379,36 +596,114 @@ function AICompanion() {
             >
 
               <div
-                className={`max-w-[80%] whitespace-pre-wrap rounded-2xl px-5 py-4 shadow ${
+                className={`flex gap-3 max-w-[85%] ${
                   msg.sender === "user"
-                    ? "bg-green-600 text-white"
-                    : "bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white"
+                    ? "flex-row-reverse"
+                    : ""
                 }`}
               >
 
-                {msg.text}
+                {/* Avatar */}
+
+                <div
+                  className={`w-12 h-12 rounded-full flex items-center justify-center shadow-md ${
+                    msg.sender === "ai"
+                      ? "bg-gradient-to-r from-emerald-500 to-green-600 text-white"
+                      : "bg-blue-500 text-white"
+                  }`}
+                >
+
+                  {msg.sender === "ai" ? (
+                    <FaRobot />
+                  ) : (
+                    "👤"
+                  )}
+
+                </div>
+
+                {/* Bubble */}
+
+                <div>
+
+                  <div
+                    className={`rounded-3xl px-5 py-4 whitespace-pre-wrap shadow-lg ${
+                      msg.sender === "user"
+                        ? "bg-emerald-600 text-white"
+                        : "bg-gray-100 dark:bg-gray-800 dark:text-white"
+                    }`}
+                  >
+
+                    {msg.text}
+
+                  </div>
+
+                  <p
+                    className={`mt-2 text-xs text-gray-500 ${
+                      msg.sender === "user"
+                        ? "text-right"
+                        : ""
+                    }`}
+                  >
+
+                    {msg.time}
+
+                  </p>
+
+                </div>
 
               </div>
 
-            </div>
+            </motion.div>
 
           ))}
 
+          {/* Typing */}
+
           {loading && (
 
-            <div className="flex justify-start">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="flex gap-3 items-start"
+            >
 
-              <div className="bg-yellow-100 text-yellow-900 px-5 py-3 rounded-xl shadow">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-r from-emerald-500 to-green-600 text-white flex items-center justify-center">
 
-                🤖 Mana AI is collaborating with multiple agents...
+                <FaRobot />
 
               </div>
 
-            </div>
+              <div className="rounded-3xl bg-gray-100 dark:bg-gray-800 px-5 py-4 shadow-lg">
+
+                <div className="flex gap-2">
+
+                  <span className="w-2 h-2 rounded-full bg-gray-400 animate-bounce"></span>
+
+                  <span className="w-2 h-2 rounded-full bg-gray-400 animate-bounce [animation-delay:150ms]"></span>
+
+                  <span className="w-2 h-2 rounded-full bg-gray-400 animate-bounce [animation-delay:300ms]"></span>
+
+                </div>
+
+                <p className="mt-3 text-sm text-gray-500 dark:text-gray-400">
+
+                  Mana AI is analyzing your wellbeing...
+
+                </p>
+
+              </div>
+
+            </motion.div>
 
           )}
 
         </div>
+
+      </div>
+
+      {/* ===========================
+          AI Wellness Dashboard
+      =========================== */}
 
         {/* ===========================
             AI Wellness Dashboard
@@ -416,326 +711,365 @@ function AICompanion() {
 
         {latestResult && (
 
-          <div className="border-t border-gray-200 dark:border-gray-700 p-6">
+          <div className="mt-8 rounded-3xl bg-white dark:bg-gray-900 shadow-xl border border-gray-200 dark:border-gray-700 p-8">
 
-            <h2 className="text-3xl font-bold mb-6 dark:text-white">
-              🩺 AI Wellness Dashboard
-            </h2>
+  {/* Header */}
 
-            <div className="grid md:grid-cols-2 gap-5">
-                          {/* ===========================
-                  🧠 Mood Analysis
-              ============================ */}
+  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8">
 
-              {latestResult.mood && (
-                <div className="bg-green-50 dark:bg-green-900 rounded-2xl p-5 shadow">
+    <div>
 
-                  <h3 className="text-xl font-bold text-green-700 dark:text-green-200 mb-4">
-                    🧠 Mood Analysis
-                  </h3>
+      <h2 className="text-3xl font-bold dark:text-white">
 
-                  <p>
-                    <strong>Emotion:</strong>{" "}
-                    {latestResult.mood.emotion}
-                  </p>
+        📊 AI Wellness Dashboard
 
-                  <p>
-                    <strong>Stress:</strong>{" "}
-                    {latestResult.mood.stressLevel}
-                  </p>
+      </h2>
 
-                  <p>
-                    <strong>Burnout:</strong>{" "}
-                    {latestResult.mood.burnoutRisk}
-                  </p>
+      <p className="text-gray-500 dark:text-gray-400 mt-2">
 
-                  <p className="mt-4">
-                    {latestResult.mood.summary}
-                  </p>
+        Personalized insights generated by Mana AI
 
-                </div>
-              )}
+      </p>
+
+    </div>
+
+    {latestResult.decision && (
+
+      <div className="rounded-2xl bg-gradient-to-r from-emerald-500 to-green-600 text-white px-6 py-4 shadow-lg">
+
+        <p className="text-sm opacity-90">
+
+          Wellness Score
+
+        </p>
+
+        <h3 className="text-3xl font-bold">
+
+          {latestResult.decision.wellnessScore}/100
+
+        </h3>
+
+      </div>
+
+    )}
+
+  </div>
+
+  {/* Cards */}
+
+  <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+
+    {latestResult.mood && (
+
+      <motion.div
+        whileHover={{ y: -6 }}
+        className="rounded-3xl bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-900 dark:to-emerald-900 p-6 shadow-lg"
+      >
+
+        <h3 className="text-xl font-bold text-green-700 dark:text-green-200">
+
+          🧠 Mood Analysis
+
+        </h3>
+
+        <p className="mt-4">
+
+          <strong>Emotion:</strong> {latestResult.mood.emotion}
+
+        </p>
+
+        <p>
+
+          <strong>Stress:</strong> {latestResult.mood.stressLevel}
+
+        </p>
+
+        <p>
+
+          <strong>Burnout:</strong> {latestResult.mood.burnoutRisk}
+
+        </p>
+
+        <p className="mt-4 text-sm leading-7">
+
+          {latestResult.mood.summary}
+
+        </p>
+
+      </motion.div>
+
+    )}
+
+    {latestResult.sleep && (
+
+      <motion.div
+        whileHover={{ y: -6 }}
+        className="rounded-3xl bg-gradient-to-br from-blue-50 to-cyan-100 dark:from-blue-900 dark:to-cyan-900 p-6 shadow-lg"
+      >
+
+        <h3 className="text-xl font-bold text-blue-700 dark:text-blue-200">
+
+          😴 Sleep
+
+        </h3>
+
+        <p className="mt-4 leading-7">
+
+          {latestResult.sleep.summary}
+
+        </p>
+
+        <div className="mt-4 rounded-xl bg-white/60 dark:bg-black/20 p-4">
+
+          <strong>Recommendation</strong>
+
+          <p className="mt-2">
+
+            {latestResult.sleep.recommendation}
+
+          </p>
+
+        </div>
+
+      </motion.div>
+
+    )}
+
+    {latestResult.study && (
+
+      <motion.div
+        whileHover={{ y: -6 }}
+        className="rounded-3xl bg-gradient-to-br from-purple-50 to-pink-100 dark:from-purple-900 dark:to-pink-900 p-6 shadow-lg"
+      >
+
+        <h3 className="text-xl font-bold text-purple-700 dark:text-purple-200">
+
+          📚 Study
+
+        </h3>
+
+        <p className="mt-4">
+
+          {latestResult.study.summary}
+
+        </p>
+
+        <div className="mt-4 rounded-xl bg-white/60 dark:bg-black/20 p-4">
+
+          <strong>Recommendation</strong>
+
+          <p className="mt-2">
+
+            {latestResult.study.recommendation}
+
+          </p>
+
+        </div>
+
+      </motion.div>
+
+    )}
+
+    {latestResult.crisis && (
+
+      <motion.div
+        whileHover={{ y: -6 }}
+        className="rounded-3xl bg-gradient-to-br from-red-50 to-orange-100 dark:from-red-900 dark:to-red-950 p-6 shadow-lg"
+      >
+
+        <h3 className="text-xl font-bold text-red-700 dark:text-red-300">
+
+          🚨 Crisis
+
+        </h3>
+
+        <p className="mt-4">
+
+          <strong>Risk:</strong> {latestResult.crisis.risk}
+
+        </p>
+
+        <p className="mt-4">
+
+          {latestResult.crisis.summary}
+
+        </p>
+
+      </motion.div>
+
+    )}
+
+    {latestResult.burnout && (
+
+      <motion.div
+        whileHover={{ y: -6 }}
+        className="rounded-3xl bg-gradient-to-br from-orange-50 to-yellow-100 dark:from-orange-900 dark:to-yellow-900 p-6 shadow-lg"
+      >
+
+        <h3 className="text-xl font-bold text-orange-700 dark:text-orange-300">
+
+          🔥 Burnout
+
+        </h3>
+
+        <p className="mt-4">
+
+          Risk: {latestResult.burnout.risk}
+
+        </p>
+
+        <p>
+
+          Score: {latestResult.burnout.score}%
+
+        </p>
+
+        <ul className="mt-4 list-disc ml-5 space-y-2">
+
+          {latestResult.burnout.reasons?.map((reason, index) => (
+
+            <li key={index}>{reason}</li>
+
+          ))}
+
+        </ul>
+
+      </motion.div>
+
+    )}
+
+    {latestResult.decision && (
+
+      <motion.div
+        whileHover={{ y: -6 }}
+        className="rounded-3xl bg-gradient-to-br from-emerald-500 to-green-600 text-white p-6 shadow-xl"
+      >
+
+        <h3 className="text-2xl font-bold">
+
+          🎯 Today's Plan
+
+        </h3>
+
+        <p className="mt-4">
+
+          Priority: {latestResult.decision.priority}
+
+        </p>
+
+        <ul className="mt-5 space-y-2">
+
+          {latestResult.decision.tasks?.map((task, index) => (
+
+            <li key={index}>
+
+              ✔ {task}
+
+            </li>
+
+          ))}
+
+        </ul>
+
+      </motion.div>
+
+    )}
+
+  </div>
+
+</div>
+)}
 
               {/* ===========================
-                  😴 Sleep Analysis
-              ============================ */}
+          Input Area
+      =========================== */}
 
-              {latestResult.sleep && (
-                <div className="bg-blue-50 dark:bg-blue-900 rounded-2xl p-5 shadow">
+      <div className="sticky bottom-0 mt-8">
 
-                  <h3 className="text-xl font-bold text-blue-700 dark:text-blue-200 mb-4">
-                    😴 Sleep Analysis
-                  </h3>
+        <div className="rounded-[30px] bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border border-gray-200 dark:border-gray-700 shadow-2xl p-5">
 
-                  <p>
-                    {latestResult.sleep.summary}
-                  </p>
+          <div className="flex items-end gap-4">
 
-                  <div className="mt-4">
+            {/* Input */}
 
-                    <strong>Recommendation</strong>
+            <textarea
+              rows={1}
+              value={input}
+              placeholder="Ask Mana AI anything about your wellbeing..."
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (
+                  e.key === "Enter" &&
+                  !e.shiftKey
+                ) {
+                  e.preventDefault();
+                  handleSend();
+                }
+              }}
+              className="flex-1 resize-none rounded-2xl bg-gray-100 dark:bg-gray-800 px-5 py-4 outline-none text-gray-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 max-h-40"
+            />
 
-                    <p className="mt-2">
-                      {latestResult.sleep.recommendation}
-                    </p>
+            {/* Send */}
 
-                  </div>
+            <motion.button
+              whileTap={{ scale: 0.92 }}
+              whileHover={{ scale: 1.08 }}
+              disabled={loading || !input.trim()}
+              onClick={handleSend}
+              className="w-14 h-14 rounded-2xl bg-gradient-to-r from-emerald-500 to-green-600 text-white flex items-center justify-center shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+            >
 
-                </div>
+              {loading ? (
+
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+
+              ) : (
+
+                <FaPaperPlane />
+
               )}
 
-              {/* ===========================
-                  📚 Study Analysis
-              ============================ */}
-
-              {latestResult.study && (
-                <div className="bg-purple-50 dark:bg-purple-900 rounded-2xl p-5 shadow">
-
-                  <h3 className="text-xl font-bold text-purple-700 dark:text-purple-200 mb-4">
-                    📚 Study Analysis
-                  </h3>
-
-                  <p>
-                    {latestResult.study.summary}
-                  </p>
-
-                  <div className="mt-4">
-
-                    <strong>Recommendation</strong>
-
-                    <p className="mt-2">
-                      {latestResult.study.recommendation}
-                    </p>
-
-                  </div>
-
-                </div>
-              )}
-
-              {/* ===========================
-                  🚨 Crisis Analysis
-              ============================ */}
-
-              {latestResult.crisis && (
-                <div className="bg-red-50 dark:bg-red-900 rounded-2xl p-5 shadow">
-
-                  <h3 className="text-xl font-bold text-red-700 dark:text-red-200 mb-4">
-                    🚨 Crisis Analysis
-                  </h3>
-
-                  <p>
-                    <strong>Risk:</strong>{" "}
-                    {latestResult.crisis.risk}
-                  </p>
-
-                  <p className="mt-3">
-                    {latestResult.crisis.summary}
-                  </p>
-
-                  <div className="mt-4">
-
-                    <strong>Recommendation</strong>
-
-                    <p className="mt-2">
-                      {latestResult.crisis.recommendation}
-                    </p>
-
-                  </div>
-
-                </div>
-              )}
-
-              {/* ===========================
-                  🔥 Burnout Prediction
-              ============================ */}
-
-              {latestResult.burnout && (
-                <div className="bg-orange-50 dark:bg-orange-900 rounded-2xl p-5 shadow">
-
-                  <h3 className="text-xl font-bold text-orange-700 dark:text-orange-200 mb-4">
-                    🔥 Burnout Prediction
-                  </h3>
-
-                  <p>
-                    <strong>Risk:</strong>{" "}
-                    {latestResult.burnout.risk}
-                  </p>
-
-                  <p>
-                    <strong>Score:</strong>{" "}
-                    {latestResult.burnout.score}%
-                  </p>
-
-                  <div className="mt-4">
-
-                    <strong>Reasons</strong>
-
-                    <ul className="list-disc ml-6 mt-2">
-
-                      {latestResult.burnout.reasons?.map(
-                        (reason, index) => (
-                          <li key={index}>
-                            {reason}
-                          </li>
-                        )
-                      )}
-
-                    </ul>
-
-                  </div>
-
-                </div>
-              )}
-
-              {/* ===========================
-                  🚑 Emergency Support
-              ============================ */}
-
-              {latestResult.support?.show && (
-                <div className="bg-red-100 dark:bg-red-950 rounded-2xl p-5 shadow">
-
-                  <h3 className="text-xl font-bold text-red-700 dark:text-red-300 mb-4">
-                    {latestResult.support.title}
-                  </h3>
-
-                  <p>
-                    {latestResult.support.message}
-                  </p>
-
-                  <ul className="list-disc ml-6 mt-4">
-
-                    {latestResult.support.actions?.map(
-                      (action, index) => (
-                        <li key={index}>
-                          {action}
-                        </li>
-                      )
-                    )}
-
-                  </ul>
-
-                </div>
-              )}
-
-              {/* ===========================
-                  🎯 Decision Agent
-              ============================ */}
-
-              {latestResult.decision && (
-                <div className="md:col-span-2 bg-emerald-50 dark:bg-emerald-900 rounded-2xl p-6 shadow">
-
-                  <h3 className="text-2xl font-bold text-emerald-700 dark:text-emerald-200 mb-4">
-                    🎯 Today's Wellness Plan
-                  </h3>
-
-                  <p>
-                    <strong>Wellness Score:</strong>{" "}
-                    {latestResult.decision.wellnessScore}/100
-                  </p>
-
-                  <p className="mt-2">
-                    <strong>Priority:</strong>{" "}
-                    {latestResult.decision.priority}
-                  </p>
-
-                  {latestResult.decision.tasks?.length > 0 && (
-
-                    <div className="mt-5">
-
-                      <strong>Recommended Tasks</strong>
-
-                      <ul className="list-disc ml-6 mt-2">
-
-                        {latestResult.decision.tasks.map(
-                          (task, index) => (
-                            <li key={index}>
-                              {task}
-                            </li>
-                          )
-                        )}
-
-                      </ul>
-
-                    </div>
-
-                  )}
-
-                </div>
-              )}
-
-              {/* ===========================
-                  🤖 AI Explanation
-              ============================ */}
-
-              {latestResult.explanation && (
-                <div className="md:col-span-2 bg-slate-50 dark:bg-slate-800 rounded-2xl p-6 shadow">
-
-                  <h3 className="text-2xl font-bold mb-4 dark:text-white">
-                    🤖 Why did Mana AI reach this conclusion?
-                  </h3>
-
-                  <p className="mb-4 dark:text-gray-300">
-                    <strong>Confidence:</strong>{" "}
-                    {latestResult.explanation.confidence}%
-                  </p>
-
-                  <ul className="list-disc ml-6 space-y-2 dark:text-gray-300">
-
-                    {latestResult.explanation.reasons.map(
-                      (reason, index) => (
-                        <li key={index}>
-                          {reason}
-                        </li>
-                      )
-                    )}
-
-                  </ul>
-
-                </div>
-              )}
-                          </div>
+            </motion.button>
 
           </div>
 
-        )}
+          {/* Footer */}
 
-        {/* ===========================
-            Input Area
-        ============================ */}
+          <div className="mt-4 flex flex-col md:flex-row items-center justify-between gap-3">
 
-        <div className="border-t border-gray-200 dark:border-gray-700 p-5 flex gap-3">
+            <p className="text-xs text-gray-500 dark:text-gray-400">
 
-          <input
-            type="text"
-            value={input}
-            placeholder="Tell Mana AI how you're feeling..."
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && !loading) {
-                handleSend();
-              }
-            }}
-            className="flex-1 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500"
-          />
+              Press <kbd className="px-2 py-1 rounded bg-gray-200 dark:bg-gray-700">Enter</kbd> to send ·
+              <kbd className="ml-2 px-2 py-1 rounded bg-gray-200 dark:bg-gray-700">
+                Shift + Enter
+              </kbd>{" "}
+              for a new line.
 
-          <button
-            onClick={handleSend}
-            disabled={loading}
-            className="bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white px-6 rounded-xl flex items-center justify-center transition-all duration-300"
-          >
-            {loading ? (
-              "Analyzing..."
-            ) : (
-              <FaPaperPlane size={18} />
-            )}
-          </button>
+            </p>
+
+            <div className="flex items-center gap-2 rounded-full bg-emerald-100 dark:bg-emerald-900 px-4 py-2">
+
+              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+
+              <span className="text-sm font-medium text-emerald-700 dark:text-emerald-300">
+
+                Powered by Mana AI Agents
+
+              </span>
+
+            </div>
+
+          </div>
 
         </div>
 
       </div>
 
     </div>
-  );
+
+  </div>
+
+);
 }
 
 export default AICompanion;
