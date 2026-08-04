@@ -11,93 +11,107 @@ import NotificationEmptyState from "../components/notifications/NotificationEmpt
 import ClearFiltersButton from "../components/notifications/ClearFiltersButton";
 import NotificationSort from "../components/notifications/NotificationSort";
 
-const stats = [
-  {
-    title: "Total",
-    value: notifications.length,
-    color: "text-emerald-600",
-  },
-  {
-    title: "Unread",
-    value: notifications.filter(
-      (notification) => !notification.read
-    ).length,
-    color: "text-red-500",
-  },
-  {
-    title: "Today",
-    value: notifications.filter(
-      (notification) =>
-        notification.time.includes("min") ||
-        notification.time.includes("hour")
-    ).length,
-    color: "text-blue-500",
-  },
-  {
-    title: "Read Rate",
-    value: `${Math.round(
-      (notifications.filter((notification) => notification.read).length /
-        notifications.length) *
-        100
-    )}%`,
-    color: "text-purple-500",
-  },
-];
-
 function Notifications() {
+  const [notificationList, setNotificationList] = useState(notifications);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("All");
   const [sortBy, setSortBy] = useState("latest");
 
-  const filteredNotifications = notifications.filter((notification) => {
-    const search = searchTerm.toLowerCase();
+  const handleMarkAsRead = (id) => {
+    setNotificationList((prevNotifications) =>
+      prevNotifications.map((notification) =>
+        notification.id === id
+          ? { ...notification, read: true }
+          : notification
+      )
+    );
+  };
 
-    const matchesSearch =
-      notification.title.toLowerCase().includes(search) ||
-      notification.message.toLowerCase().includes(search);
+  const stats = [
+    {
+      title: "Total",
+      value: notificationList.length,
+      color: "text-emerald-600",
+    },
+    {
+      title: "Unread",
+      value: notificationList.filter(
+        (notification) => !notification.read
+      ).length,
+      color: "text-red-500",
+    },
+    {
+      title: "Today",
+      value: notificationList.filter(
+        (notification) =>
+          notification.time.includes("min") ||
+          notification.time.includes("hour")
+      ).length,
+      color: "text-blue-500",
+    },
+    {
+      title: "Read Rate",
+      value: `${Math.round(
+        (notificationList.filter((notification) => notification.read).length /
+          notificationList.length) *
+          100
+      )}%`,
+      color: "text-purple-500",
+    },
+  ];
 
-    let matchesFilter = true;
+  const filteredNotifications = [...notificationList]
+    .filter((notification) => {
+      const search = searchTerm.toLowerCase();
 
-    if (selectedFilter === "Unread") {
-      matchesFilter = !notification.read;
-    }
+      const matchesSearch =
+        notification.title.toLowerCase().includes(search) ||
+        notification.message.toLowerCase().includes(search);
 
-    if (selectedFilter === "Today") {
-      matchesFilter =
-        notification.time.includes("min") ||
-        notification.time.includes("hour");
-    }
+      let matchesFilter = true;
 
-    return matchesSearch && matchesFilter;
-  });
+      if (selectedFilter === "Unread") {
+        matchesFilter = !notification.read;
+      }
+
+      if (selectedFilter === "Today") {
+        matchesFilter =
+          notification.time.includes("min") ||
+          notification.time.includes("hour");
+      }
+
+      return matchesSearch && matchesFilter;
+    })
+    .sort((a, b) => {
+      if (sortBy === "unread") {
+        return Number(a.read) - Number(b.read);
+      }
+
+      if (sortBy === "oldest") {
+        return a.id - b.id;
+      }
+
+      return b.id - a.id;
+    });
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6 py-10">
 
-        {/* Header */}
-
         <NotificationHeader />
 
-        {/* Statistics */}
-
         <NotificationStats stats={stats} />
-
-        {/* Search */}
 
         <NotificationSearch
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
         />
 
-        {/* Filters */}
-
         <NotificationFilters
           selectedFilter={selectedFilter}
           setSelectedFilter={setSelectedFilter}
         />
-
-        {/* Clear Filters */}
 
         {(searchTerm || selectedFilter !== "All") && (
           <ClearFiltersButton
@@ -105,8 +119,6 @@ function Notifications() {
             setSelectedFilter={setSelectedFilter}
           />
         )}
-
-        {/* Status */}
 
         <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
           Showing {filteredNotifications.length} notification
@@ -117,14 +129,10 @@ function Notifications() {
           )}
         </p>
 
-        {/* Sort */}
-
         <NotificationSort
           sortBy={sortBy}
           setSortBy={setSortBy}
         />
-
-        {/* Notification List */}
 
         <div className="mt-12">
 
