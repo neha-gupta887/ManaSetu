@@ -28,6 +28,14 @@ function Notifications() {
     );
   };
 
+  const handleDeleteNotification = (id) => {
+    setNotificationList((prevNotifications) =>
+      prevNotifications.filter(
+        (notification) => notification.id !== id
+      )
+    );
+  };
+
   const stats = [
     {
       title: "Total",
