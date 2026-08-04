@@ -9,7 +9,7 @@ import { notifications } from "../data/notifications";
 const stats = [
   {
     title: "Total",
-    value: 12,
+    value: notifications.length,
     color: "text-emerald-600",
   },
   {
