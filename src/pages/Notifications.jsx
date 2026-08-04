@@ -43,6 +43,15 @@ const stats = [
 function Notifications() {
   const [searchTerm, setSearchTerm] = useState("");
 
+  const filteredNotifications = notifications.filter((notification) => {
+    const search = searchTerm.toLowerCase();
+
+    return (
+      notification.title.toLowerCase().includes(search) ||
+      notification.message.toLowerCase().includes(search)
+    );
+  });
+
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6 py-10">
@@ -70,7 +79,7 @@ function Notifications() {
             Recent Notifications
           </h2>
 
-          <NotificationList notifications={notifications} />
+          <NotificationList notifications={filteredNotifications} />
 
         </div>
 
