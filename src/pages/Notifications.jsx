@@ -5,6 +5,7 @@ import {
   FaTrophy,
 } from "react-icons/fa";
 import { notifications } from "../data/notifications";
+import NotificationHeader from "../components/notifications/NotificationHeader";
 
 const stats = [
   {
@@ -65,26 +66,17 @@ function Notifications() {
 
         {/* Header */}
 
-        <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
-          🔔 Notifications
-        </h1>
-
-        <p className="mt-3 text-lg text-gray-600 dark:text-gray-300">
-          Stay updated with your latest wellness activities,
-          AI insights, reminders, and counselor updates.
-        </p>
+        <NotificationHeader />
 
         {/* Statistics */}
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
 
           {stats.map((stat) => (
-
             <div
               key={stat.title}
               className="bg-white dark:bg-gray-800 rounded-3xl shadow-lg p-6"
             >
-
               <p className={`text-4xl font-bold ${stat.color}`}>
                 {stat.value}
               </p>
@@ -92,9 +84,7 @@ function Notifications() {
               <p className="mt-2 text-gray-600 dark:text-gray-300">
                 {stat.title}
               </p>
-
             </div>
-
           ))}
 
         </div>
