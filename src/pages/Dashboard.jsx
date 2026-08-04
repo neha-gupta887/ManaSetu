@@ -1,10 +1,6 @@
-import AIWorkflow from "../components/AIWorkflow";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import { getDashboardStats } from "../services/dashboardStatsService";
-
-import LoadingSpinner from "../components/LoadingSpinner";
 import Sidebar from "../components/dashboard/Sidebar";
 import Topbar from "../components/dashboard/Topbar";
 import WelcomeCard from "../components/dashboard/WelcomeCard";
@@ -12,16 +8,20 @@ import MoodSection from "../components/dashboard/MoodSection";
 import QuickActions from "../components/dashboard/QuickActions";
 import QuoteCard from "../components/dashboard/QuoteCard";
 import MoodHistory from "../components/dashboard/MoodHistory";
+
 import MoodReminder from "../components/MoodReminder";
 import HabitTrackerCard from "../components/HabitTrackerCard";
 import DailyChallengeCard from "../components/DailyChallengeCard";
-
 import WellnessScoreCard from "../components/WellnessScoreCard";
 import WellnessInsights from "../components/WellnessInsights";
 import WellnessTimeline from "../components/WellnessTimeline";
 import AIInsightCard from "../components/AIInsightCard";
+import AIWorkflow from "../components/AIWorkflow";
 
+import LoadingSpinner from "../components/LoadingSpinner";
 import StatCard from "../components/ui/StatCard";
+
+import { getDashboardStats } from "../services/dashboardStatsService";
 
 function Dashboard() {
   const stats = getDashboardStats();
@@ -31,7 +31,7 @@ function Dashboard() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 1000);
+    }, 900);
 
     return () => clearTimeout(timer);
   }, []);
@@ -41,33 +41,74 @@ function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+    <div className="min-h-screen bg-gradient-to-br
+      from-emerald-50
+      via-white
+      to-cyan-50
+      dark:from-gray-950
+      dark:via-gray-900
+      dark:to-black
+      transition-all duration-500">
+
       {/* Sidebar */}
+
       <Sidebar />
 
       {/* Main Content */}
-      <div className="lg:ml-72 p-4 sm:p-6 lg:p-8">
+
+      <main className="lg:ml-72 px-5 sm:px-8 py-8">
 
         {/* Topbar */}
+
         <Topbar />
 
-        {/* Welcome Card */}
+        {/* Dashboard Heading */}
+
         <div className="mt-8">
+
+          <span className="rounded-full bg-emerald-100 dark:bg-emerald-900/40 px-4 py-2 text-sm font-semibold text-emerald-700 dark:text-emerald-300">
+
+            🌿 AI Powered Mental Wellness Platform
+
+          </span>
+
+          <h1 className="mt-5 text-4xl lg:text-5xl font-extrabold text-gray-900 dark:text-white">
+
+            AI Wellness Dashboard
+
+          </h1>
+
+          <p className="mt-3 max-w-3xl text-lg leading-8 text-gray-600 dark:text-gray-300">
+
+            Welcome back! Monitor your emotional wellbeing,
+            mood history, AI insights, wellness score,
+            daily habits and personalized recommendations
+            in one intelligent dashboard.
+
+          </p>
+
+        </div>
+
+        {/* Welcome */}
+
+        <div className="mt-10">
+
           <WelcomeCard />
+
         </div>
 
-        {/* AI Wellness Score */}
-        <div className="mt-6">
-          <WellnessScoreCard score={82} />
+        {/* Wellness Score */}
+
+        <div className="mt-8">
+
+          <WellnessScoreCard score={stats.wellnessScore} />
+
         </div>
 
-        {/* AI Wellness Insights */}
-        <div className="mt-6">
-          <WellnessInsights />
-        </div>
+        {/* Statistics */}
 
-        {/* Dashboard Statistics */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mt-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 mt-8">
+
           <StatCard
             title="Wellness Score"
             value={`${stats.wellnessScore}%`}
@@ -90,89 +131,215 @@ function Dashboard() {
           />
 
           <StatCard
-            title="Current Mood"
+            title="Today's Mood"
             value={stats.currentMood}
             icon="😊"
             color="purple"
           />
-        </div>
 
-        {/* Quick Access */}
-        <div className="grid md:grid-cols-3 gap-6 mt-8">
+        </div>
+                {/* Quick Access */}
+
+        <div className="grid md:grid-cols-3 gap-6 mt-10">
 
           <Link
             to="/analytics"
-            className="bg-emerald-600 hover:bg-emerald-700 text-white text-center py-5 rounded-2xl font-semibold text-lg transition shadow-lg"
+            className="group rounded-3xl bg-gradient-to-r from-emerald-600 to-green-600 text-white p-8 shadow-xl hover:scale-[1.02] transition-all duration-300"
           >
-            📊 Mood Analytics
+            <div className="text-5xl">📊</div>
+
+            <h3 className="mt-5 text-2xl font-bold">
+              Mood Analytics
+            </h3>
+
+            <p className="mt-3 text-green-100 leading-7">
+              Explore your emotional patterns,
+              wellness score and AI-generated
+              insights.
+            </p>
+
+            <div className="mt-6 font-semibold">
+              Open Analytics →
+            </div>
+
           </Link>
 
           <Link
             to="/command-center"
-            className="bg-indigo-600 hover:bg-indigo-700 text-white text-center py-5 rounded-2xl font-semibold text-lg transition shadow-lg"
+            className="group rounded-3xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-8 shadow-xl hover:scale-[1.02] transition-all duration-300"
           >
-            🤖 AI Command Center
+            <div className="text-5xl">🤖</div>
+
+            <h3 className="mt-5 text-2xl font-bold">
+              AI Command Center
+            </h3>
+
+            <p className="mt-3 text-indigo-100 leading-7">
+              Watch your AI agents,
+              workflows and recommendations
+              in real time.
+            </p>
+
+            <div className="mt-6 font-semibold">
+              Open AI Center →
+            </div>
+
           </Link>
 
           <Link
             to="/support"
-            className="bg-red-600 hover:bg-red-700 text-white text-center py-5 rounded-2xl font-semibold text-lg transition shadow-lg"
+            className="group rounded-3xl bg-gradient-to-r from-red-600 to-pink-600 text-white p-8 shadow-xl hover:scale-[1.02] transition-all duration-300"
           >
-            🆘 Support Center
+            <div className="text-5xl">🆘</div>
+
+            <h3 className="mt-5 text-2xl font-bold">
+              Support Center
+            </h3>
+
+            <p className="mt-3 text-red-100 leading-7">
+              Connect with mentors,
+              counselors and emergency
+              wellness resources.
+            </p>
+
+            <div className="mt-6 font-semibold">
+              Get Support →
+            </div>
+
           </Link>
 
         </div>
 
-        {/* Daily Mood Reminder */}
-        <div className="mt-6">
+        {/* Mood Reminder */}
+
+        <div className="mt-8">
+
           <MoodReminder />
+
         </div>
 
-        {/* Mood Section */}
-        <div className="mt-6">
+        {/* Mood + Quick Actions */}
+
+        <div className="grid xl:grid-cols-2 gap-8 mt-8">
+
           <MoodSection />
-        </div>
 
-        {/* Quick Actions */}
-        <div className="mt-6">
           <QuickActions />
+
         </div>
 
-        {/* Quote */}
-        <div className="mt-6">
-          <QuoteCard />
-        </div>
+        {/* Wellness Insights + AI */}
 
-        {/* Mood History */}
-        <div className="mt-6">
-          <MoodHistory />
-        </div>
+        <div className="grid xl:grid-cols-2 gap-8 mt-8">
 
-        {/* Wellness Timeline */}
-        <div className="mt-6">
-          <WellnessTimeline />
-        </div>
+          <WellnessInsights />
 
-        {/* AI Weekly Insight */}
-        <div className="mt-6">
           <AIInsightCard />
-        </div>
-        <div className="mt-6">
-   <AIWorkflow />
-</div>
 
-        {/* Habit Tracker */}
-        <div className="mt-6">
+        </div>
+
+        {/* Mood Charts */}
+
+        <div className="grid xl:grid-cols-2 gap-8 mt-8">
+
+          <MoodHistory />
+
+          <WellnessTimeline />
+
+        </div>
+                {/* AI Workflow */}
+
+        <div className="mt-8">
+
+          <AIWorkflow />
+
+        </div>
+
+        {/* Habit Tracker + Daily Challenge */}
+
+        <div className="grid xl:grid-cols-2 gap-8 mt-8">
+
           <HabitTrackerCard />
-        </div>
 
-        {/* Daily Wellness Challenge */}
-        <div className="mt-6 mb-10">
           <DailyChallengeCard />
+
         </div>
 
-      </div>
+        {/* Daily Quote */}
+
+        <div className="mt-8">
+
+          <QuoteCard />
+
+        </div>
+
+        {/* Footer */}
+
+        <div className="mt-12 rounded-3xl bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 p-8 text-white shadow-2xl">
+
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
+
+            <div>
+
+              <h2 className="text-3xl font-bold">
+
+                🌿 Keep Building Healthy Habits
+
+              </h2>
+
+              <p className="mt-3 max-w-2xl text-green-100 leading-7">
+
+                Every mood you track, every journal you write,
+                and every healthy habit you complete helps
+                Mana AI understand you better and provide
+                smarter wellness recommendations.
+
+              </p>
+
+            </div>
+
+            <Link to="/analytics">
+
+              <button className="rounded-2xl bg-white px-8 py-4 text-lg font-bold text-emerald-700 shadow-xl hover:scale-105 transition-all duration-300">
+
+                📊 View Full Analytics
+
+              </button>
+
+            </Link>
+
+          </div>
+
+        </div>
+
+        {/* Dashboard Footer */}
+
+        <div className="mt-10 flex flex-col md:flex-row items-center justify-between gap-4 text-gray-500 dark:text-gray-400">
+
+          <p>
+
+            © {new Date().getFullYear()} ManaSetu • AI Powered Mental Wellness Platform
+
+          </p>
+
+          <div className="flex gap-6 text-sm">
+
+            <span>🌿 Wellness</span>
+
+            <span>🤖 AI Companion</span>
+
+            <span>📈 Analytics</span>
+
+            <span>💚 Self Care</span>
+
+          </div>
+
+        </div>
+
+      </main>
+
     </div>
+
   );
 }
 
