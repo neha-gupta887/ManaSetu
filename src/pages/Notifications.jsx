@@ -116,9 +116,19 @@ function Notifications() {
 
                     <div className="flex justify-between items-start">
 
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                        {notification.title}
-                      </h3>
+                      <div className="flex items-center gap-3">
+
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                          {notification.title}
+                        </h3>
+
+                        {!notification.read && (
+                          <span className="rounded-full bg-red-500 text-white text-xs px-2 py-1 font-semibold">
+                            New
+                          </span>
+                        )}
+
+                      </div>
 
                       <span className="text-sm text-gray-500 dark:text-gray-400">
                         {notification.time}
