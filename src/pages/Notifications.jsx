@@ -103,10 +103,10 @@ function Notifications() {
 
               <div
                 key={notification.id}
-                className={`rounded-2xl shadow-lg p-6 transition-all duration-300 ${
+                className={`rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl cursor-pointer ${
                   notification.read
-                    ? "bg-white dark:bg-gray-800"
-                    : "bg-emerald-50 dark:bg-emerald-900/20 border-l-4 border-emerald-500"
+                    ? "bg-white dark:bg-gray-800 shadow-lg"
+                    : "bg-emerald-50 dark:bg-emerald-900/20 border-l-4 border-emerald-500 shadow-lg"
                 }`}
               >
 
