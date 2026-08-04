@@ -166,7 +166,11 @@ ${
 
                 </div>
 
-                <span className="text-sm text-gray-500 whitespace-nowrap">
+                <span className={`text-sm ${
+  notification.read
+    ? "text-gray-500"
+    : "text-emerald-600 font-semibold"
+}`}>
                   {notification.time}
                 </span>
 
