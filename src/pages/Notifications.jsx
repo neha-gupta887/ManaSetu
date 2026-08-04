@@ -1,4 +1,5 @@
 import { notifications } from "../data/notifications";
+
 const stats = [
   {
     title: "Total",
@@ -60,6 +61,39 @@ function Notifications() {
             </div>
 
           ))}
+
+        </div>
+
+        {/* Notification List */}
+
+        <div className="mt-12">
+
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+            Recent Notifications
+          </h2>
+
+          <div className="mt-6 space-y-4">
+
+            {notifications.map((notification) => (
+
+              <div
+                key={notification.id}
+                className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6"
+              >
+
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  {notification.title}
+                </h3>
+
+                <p className="mt-2 text-gray-600 dark:text-gray-300">
+                  {notification.message}
+                </p>
+
+              </div>
+
+            ))}
+
+          </div>
 
         </div>
 
