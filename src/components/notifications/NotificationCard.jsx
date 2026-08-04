@@ -64,6 +64,7 @@ function NotificationCard({ notification }) {
           </p>
 
           <NotificationActions
+            notificationId={notification.id}
             onMarkAsRead={() => {}}
             onDelete={() => {}}
           />
