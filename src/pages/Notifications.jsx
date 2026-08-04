@@ -51,6 +51,16 @@ function Notifications() {
     );
   };
 
+  const handleClearAllNotifications = () => {
+    const confirmed = window.confirm(
+      "Are you sure you want to clear all notifications?"
+    );
+
+    if (!confirmed) return;
+
+    setNotificationList([]);
+  };
+
   const stats = [
     {
       title: "Total",
@@ -75,11 +85,13 @@ function Notifications() {
     },
     {
       title: "Read Rate",
-      value: `${Math.round(
-        (notificationList.filter((notification) => notification.read).length /
-          notificationList.length) *
-          100
-      )}%`,
+      value: notificationList.length
+        ? `${Math.round(
+            (notificationList.filter((notification) => notification.read).length /
+              notificationList.length) *
+              100
+          )}%`
+        : "0%",
       color: "text-purple-500",
     },
   ];
@@ -146,8 +158,9 @@ function Notifications() {
         <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
           Showing {filteredNotifications.length} notification
           {filteredNotifications.length !== 1 ? "s" : ""}
-
-          {selectedFilter !== "All" && <> • Filter: {selectedFilter}</>}
+          {selectedFilter !== "All" && (
+            <> • Filter: {selectedFilter}</>
+          )}
         </p>
 
         <NotificationSort
@@ -155,17 +168,23 @@ function Notifications() {
           setSortBy={setSortBy}
         />
 
-        <div className="mt-6 flex justify-end">
+        <div className="mt-6 flex justify-end gap-3">
           <button
             onClick={handleMarkAllAsRead}
             className="rounded-xl bg-emerald-600 px-5 py-2 text-white transition hover:bg-emerald-700"
           >
             Mark All as Read
           </button>
+
+          <button
+            onClick={handleClearAllNotifications}
+            className="rounded-xl bg-red-600 px-5 py-2 text-white transition hover:bg-red-700"
+          >
+            Clear All
+          </button>
         </div>
 
         <div className="mt-12">
-
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
             Recent Notifications ({filteredNotifications.length})
           </h2>
@@ -179,7 +198,6 @@ function Notifications() {
               onDelete={handleDeleteNotification}
             />
           )}
-
         </div>
 
       </div>
