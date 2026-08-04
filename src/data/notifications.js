@@ -113,8 +113,12 @@ function Notifications() {
 
               <div
                 key={notification.id}
-                className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 flex justify-between items-start"
-              >
+className={`rounded-2xl shadow-lg p-6 flex items-start justify-between hover:shadow-xl transition
+${
+  notification.read
+    ? "bg-white dark:bg-gray-800"
+    : "bg-emerald-50 dark:bg-emerald-900/20 border-l-4 border-emerald-500"
+}`}              >
 
                 <div className="flex gap-5">
 
