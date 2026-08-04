@@ -104,6 +104,17 @@ function Notifications() {
           />
         )}
 
+        {/* Status */}
+
+        <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
+          Showing {filteredNotifications.length} notification
+          {filteredNotifications.length !== 1 ? "s" : ""}
+
+          {selectedFilter !== "All" && (
+            <> • Filter: {selectedFilter}</>
+          )}
+        </p>
+
         {/* Notification List */}
 
         <div className="mt-12">
