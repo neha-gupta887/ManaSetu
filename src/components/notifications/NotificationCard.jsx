@@ -10,6 +10,7 @@ import NotificationActions from "./NotificationActions";
 function NotificationCard({
   notification,
   onMarkAsRead,
+  onDelete,
 }) {
   const getNotificationIcon = (type) => {
     switch (type) {
@@ -75,7 +76,7 @@ function NotificationCard({
           <NotificationActions
             notificationId={notification.id}
             onMarkAsRead={onMarkAsRead}
-            onDelete={() => {}}
+            onDelete={onDelete}
           />
 
         </div>
