@@ -5,6 +5,7 @@ import {
   FaCalendarAlt,
   FaTrophy,
   FaFileAlt,
+  FaTimes,
 } from "react-icons/fa";
 
 import { notifications } from "../data/notifications";
