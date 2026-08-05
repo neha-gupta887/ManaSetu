@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import JournalEditor from "../components/journal/JournalEditor";
 import JournalHistory from "../components/journal/JournalHistory";
@@ -7,9 +7,23 @@ import JournalStats from "../components/journal/JournalStats";
 import JournalInsights from "../components/journal/JournalInsights";
 
 function Journal() {
-  const [entries, setEntries] = useState([]);
+  const [entries, setEntries] = useState(() => {
+    const savedEntries = localStorage.getItem("journalEntries");
+
+    return savedEntries
+      ? JSON.parse(savedEntries)
+      : [];
+  });
+
   const [editingEntry, setEditingEntry] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    localStorage.setItem(
+      "journalEntries",
+      JSON.stringify(entries)
+    );
+  }, [entries]);
 
   const handleSave = (text, mood, category) => {
     if (!text.trim()) return;
@@ -61,6 +75,19 @@ function Journal() {
     }
   };
 
+  const clearAllEntries = () => {
+    const confirmed = window.confirm(
+      "Delete all journal entries?"
+    );
+
+    if (!confirmed) return;
+
+    setEntries([]);
+    setEditingEntry(null);
+
+    localStorage.removeItem("journalEntries");
+  };
+
   const handleEdit = (entry) => {
     setEditingEntry(entry);
   };
@@ -81,21 +108,44 @@ function Journal() {
 
       <div className="mx-auto max-w-7xl">
 
-        <h1 className="mb-8 text-4xl font-bold text-gray-900 dark:text-white">
-          📝 Smart Wellness Journal
-        </h1>
+        <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
 
-        <JournalStats entries={entries} />
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
+            📝 Smart Wellness Journal
+          </h1>
 
-        <JournalSearch
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-        />
+          <button
+            onClick={clearAllEntries}
+            className="rounded-xl bg-red-600 px-5 py-3 font-semibold text-white transition hover:bg-red-700"
+          >
+            Clear All Entries
+          </button>
 
-        <JournalInsights entries={entries} />
-                <div className="mt-8 grid gap-8 lg:grid-cols-3">
+        </div>
 
-          {/* Journal Editor */}
+        <div className="mt-8">
+
+          <JournalStats entries={entries} />
+
+        </div>
+
+        <div className="mt-8">
+
+          <JournalSearch
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+          />
+
+        </div>
+
+        <div className="mt-8">
+
+          <JournalInsights entries={entries} />
+
+        </div>
+
+        <div className="mt-8 grid gap-8 lg:grid-cols-3">
+                    {/* Journal Editor */}
 
           <div className="lg:col-span-2">
 
