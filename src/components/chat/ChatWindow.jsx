@@ -1,4 +1,27 @@
+import ChatMessage from "./ChatMessage";
+
 function ChatWindow() {
+  const messages = [
+    {
+      id: 1,
+      sender: "ai",
+      message:
+        "Hello! I'm Mana AI. How are you feeling today?",
+    },
+    {
+      id: 2,
+      sender: "user",
+      message:
+        "I'm feeling a little stressed because of my assignments.",
+    },
+    {
+      id: 3,
+      sender: "ai",
+      message:
+        "I understand. Let's take things one step at a time. Would you like a short breathing exercise or help planning your work?",
+    },
+  ];
+
   return (
     <div className="flex h-full flex-col rounded-3xl bg-white p-8 shadow-xl dark:bg-gray-900">
 
@@ -14,23 +37,15 @@ function ChatWindow() {
 
       </div>
 
-      <div className="flex flex-1 items-center justify-center">
+      <div className="mt-6 flex-1 space-y-5 overflow-y-auto">
 
-        <div className="text-center">
-
-          <div className="text-6xl">
-            🤖
-          </div>
-
-          <h3 className="mt-6 text-3xl font-bold text-gray-900 dark:text-white">
-            Start your conversation
-          </h3>
-
-          <p className="mt-3 text-gray-600 dark:text-gray-400">
-            Your AI wellness companion is ready to help.
-          </p>
-
-        </div>
+        {messages.map((msg) => (
+          <ChatMessage
+            key={msg.id}
+            sender={msg.sender}
+            message={msg.message}
+          />
+        ))}
 
       </div>
 
