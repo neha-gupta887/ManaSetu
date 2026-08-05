@@ -1,3 +1,4 @@
+import MoodCalendar from "../components/dashboard/MoodCalendar";
 import UpcomingSessions from "../components/dashboard/UpcomingSessions";
 import WellnessTips from "../components/dashboard/WellnessTips";
 import DailyGoals from "../components/dashboard/DailyGoals";
@@ -218,9 +219,11 @@ function Dashboard() {
 
 {/* AI Workflow */}
 
-<div className="mt-8">
+<div className="grid xl:grid-cols-2 gap-8 mt-8">
 
   <AIWorkflow />
+
+  <MoodCalendar />
 
 </div>
         {/* Habit Tracker + Daily Challenge */}
