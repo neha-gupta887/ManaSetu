@@ -1,3 +1,4 @@
+import { addXP } from "./gardenService";
 import { analyzeJournal } from "./journalAIService";
 
 import {
@@ -33,7 +34,7 @@ export const saveJournal = async (
     // 🤖 Generate AI Analysis
     const aiAnalysis = await analyzeJournal(content);
 
-    // 💾 Save Journal + AI Analysis
+    // 💾 Save Journal
     await addDoc(collection(db, "journals"), {
       uid: user.uid,
       email: user.email,
@@ -47,6 +48,30 @@ export const saveJournal = async (
 
       createdAt: serverTimestamp(),
     });
+
+    // 🌱 Reward XP
+    try {
+      const xpRewards = {
+        gratitude: 15,
+        reflection: 12,
+        stress: 10,
+        anxiety: 10,
+        achievement: 20,
+        default: 10,
+      };
+
+      const earnedXP =
+        xpRewards[category] || xpRewards.default;
+
+      await addXP(earnedXP);
+
+      console.log(`🌱 +${earnedXP} XP awarded.`);
+    } catch (xpError) {
+      console.error(
+        "Failed to award XP:",
+        xpError
+      );
+    }
 
     console.log("✅ Journal saved successfully.");
 
@@ -105,6 +130,8 @@ export const deleteJournal = async (id) => {
   try {
     await deleteDoc(doc(db, "journals", id));
 
+    console.log("🗑️ Journal deleted.");
+
     return true;
   } catch (error) {
     console.error(
@@ -128,7 +155,8 @@ export const updateJournal = async (
 ) => {
   try {
     // 🤖 Re-analyze updated journal
-    const aiAnalysis = await analyzeJournal(content);
+    const aiAnalysis =
+      await analyzeJournal(content);
 
     await updateDoc(doc(db, "journals", id), {
       title,

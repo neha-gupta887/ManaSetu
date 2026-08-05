@@ -2,8 +2,24 @@ import { FaSeedling } from "react-icons/fa";
 
 function WellnessGarden() {
   // Temporary demo data
-  const xp = 120;
-  const level = 2;
+  import { useEffect, useState } from "react";
+import { getGardenData } from "../../services/gardenService";
+
+const [xp, setXP] = useState(0);
+const [level, setLevel] = useState(1);
+
+useEffect(() => {
+  const loadGarden = async () => {
+    const data = await getGardenData();
+
+    if (data) {
+      setXP(data.xp);
+      setLevel(data.level);
+    }
+  };
+
+  loadGarden();
+}, []);
   const nextLevelXP = 200;
 
   const progress = (xp / nextLevelXP) * 100;
