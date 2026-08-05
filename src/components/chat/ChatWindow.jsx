@@ -107,9 +107,9 @@ function ChatWindow() {
   return (
     <div className="flex h-full flex-col rounded-3xl bg-white p-8 shadow-xl dark:bg-gray-900">
 
-      {/* Header */}
+      {/* Sticky Header */}
 
-      <div className="flex items-center justify-between border-b border-gray-200 pb-5 dark:border-gray-700">
+      <div className="sticky top-0 z-10 flex items-center justify-between border-b border-gray-200 bg-white pb-5 dark:border-gray-700 dark:bg-gray-900">
 
         <div>
 
@@ -117,9 +117,15 @@ function ChatWindow() {
             🤖 Mana AI
           </h2>
 
-          <p className="text-sm text-emerald-600">
-            ● Online
-          </p>
+          <div className="mt-2 flex items-center gap-2">
+
+            <span className="h-3 w-3 animate-pulse rounded-full bg-emerald-500"></span>
+
+            <p className="text-sm font-medium text-emerald-600">
+              Online
+            </p>
+
+          </div>
 
         </div>
 
@@ -151,6 +157,30 @@ function ChatWindow() {
       {/* Messages */}
 
       <div className="mt-6 flex-1 space-y-5 overflow-y-auto pr-2">
+                {/* Empty State */}
+
+        {messages.length === 0 && (
+
+          <div className="mt-24 text-center">
+
+            <div className="text-6xl">
+              🤖
+            </div>
+
+            <h3 className="mt-5 text-3xl font-bold text-gray-900 dark:text-white">
+              Start chatting with Mana AI
+            </h3>
+
+            <p className="mt-3 text-gray-500 dark:text-gray-400">
+              Ask about stress, anxiety, sleep,
+              productivity or mental wellness.
+            </p>
+
+          </div>
+
+        )}
+
+        {/* Messages */}
 
         {messages.map((msg) => (
           <ChatMessage
@@ -161,11 +191,35 @@ function ChatWindow() {
           />
         ))}
 
+        {/* AI Typing Indicator */}
+
         {isTyping && (
           <div className="flex justify-start">
 
-            <div className="animate-pulse rounded-3xl bg-gray-200 px-5 py-3 text-gray-700 shadow-md dark:bg-gray-800 dark:text-gray-300">
-              🤖 Mana AI is typing...
+            <div className="rounded-3xl bg-gray-200 px-5 py-4 shadow-md dark:bg-gray-800">
+
+              <div className="flex items-center gap-2">
+
+                <span>🤖</span>
+
+                <div className="flex gap-1">
+
+                  <span className="h-2 w-2 animate-bounce rounded-full bg-gray-500"></span>
+
+                  <span
+                    className="h-2 w-2 animate-bounce rounded-full bg-gray-500"
+                    style={{ animationDelay: "0.15s" }}
+                  ></span>
+
+                  <span
+                    className="h-2 w-2 animate-bounce rounded-full bg-gray-500"
+                    style={{ animationDelay: "0.3s" }}
+                  ></span>
+
+                </div>
+
+              </div>
+
             </div>
 
           </div>
