@@ -5,9 +5,28 @@ import JournalHistory from "../components/journal/JournalHistory";
 
 function Journal() {
   const [entries, setEntries] = useState([]);
+  const [editingEntry, setEditingEntry] = useState(null);
 
-  const addEntry = (text) => {
+  const handleSave = (text) => {
     if (!text.trim()) return;
+
+    if (editingEntry) {
+      setEntries((prev) =>
+        prev.map((entry) =>
+          entry.id === editingEntry.id
+            ? {
+                ...entry,
+                title: text.slice(0, 40),
+                content: text,
+              }
+            : entry
+        )
+      );
+
+      setEditingEntry(null);
+
+      return;
+    }
 
     const newEntry = {
       id: Date.now(),
@@ -19,8 +38,25 @@ function Journal() {
     setEntries((prev) => [newEntry, ...prev]);
   };
 
+  const handleDelete = (id) => {
+    if (
+      !window.confirm(
+        "Delete this journal entry?"
+      )
+    )
+      return;
+
+    setEntries((prev) =>
+      prev.filter((entry) => entry.id !== id)
+    );
+  };
+
+  const handleEdit = (entry) => {
+    setEditingEntry(entry);
+  };
+
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-950 p-8">
+    <div className="min-h-screen bg-gray-100 p-8 dark:bg-gray-950">
 
       <div className="mx-auto max-w-7xl">
 
@@ -33,7 +69,8 @@ function Journal() {
           <div className="lg:col-span-2">
 
             <JournalEditor
-              onSave={addEntry}
+              onSave={handleSave}
+              editingEntry={editingEntry}
             />
 
           </div>
@@ -42,6 +79,8 @@ function Journal() {
 
             <JournalHistory
               entries={entries}
+              onDelete={handleDelete}
+              onEdit={handleEdit}
             />
 
           </div>

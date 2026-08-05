@@ -1,8 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaPen } from "react-icons/fa";
 
-function JournalEditor({ onSave }) {
+function JournalEditor({
+  onSave,
+  editingEntry,
+}) {
   const [text, setText] = useState("");
+
+  useEffect(() => {
+    if (editingEntry) {
+      setText(editingEntry.content);
+    }
+  }, [editingEntry]);
 
   const handleSave = () => {
     if (!text.trim()) return;
@@ -20,7 +29,9 @@ function JournalEditor({ onSave }) {
         <FaPen className="text-2xl text-emerald-600" />
 
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-          New Journal Entry
+          {editingEntry
+            ? "Edit Entry"
+            : "New Journal Entry"}
         </h2>
 
       </div>
@@ -28,7 +39,9 @@ function JournalEditor({ onSave }) {
       <textarea
         rows={12}
         value={text}
-        onChange={(e) => setText(e.target.value)}
+        onChange={(e) =>
+          setText(e.target.value)
+        }
         placeholder="Write about your day..."
         className="mt-6 w-full rounded-2xl border border-gray-300 p-5 outline-none focus:border-emerald-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
       />
@@ -37,7 +50,9 @@ function JournalEditor({ onSave }) {
         onClick={handleSave}
         className="mt-6 rounded-xl bg-emerald-600 px-6 py-3 text-white transition hover:bg-emerald-700"
       >
-        Save Entry
+        {editingEntry
+          ? "Update Entry"
+          : "Save Entry"}
       </button>
 
     </div>
