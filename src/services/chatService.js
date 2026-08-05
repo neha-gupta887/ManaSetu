@@ -5,11 +5,15 @@ import {
   where,
   getDocs,
   serverTimestamp,
+  deleteDoc,
+  doc,
 } from "firebase/firestore";
 
 import { auth, db } from "./firebase";
 
-// Save a chat message
+// =====================================
+// Save Chat Message
+// =====================================
 export async function saveChatMessage(sender, text) {
   try {
     const user = auth.currentUser;
@@ -28,7 +32,9 @@ export async function saveChatMessage(sender, text) {
   }
 }
 
-// Load chat history
+// =====================================
+// Get Chat History
+// =====================================
 export async function getChatHistory() {
   try {
     const user = auth.currentUser;
@@ -49,12 +55,42 @@ export async function getChatHistory() {
 
     chats.sort((a, b) => {
       if (!a.createdAt || !b.createdAt) return 0;
-      return a.createdAt.seconds - b.createdAt.seconds;
+
+      return (
+        a.createdAt.seconds -
+        b.createdAt.seconds
+      );
     });
 
     return chats;
   } catch (error) {
-    console.error(error);
+    console.error("Error loading chat:", error);
     return [];
+  }
+}
+
+// =====================================
+// Clear Chat History
+// =====================================
+export async function clearChatHistory() {
+  try {
+    const chats = await getChatHistory();
+
+    for (const chat of chats) {
+      await deleteDoc(
+        doc(db, "chatHistory", chat.id)
+      );
+    }
+
+    console.log("✅ Chat history cleared.");
+
+    return true;
+  } catch (error) {
+    console.error(
+      "Error clearing chat:",
+      error
+    );
+
+    return false;
   }
 }
