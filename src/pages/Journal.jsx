@@ -9,7 +9,7 @@ function Journal() {
   const [editingEntry, setEditingEntry] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const handleSave = (text, mood) => {
+  const handleSave = (text, mood, category) => {
     if (!text.trim()) return;
 
     if (editingEntry) {
@@ -21,6 +21,7 @@ function Journal() {
                 title: text.slice(0, 40),
                 content: text,
                 mood,
+                category,
               }
             : entry
         )
@@ -35,10 +36,31 @@ function Journal() {
       title: text.slice(0, 40),
       content: text,
       mood,
+      category,
       date: new Date().toLocaleDateString(),
     };
 
     setEntries((prev) => [newEntry, ...prev]);
+  };
+
+  const handleDelete = (id) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this journal entry?"
+    );
+
+    if (!confirmed) return;
+
+    setEntries((prev) =>
+      prev.filter((entry) => entry.id !== id)
+    );
+
+    if (editingEntry?.id === id) {
+      setEditingEntry(null);
+    }
+  };
+
+  const handleEdit = (entry) => {
+    setEditingEntry(entry);
   };
 
   const filteredEntries = entries.filter((entry) => {
@@ -47,7 +69,8 @@ function Journal() {
     return (
       entry.title.toLowerCase().includes(search) ||
       entry.content.toLowerCase().includes(search) ||
-      entry.mood.includes(search)
+      entry.mood.includes(search) ||
+      entry.category.toLowerCase().includes(search)
     );
   });
 
@@ -80,12 +103,8 @@ function Journal() {
 
             <JournalHistory
               entries={filteredEntries}
-              onEdit={setEditingEntry}
-              onDelete={(id) =>
-                setEntries((prev) =>
-                  prev.filter((entry) => entry.id !== id)
-                )
-              }
+              onEdit={handleEdit}
+              onDelete={handleDelete}
             />
 
           </div>

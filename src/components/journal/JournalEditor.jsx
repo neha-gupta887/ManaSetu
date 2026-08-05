@@ -3,27 +3,39 @@ import { FaPen } from "react-icons/fa";
 
 const moods = ["😊", "😄", "😐", "😔", "😢", "😴", "😡"];
 
+const categories = [
+  "Personal",
+  "Work",
+  "Study",
+  "Health",
+  "Gratitude",
+  "Relationships",
+];
+
 function JournalEditor({
   onSave,
   editingEntry,
 }) {
   const [text, setText] = useState("");
   const [mood, setMood] = useState("😊");
+  const [category, setCategory] = useState("Personal");
 
   useEffect(() => {
     if (editingEntry) {
       setText(editingEntry.content);
       setMood(editingEntry.mood);
+      setCategory(editingEntry.category || "Personal");
     }
   }, [editingEntry]);
 
   const handleSave = () => {
     if (!text.trim()) return;
 
-    onSave(text, mood);
+    onSave(text, mood, category);
 
     setText("");
     setMood("😊");
+    setCategory("Personal");
   };
 
   return (
@@ -42,7 +54,6 @@ function JournalEditor({
       </h3>
 
       <div className="mt-4 flex flex-wrap gap-3">
-
         {moods.map((item) => (
           <button
             key={item}
@@ -56,7 +67,24 @@ function JournalEditor({
             {item}
           </button>
         ))}
+      </div>
 
+      <div className="mt-6">
+        <label className="mb-2 block font-semibold text-gray-700 dark:text-gray-300">
+          Category
+        </label>
+
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="w-full rounded-xl border border-gray-300 p-3 outline-none focus:border-emerald-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+        >
+          {categories.map((item) => (
+            <option key={item}>
+              {item}
+            </option>
+          ))}
+        </select>
       </div>
 
       <textarea
