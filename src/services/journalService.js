@@ -1,3 +1,5 @@
+import { analyzeJournal } from "./journalAIService";
+
 import {
   addDoc,
   collection,
@@ -13,7 +15,7 @@ import {
 import { auth, db } from "./firebase";
 
 // ===============================
-// Save Journal Entry
+// Save Journal Entry with AI Analysis
 // ===============================
 export const saveJournal = async (
   title,
@@ -28,6 +30,10 @@ export const saveJournal = async (
       throw new Error("User is not logged in.");
     }
 
+    // 🤖 Generate AI Analysis
+    const aiAnalysis = await analyzeJournal(content);
+
+    // 💾 Save Journal + AI Analysis
     await addDoc(collection(db, "journals"), {
       uid: user.uid,
       email: user.email,
@@ -37,8 +43,12 @@ export const saveJournal = async (
       mood,
       category,
 
+      aiAnalysis,
+
       createdAt: serverTimestamp(),
     });
+
+    console.log("✅ Journal saved successfully.");
 
     return true;
   } catch (error) {
@@ -91,9 +101,7 @@ export const getJournalHistory = async () => {
 // ===============================
 // Delete Journal
 // ===============================
-export const deleteJournal = async (
-  id
-) => {
+export const deleteJournal = async (id) => {
   try {
     await deleteDoc(doc(db, "journals", id));
 
@@ -119,13 +127,19 @@ export const updateJournal = async (
   category
 ) => {
   try {
+    // 🤖 Re-analyze updated journal
+    const aiAnalysis = await analyzeJournal(content);
+
     await updateDoc(doc(db, "journals", id), {
       title,
       content,
       mood,
       category,
+      aiAnalysis,
       updatedAt: serverTimestamp(),
     });
+
+    console.log("✅ Journal updated successfully.");
 
     return true;
   } catch (error) {
