@@ -50,13 +50,13 @@ function Dashboard() {
   return (
     <div
       className="min-h-screen bg-gradient-to-br
-      from-emerald-50
-      via-white
-      to-cyan-50
-      dark:from-gray-950
+      from-emerald-100
+      via-teal-50
+      to-cyan-100
+      dark:from-slate-950
       dark:via-gray-900
-      dark:to-black
-      transition-all duration-500"
+      dark:to-slate-950
+      transition-all duration-700"
     >
       <Sidebar />
 

@@ -1,3 +1,5 @@
+import GlassCard from "../ui/GlassCard";
+
 function RecentActivity() {
   const activities = [
     {
@@ -31,36 +33,49 @@ function RecentActivity() {
   ];
 
   return (
-    <div className="rounded-3xl bg-white dark:bg-gray-900 shadow-xl p-8">
+    <GlassCard className="p-8">
 
-      <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-        Recent Activity
-      </h2>
+      <div className="flex items-center justify-between">
+
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+          Recent Activity
+        </h2>
+
+        <span className="rounded-full bg-emerald-100 px-3 py-1 text-sm font-semibold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
+          Today
+        </span>
+
+      </div>
 
       <div className="mt-6 space-y-5">
 
         {activities.map((activity) => (
           <div
             key={activity.id}
-            className="flex items-start gap-4 rounded-2xl border border-gray-200 dark:border-gray-700 p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition"
+            className="flex items-start gap-4 rounded-2xl border border-gray-200 dark:border-gray-700 p-4 transition-all duration-300 hover:-translate-y-1 hover:bg-gray-50 hover:shadow-lg dark:hover:bg-gray-800"
           >
-            <div className="text-3xl">
+
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-100 text-2xl dark:bg-emerald-900/40">
               {activity.icon}
             </div>
 
             <div className="flex-1">
 
-              <h3 className="font-semibold text-gray-900 dark:text-white">
-                {activity.title}
-              </h3>
+              <div className="flex items-center justify-between">
 
-              <p className="mt-1 text-gray-600 dark:text-gray-300">
+                <h3 className="font-semibold text-gray-900 dark:text-white">
+                  {activity.title}
+                </h3>
+
+                <span className="text-xs text-gray-500">
+                  {activity.time}
+                </span>
+
+              </div>
+
+              <p className="mt-2 text-gray-600 dark:text-gray-300">
                 {activity.description}
               </p>
-
-              <span className="mt-2 inline-block text-sm text-gray-500">
-                {activity.time}
-              </span>
 
             </div>
 
@@ -69,7 +84,7 @@ function RecentActivity() {
 
       </div>
 
-    </div>
+    </GlassCard>
   );
 }
 
