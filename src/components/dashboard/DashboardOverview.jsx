@@ -1,30 +1,29 @@
-import StatCard from "../ui/StatCard";
-
+import AnimatedStatCard from "./AnimatedStatCard";
 function DashboardOverview({ stats }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
-      <StatCard
+      <AnimatedStatCard
         title="Wellness Score"
         value={`${stats.wellnessScore}%`}
         icon="🌿"
         color="emerald"
       />
 
-      <StatCard
+      <AnimatedStatCard
         title="Current Streak"
         value={`${stats.streak} Days`}
         icon="🔥"
         color="yellow"
       />
 
-      <StatCard
+      <AnimatedStatCard
         title="Journal Entries"
         value={stats.journalEntries}
         icon="📖"
         color="blue"
       />
 
-      <StatCard
+      <AnimatedStatCard
         title="Today's Mood"
         value={stats.currentMood}
         icon="😊"
