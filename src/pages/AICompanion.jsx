@@ -1,3 +1,7 @@
+import {
+  saveChatMessage,
+  getChatHistory,
+} from "../services/chatService";
 import { useEffect, useRef, useState } from "react";
 import {
   FaRobot,
@@ -44,7 +48,28 @@ function AICompanion() {
   const { setAgentResult } = useAgent();
 
   const chatRef = useRef(null);
+  useEffect(() => {
+  async function loadChats() {
+    const history = await getChatHistory();
 
+    if (history.length > 0) {
+      setMessages(
+        history.map((chat) => ({
+          sender: chat.sender,
+          text: chat.text,
+          time: chat.createdAt?.toDate
+            ? chat.createdAt.toDate().toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })
+            : "",
+        }))
+      );
+    }
+  }
+
+  loadChats();
+}, []);
   // ===========================
   // Suggested Prompts
   // ===========================
@@ -92,6 +117,7 @@ const handleSend = async () => {
       }),
     },
   ]);
+  await saveChatMessage("user", userMessage);
 
   setInput("");
 
@@ -311,13 +337,17 @@ const handleSend = async () => {
   ...prev,
   {
     sender: "ai",
-    text: aiReply,
+    text: "❌ Sorry, something went wrong. Please try again.",
     time: new Date().toLocaleTimeString([], {
       hour: "2-digit",
       minute: "2-digit",
     }),
   },
 ]);
+await saveChatMessage(
+  "ai",
+  aiReply
+);
 
     } catch (error) {
       console.error(error);
