@@ -1,7 +1,24 @@
+import { useState } from "react";
+
 import JournalEditor from "../components/journal/JournalEditor";
 import JournalHistory from "../components/journal/JournalHistory";
 
 function Journal() {
+  const [entries, setEntries] = useState([]);
+
+  const addEntry = (text) => {
+    if (!text.trim()) return;
+
+    const newEntry = {
+      id: Date.now(),
+      title: text.slice(0, 40),
+      content: text,
+      date: new Date().toLocaleDateString(),
+    };
+
+    setEntries((prev) => [newEntry, ...prev]);
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-950 p-8">
 
@@ -14,11 +31,19 @@ function Journal() {
         <div className="grid gap-8 lg:grid-cols-3">
 
           <div className="lg:col-span-2">
-            <JournalEditor />
+
+            <JournalEditor
+              onSave={addEntry}
+            />
+
           </div>
 
           <div>
-            <JournalHistory />
+
+            <JournalHistory
+              entries={entries}
+            />
+
           </div>
 
         </div>
