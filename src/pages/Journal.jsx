@@ -1,221 +1,39 @@
-import toast from "react-hot-toast";
-import { useEffect, useState } from "react";
-import { FaBookOpen, FaSave, FaTrash, FaEdit, FaTimes } from "react-icons/fa";
-import {
-  saveJournal,
-  getJournalHistory,
-  deleteJournal,
-  updateJournal,
-} from "../services/journalService";
-import useAuth from "../hooks/useAuth";
+import { FaBookOpen } from "react-icons/fa";
 
 function Journal() {
-  const user = useAuth();
-
-  const [journal, setJournal] = useState("");
-  const [entries, setEntries] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  // Edit State
-  const [isEditing, setIsEditing] = useState(false);
-  const [editId, setEditId] = useState(null);
-
-  // Load Journals
-  const loadJournals = async () => {
-    const data = await getJournalHistory();
-    setEntries(data);
-  };
-
-  // Wait for Firebase Auth before loading journals
-  useEffect(() => {
-    if (user === undefined) return;
-
-    if (!user) return;
-
-    loadJournals();
-  }, [user]);
-
-  // Save or Update Journal
-  const handleSave = async () => {
-    if (!journal.trim()) {
-      toast.success("Please write something before saving.");
-      return;
-    }
-
-    setLoading(true);
-
-    let success = false;
-
-    if (isEditing) {
-      success = await updateJournal(editId, journal);
-
-      if (success) {
-        toast.success("✅ Journal updated successfully!");
-      }
-    } else {
-      success = await saveJournal(journal);
-
-      if (success) {
-        toast.success("✅ Journal saved successfully!");
-      }
-    }
-
-    if (success) {
-      setJournal("");
-      setIsEditing(false);
-      setEditId(null);
-      await loadJournals();
-    } else {
-      toast.success("❌ Something went wrong.");
-    }
-
-    setLoading(false);
-  };
-
-  // Delete Journal
-  const handleDelete = async (id) => {
-    if (!window.confirm("Delete this journal entry?")) return;
-
-    const success = await deleteJournal(id);
-
-    if (success) {
-      toast.success("🗑 Journal deleted.");
-      await loadJournals();
-    }
-  };
-
-  // Edit Journal
-  const handleEdit = (entry) => {
-    setJournal(entry.content);
-    setEditId(entry.id);
-    setIsEditing(true);
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
-  // Cancel Edit
-  const handleCancel = () => {
-    setJournal("");
-    setEditId(null);
-    setIsEditing(false);
-  };
-
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300 p-8">
-      <div className="max-w-5xl mx-auto">
-        {/* Heading */}
-        <div className="flex items-center gap-3 mb-8">
-          <FaBookOpen className="text-4xl text-green-600 dark:text-emerald-400" />
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-cyan-50 dark:from-gray-950 dark:via-gray-900 dark:to-black">
 
-          <div>
-            <h1 className="text-4xl font-bold text-gray-800 dark:text-white">
-              My Journal
+      <div className="mx-auto flex min-h-screen max-w-6xl items-center justify-center px-6">
+
+        <div className="w-full rounded-3xl bg-white p-12 shadow-2xl dark:bg-gray-900">
+
+          <div className="flex flex-col items-center text-center">
+
+            <div className="flex h-24 w-24 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/40">
+              <FaBookOpen className="text-5xl text-emerald-600" />
+            </div>
+
+            <h1 className="mt-8 text-4xl font-bold text-gray-900 dark:text-white">
+              Smart Wellness Journal
             </h1>
 
-            <p className="text-gray-500 dark:text-gray-400">
-              Write your thoughts and reflect on your day.
+            <p className="mt-4 max-w-2xl text-lg text-gray-600 dark:text-gray-300">
+              Record your thoughts, emotions, gratitude,
+              and daily experiences. Build healthy habits
+              while tracking your emotional wellbeing.
             </p>
+
+            <button className="mt-10 rounded-2xl bg-emerald-600 px-8 py-4 text-lg font-semibold text-white transition hover:bg-emerald-700">
+              Create Your First Entry
+            </button>
+
           </div>
+
         </div>
 
-        {/* Form */}
-        <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-lg p-8 transition-colors duration-300">
-          <textarea
-            rows={8}
-            value={journal}
-            onChange={(e) => setJournal(e.target.value)}
-            placeholder="Write something..."
-            className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-2xl p-5 resize-none focus:outline-none focus:ring-2 focus:ring-green-500"
-          />
-
-          <div className="flex justify-between items-center mt-4">
-            <span className="text-gray-500 dark:text-gray-400">
-              {journal.length} characters
-            </span>
-
-            <div className="flex gap-3">
-              {isEditing && (
-                <button
-                  onClick={handleCancel}
-                  className="flex items-center gap-2 bg-gray-500 hover:bg-gray-600 text-white px-5 py-3 rounded-xl transition"
-                >
-                  <FaTimes />
-                  Cancel
-                </button>
-              )}
-
-              <button
-                onClick={handleSave}
-                disabled={loading}
-                className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl transition"
-              >
-                <FaSave />
-
-                {loading
-                  ? "Saving..."
-                  : isEditing
-                  ? "Update Entry"
-                  : "Save Entry"}
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* History */}
-        <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-lg p-8 mt-8 transition-colors duration-300">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
-            📖 Previous Entries
-          </h2>
-
-          {entries.length === 0 ? (
-            <p className="text-gray-500 dark:text-gray-400">
-              No journal entries yet.
-            </p>
-          ) : (
-            <div className="space-y-4">
-              {entries.map((entry) => (
-                <div
-                  key={entry.id}
-                  className="border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 rounded-2xl p-5 transition-colors duration-300"
-                >
-                  <p className="whitespace-pre-wrap text-gray-800 dark:text-white">
-                    {entry.content}
-                  </p>
-
-                  <div className="flex justify-between items-center mt-5">
-                    <span className="text-sm text-gray-500 dark:text-gray-400">
-                      {entry.createdAt?.toDate
-                        ? entry.createdAt.toDate().toLocaleString()
-                        : "Just now"}
-                    </span>
-
-                    <div className="flex gap-3">
-                      <button
-                        onClick={() => handleEdit(entry)}
-                        className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition"
-                      >
-                        <FaEdit />
-                        Edit
-                      </button>
-
-                      <button
-                        onClick={() => handleDelete(entry.id)}
-                        className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition"
-                      >
-                        <FaTrash />
-                        Delete
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
       </div>
+
     </div>
   );
 }

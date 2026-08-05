@@ -1,3 +1,4 @@
+import Journal from "./pages/Journal";
 import AIChat from "./pages/AIChat";
 import Notifications from "./pages/Notifications";
 import Memory from "./pages/Memory";
@@ -20,6 +21,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/journal" element={<Journal />} />
         <Route path="/chat" element={<AIChat />} />
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/memory" element={<Memory />} />
