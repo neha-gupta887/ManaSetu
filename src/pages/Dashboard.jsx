@@ -25,18 +25,33 @@ import DailyChallengeCard from "../components/DailyChallengeCard";
 import QuoteCard from "../components/dashboard/QuoteCard";
 import MoodReminder from "../components/MoodReminder";
 function Dashboard() {
-  const stats = getDashboardStats();
-
+const [stats, setStats] = useState({
+  wellnessScore: 0,
+  streak: 0,
+  journalEntries: 0,
+  currentMood: "Loading...",
+  totalMoodEntries: 0,
+});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+  const loadDashboard = async () => {
+    try {
+      const data = await getDashboardStats();
+
+      setStats(data);
+
+      setTimeout(() => {
+        setLoading(false);
+      }, 900);
+    } catch (error) {
+      console.error(error);
       setLoading(false);
-    }, 900);
+    }
+  };
 
-    return () => clearTimeout(timer);
-  }, []);
-
+  loadDashboard();
+}, []);
   if (loading) {
     return <LoadingSpinner />;
   }
@@ -113,7 +128,7 @@ function Dashboard() {
                 </p>
 
                 <h2 className="mt-2 text-4xl font-bold">
-                  🔥 12
+                  🔥 {stats.streak}
                 </h2>
 
               </div>
@@ -125,7 +140,7 @@ function Dashboard() {
                 </p>
 
                 <h2 className="mt-2 text-4xl font-bold">
-                  24
+                  {stats.journalEntries}
                 </h2>
 
               </div>
@@ -137,7 +152,7 @@ function Dashboard() {
                 </p>
 
                 <h2 className="mt-2 text-4xl font-bold">
-                  58
+                  {stats.totalMoodEntries}
                 </h2>
 
               </div>

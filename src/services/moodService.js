@@ -44,7 +44,8 @@ export const getMoodHistory = async () => {
     const user = auth.currentUser;
 
     if (!user) {
-      console.error("❌ No logged-in user found while fetching moods.");
+      console.log("⏳ Waiting for user authentication...");
+return [];
       return [];
     }
 

@@ -221,7 +221,7 @@ function Hero() {
 
               <h3 className="text-5xl font-extrabold mt-3">
 
-                92%
+               {stats.wellnessScore}%
 
               </h3>
 

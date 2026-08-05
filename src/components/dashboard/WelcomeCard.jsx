@@ -131,7 +131,7 @@ function WelcomeCard() {
           <div className="rounded-2xl border border-white/20 bg-white/15 p-5 text-center backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 hover:bg-white/20">
 
             <h3 className="text-3xl font-bold">
-              92%
+              {stats.wellnessScore}%
             </h3>
 
             <p className="mt-2 text-sm text-green-100">

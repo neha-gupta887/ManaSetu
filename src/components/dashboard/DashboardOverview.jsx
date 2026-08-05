@@ -26,7 +26,7 @@ function DashboardOverview({ stats }) {
       <AnimatedStatCard
         title="Today's Mood"
         value={stats.currentMood}
-        icon="😊"
+        icon="{stats.currentMood}"
         color="purple"
       />
     </div>
