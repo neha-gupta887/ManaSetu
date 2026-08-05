@@ -476,3 +476,151 @@ function Dashboard() {
   </div>
 
 </section>
+{/* =========================
+      YOUR JOURNEY
+========================= */}
+
+<section className="mt-16">
+
+  <div className="mb-10">
+
+    <span className="rounded-full bg-amber-100 px-4 py-2 text-sm font-semibold text-amber-700 dark:bg-amber-900 dark:text-amber-200">
+
+      📖 Reflection
+
+    </span>
+
+    <h2 className="mt-5 text-4xl font-bold text-gray-900 dark:text-white">
+
+      Your Wellness Journey
+
+    </h2>
+
+    <p className="mt-3 max-w-3xl text-lg text-gray-600 dark:text-gray-400">
+
+      Reflect on your recent activities, celebrate your progress,
+      and stay inspired every day.
+
+    </p>
+
+  </div>
+
+  <div className="grid gap-8 xl:grid-cols-2">
+
+    <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
+
+      <RecentActivity />
+
+    </div>
+
+    <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
+
+      <QuoteCard />
+
+    </div>
+
+  </div>
+
+</section>
+
+{/* =========================
+      MINDFULNESS CORNER
+========================= */}
+
+<section className="mt-16">
+
+  <div className="rounded-[36px] bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-500 p-10 text-white shadow-2xl">
+
+    <div className="flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between">
+
+      <div>
+
+        <span className="rounded-full bg-white/20 px-4 py-2 text-sm font-semibold backdrop-blur">
+
+          🌿 Mindfulness Corner
+
+        </span>
+
+        <h2 className="mt-5 text-4xl font-extrabold">
+
+          Pause. Breathe. Reset.
+
+        </h2>
+
+        <p className="mt-5 max-w-2xl text-lg leading-8 text-cyan-100">
+
+          Your mind deserves moments of peace.
+
+          Take a short break,
+          relax your thoughts,
+          and reconnect with yourself.
+
+        </p>
+
+      </div>
+
+      <div className="grid grid-cols-2 gap-5">
+
+        <MindCard
+          emoji="🌬"
+          title="Deep Breathing"
+        />
+
+        <MindCard
+          emoji="🎵"
+          title="Relaxing Music"
+        />
+
+        <MindCard
+          emoji="🧘"
+          title="Meditation"
+        />
+
+        <MindCard
+          emoji="🌙"
+          title="Sleep Better"
+        />
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+{/* =========================
+      DAILY REMINDER
+========================= */}
+
+<section className="mt-16">
+
+  <div className="mb-8">
+
+    <span className="rounded-full bg-rose-100 px-4 py-2 text-sm font-semibold text-rose-700 dark:bg-rose-900 dark:text-rose-200">
+
+      💚 Wellness Reminder
+
+    </span>
+
+    <h2 className="mt-5 text-4xl font-bold text-gray-900 dark:text-white">
+
+      Keep Your Streak Alive
+
+    </h2>
+
+    <p className="mt-3 text-lg text-gray-600 dark:text-gray-400">
+
+      A small action today creates a healthier tomorrow.
+
+    </p>
+
+  </div>
+
+  <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
+
+    <MoodReminder />
+
+  </div>
+
+</section>
