@@ -1,3 +1,4 @@
+import WellnessGarden from "../components/dashboard/WellnessGarden";
 import DashboardHero from "../components/dashboard/DashboardHero";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -105,7 +106,11 @@ const dailyMessage =
 
       <main className="lg:ml-72 px-6 py-8">
 
-        <Topbar />
+        <DashboardHero
+  stats={stats}
+  greeting={greeting}
+  dailyMessage={dailyMessage}
+/>
 
         
 
@@ -159,17 +164,25 @@ const dailyMessage =
 
           <div className="grid gap-8 xl:grid-cols-2">
 
-            <MoodAnalyticsChart />
+  <MoodAnalyticsChart />
 
-            <MoodDistributionChart />
+  <MoodDistributionChart />
 
-          </div>
+</div>
 
-          <div className="mt-8">
+<div className="mt-8">
 
-            <WellnessHeatmap />
+  <WellnessHeatmap />
 
-          </div>
+</div>
+
+{/* Wellness Garden */}
+
+<div className="mt-10">
+
+  <WellnessGarden />
+
+</div>
 
         </section>
 
