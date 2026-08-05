@@ -1,3 +1,4 @@
+import AIRecommendations from "../components/dashboard/AIRecommendations";
 import MoodCalendar from "../components/dashboard/MoodCalendar";
 import UpcomingSessions from "../components/dashboard/UpcomingSessions";
 import WellnessTips from "../components/dashboard/WellnessTips";
@@ -228,13 +229,15 @@ function Dashboard() {
 </div>
         {/* Habit Tracker + Daily Challenge */}
 
-        <div className="grid xl:grid-cols-2 gap-8 mt-8">
+        <div className="grid xl:grid-cols-3 gap-8 mt-8">
 
-          <HabitTrackerCard />
+  <HabitTrackerCard />
 
-          <DailyChallengeCard />
+  <DailyChallengeCard />
 
-        </div>
+  <AIRecommendations />
+
+</div>
 
         {/* Daily Quote */}
 
