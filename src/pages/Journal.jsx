@@ -1,9 +1,10 @@
-import JournalStats from "../components/journal/JournalStats";
 import { useState } from "react";
 
 import JournalEditor from "../components/journal/JournalEditor";
 import JournalHistory from "../components/journal/JournalHistory";
 import JournalSearch from "../components/journal/JournalSearch";
+import JournalStats from "../components/journal/JournalStats";
+import JournalInsights from "../components/journal/JournalInsights";
 
 function Journal() {
   const [entries, setEntries] = useState([]);
@@ -81,16 +82,20 @@ function Journal() {
       <div className="mx-auto max-w-7xl">
 
         <h1 className="mb-8 text-4xl font-bold text-gray-900 dark:text-white">
-          <JournalStats entries={entries} />
           📝 Smart Wellness Journal
         </h1>
+
+        <JournalStats entries={entries} />
 
         <JournalSearch
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
         />
 
-        <div className="mt-8 grid gap-8 lg:grid-cols-3">
+        <JournalInsights entries={entries} />
+                <div className="mt-8 grid gap-8 lg:grid-cols-3">
+
+          {/* Journal Editor */}
 
           <div className="lg:col-span-2">
 
@@ -100,6 +105,8 @@ function Journal() {
             />
 
           </div>
+
+          {/* Journal History */}
 
           <div>
 
