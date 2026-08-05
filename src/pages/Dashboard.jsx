@@ -1,3 +1,4 @@
+import AIQuickChat from "../components/dashboard/AIQuickChat";
 import RecentJournal from "../components/dashboard/RecentJournal";
 import NotificationPreview from "../components/dashboard/NotificationPreview";
 import DashboardSearch from "../components/dashboard/DashboardSearch";
@@ -240,7 +241,7 @@ function Dashboard() {
 </div>
         {/* Habit Tracker + Daily Challenge */}
 
-        <<div className="grid xl:grid-cols-4 gap-8 mt-8">
+        <div className="grid xl:grid-cols-4 gap-8 mt-8">
 
   <HabitTrackerCard />
 
@@ -254,11 +255,13 @@ function Dashboard() {
 
         {/* Daily Quote */}
 
-        <div className="mt-8">
+        <div className="grid xl:grid-cols-2 gap-8 mt-8">
 
-          <QuoteCard />
+  <QuoteCard />
 
-        </div>
+  <AIQuickChat />
+
+</div>
 
         {/* Motivation Banner */}
 
