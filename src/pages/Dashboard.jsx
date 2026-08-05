@@ -1,34 +1,42 @@
-import AIQuickChat from "../components/dashboard/AIQuickChat";
-import RecentJournal from "../components/dashboard/RecentJournal";
-import NotificationPreview from "../components/dashboard/NotificationPreview";
-import DashboardSearch from "../components/dashboard/DashboardSearch";
-import AIRecommendations from "../components/dashboard/AIRecommendations";
-import MoodCalendar from "../components/dashboard/MoodCalendar";
-import UpcomingSessions from "../components/dashboard/UpcomingSessions";
-import WellnessTips from "../components/dashboard/WellnessTips";
-import DailyGoals from "../components/dashboard/DailyGoals";
-import WeeklyProgress from "../components/dashboard/WeeklyProgress";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import Sidebar from "../components/dashboard/Sidebar";
 import Topbar from "../components/dashboard/Topbar";
+import DashboardSearch from "../components/dashboard/DashboardSearch";
+import WidgetToggle from "../components/dashboard/WidgetToggle";
+
 import WelcomeCard from "../components/dashboard/WelcomeCard";
-import MoodSection from "../components/dashboard/MoodSection";
-import QuickActions from "../components/dashboard/QuickActions";
-import QuoteCard from "../components/dashboard/QuoteCard";
-import MoodHistory from "../components/dashboard/MoodHistory";
 import DashboardOverview from "../components/dashboard/DashboardOverview";
 import RecentActivity from "../components/dashboard/RecentActivity";
+import WeeklyProgress from "../components/dashboard/WeeklyProgress";
 
-import MoodReminder from "../components/MoodReminder";
+import MoodSection from "../components/dashboard/MoodSection";
+import QuickActions from "../components/dashboard/QuickActions";
+import DailyGoals from "../components/dashboard/DailyGoals";
+
+import WellnessInsights from "../components/WellnessInsights";
+import AIInsightCard from "../components/AIInsightCard";
+import WellnessTips from "../components/dashboard/WellnessTips";
+
+import MoodHistory from "../components/dashboard/MoodHistory";
+import WellnessTimeline from "../components/WellnessTimeline";
+import UpcomingSessions from "../components/dashboard/UpcomingSessions";
+
+import AIWorkflow from "../components/AIWorkflow";
+import MoodCalendar from "../components/dashboard/MoodCalendar";
+import NotificationPreview from "../components/dashboard/NotificationPreview";
+
 import HabitTrackerCard from "../components/HabitTrackerCard";
 import DailyChallengeCard from "../components/DailyChallengeCard";
+import AIRecommendations from "../components/dashboard/AIRecommendations";
+import RecentJournal from "../components/dashboard/RecentJournal";
+
+import QuoteCard from "../components/dashboard/QuoteCard";
+import AIQuickChat from "../components/dashboard/AIQuickChat";
+
+import MoodReminder from "../components/MoodReminder";
 import WellnessScoreCard from "../components/WellnessScoreCard";
-import WellnessInsights from "../components/WellnessInsights";
-import WellnessTimeline from "../components/WellnessTimeline";
-import AIInsightCard from "../components/AIInsightCard";
-import AIWorkflow from "../components/AIWorkflow";
 
 import LoadingSpinner from "../components/LoadingSpinner";
 
@@ -38,6 +46,10 @@ function Dashboard() {
   const stats = getDashboardStats();
 
   const [loading, setLoading] = useState(true);
+
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const [showWidgets, setShowWidgets] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -66,55 +78,76 @@ function Dashboard() {
 
       <main className="lg:ml-72 px-5 sm:px-8 py-8">
 
-        
-        <div className="mt-8">
-  <DashboardSearch
-    searchTerm={searchTerm}
-    setSearchTerm={setSearchTerm}
-  />
-</div>
+        <Topbar />
 
         <div className="mt-8">
-
-          <span className="rounded-full bg-emerald-100 dark:bg-emerald-900/40 px-4 py-2 text-sm font-semibold text-emerald-700 dark:text-emerald-300">
-            🌿 AI Powered Mental Wellness Platform
-          </span>
-
-          <h1 className="mt-5 text-4xl lg:text-5xl font-extrabold text-gray-900 dark:text-white">
-            AI Wellness Dashboard
-          </h1>
-
-          <p className="mt-3 max-w-3xl text-lg leading-8 text-gray-600 dark:text-gray-300">
-            Welcome back! Monitor your emotional wellbeing,
-            mood history, AI insights, wellness score,
-            daily habits and personalized recommendations
-            in one intelligent dashboard.
-          </p>
-
+          <DashboardSearch
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+          />
         </div>
 
-        <div className="mt-10">
-          <WelcomeCard />
+        <div className="mt-4 flex justify-end">
+          <WidgetToggle
+            showWidgets={showWidgets}
+            setShowWidgets={setShowWidgets}
+          />
         </div>
 
-        <div className="mt-8">
-          <WellnessScoreCard score={stats.wellnessScore} />
-        </div>
+        {showWidgets && (
+          <>
 
-        <div className="mt-8">
-          <DashboardOverview stats={stats} />
-        </div>
+            {/* Hero */}
 
-        <div className="grid xl:grid-cols-2 gap-8 mt-8">
+            <div className="mt-8">
 
-  <RecentActivity />
+              <span className="rounded-full bg-emerald-100 dark:bg-emerald-900/40 px-4 py-2 text-sm font-semibold text-emerald-700 dark:text-emerald-300">
+                🌿 AI Powered Mental Wellness Platform
+              </span>
 
-  <WeeklyProgress />
+              <h1 className="mt-5 text-4xl lg:text-5xl font-extrabold text-gray-900 dark:text-white">
+                AI Wellness Dashboard
+              </h1>
 
-</div>
+              <p className="mt-3 max-w-3xl text-lg leading-8 text-gray-600 dark:text-gray-300">
+                Welcome back! Monitor your emotional wellbeing,
+                mood history, AI insights, wellness score,
+                daily habits and personalized recommendations
+                in one intelligent dashboard.
+              </p>
 
-        {/* Quick Access */}
-        {/* Quick Access */}
+            </div>
+
+            {/* Welcome */}
+
+            <div className="mt-10">
+              <WelcomeCard />
+            </div>
+
+            {/* Wellness Score */}
+
+            <div className="mt-8">
+              <WellnessScoreCard score={stats.wellnessScore} />
+            </div>
+
+            {/* Dashboard Overview */}
+
+            <div className="mt-8">
+              <DashboardOverview stats={stats} />
+            </div>
+
+            {/* Recent Activity + Weekly Progress */}
+
+            <div className="grid xl:grid-cols-2 gap-8 mt-8">
+
+              <RecentActivity />
+
+              <WeeklyProgress />
+
+            </div>
+
+            {/* Quick Access */}
+            {/* Quick Access */}
 
 <div className="grid md:grid-cols-3 gap-6 mt-10">
 
@@ -192,7 +225,7 @@ function Dashboard() {
   <MoodReminder />
 </div>
 
-{/* Mood + Quick Actions */}
+{/* Mood + Quick Actions + Daily Goals */}
 
 <div className="grid xl:grid-cols-3 gap-8 mt-8">
 
@@ -204,7 +237,7 @@ function Dashboard() {
 
 </div>
 
-{/* Wellness Insights + AI */}
+{/* Wellness Insights + AI + Tips */}
 
 <div className="grid xl:grid-cols-3 gap-8 mt-8">
 
@@ -216,7 +249,7 @@ function Dashboard() {
 
 </div>
 
-{/* Mood Charts */}
+{/* Charts + Timeline + Sessions */}
 
 <div className="grid xl:grid-cols-3 gap-8 mt-8">
 
@@ -228,7 +261,7 @@ function Dashboard() {
 
 </div>
 
-{/* AI Workflow */}
+{/* AI Workflow + Mood Calendar + Notifications */}
 
 <div className="grid xl:grid-cols-3 gap-8 mt-8">
 
@@ -239,29 +272,29 @@ function Dashboard() {
   <NotificationPreview />
 
 </div>
-        {/* Habit Tracker + Daily Challenge */}
+        {/* Habit Tracker + Daily Challenge + AI Recommendations + Journal */}
 
         <div className="grid xl:grid-cols-4 gap-8 mt-8">
 
-  <HabitTrackerCard />
+          <HabitTrackerCard />
 
-  <DailyChallengeCard />
+          <DailyChallengeCard />
 
-  <AIRecommendations />
+          <AIRecommendations />
 
-  <RecentJournal />
+          <RecentJournal />
 
-</div>
+        </div>
 
-        {/* Daily Quote */}
+        {/* Quote + AI Quick Chat */}
 
         <div className="grid xl:grid-cols-2 gap-8 mt-8">
 
-  <QuoteCard />
+          <QuoteCard />
 
-  <AIQuickChat />
+          <AIQuickChat />
 
-</div>
+        </div>
 
         {/* Motivation Banner */}
 
@@ -277,17 +310,16 @@ function Dashboard() {
 
               <p className="mt-3 max-w-2xl text-green-100 leading-7">
                 Every mood you track, every journal you write,
-                every meditation you complete, and every healthy
-                habit you build helps ManaSetu AI understand your
-                wellness journey and provide smarter, more
-                personalized recommendations.
+                every meditation session you complete and every
+                healthy habit you build helps ManaSetu AI provide
+                more personalized wellness recommendations.
               </p>
 
             </div>
 
             <Link to="/analytics">
 
-              <button className="rounded-2xl bg-white px-8 py-4 text-lg font-bold text-emerald-700 shadow-xl hover:scale-105 hover:shadow-2xl transition-all duration-300">
+              <button className="rounded-2xl bg-white px-8 py-4 text-lg font-bold text-emerald-700 shadow-xl transition-all duration-300 hover:scale-105">
 
                 📊 View Full Analytics
 
@@ -321,28 +353,28 @@ function Dashboard() {
 
               <Link
                 to="/dashboard"
-                className="hover:text-emerald-600 transition"
+                className="transition hover:text-emerald-600"
               >
                 Dashboard
               </Link>
 
               <Link
                 to="/analytics"
-                className="hover:text-emerald-600 transition"
+                className="transition hover:text-emerald-600"
               >
                 Analytics
               </Link>
 
               <Link
                 to="/journal"
-                className="hover:text-emerald-600 transition"
+                className="transition hover:text-emerald-600"
               >
                 Journal
               </Link>
 
               <Link
                 to="/support"
-                className="hover:text-emerald-600 transition"
+                className="transition hover:text-emerald-600"
               >
                 Support
               </Link>
@@ -372,6 +404,9 @@ function Dashboard() {
           </div>
 
         </footer>
+
+          </>
+        )}
 
       </main>
 
