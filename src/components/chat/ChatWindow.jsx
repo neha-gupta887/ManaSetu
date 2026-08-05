@@ -12,14 +12,22 @@ function ChatWindow() {
     });
   };
 
-  const [messages, setMessages] = useState([
+  const defaultMessages = [
     {
       id: 1,
       sender: "ai",
       message: "Hello! 👋 I'm Mana AI. How are you feeling today?",
       time: getCurrentTime(),
     },
-  ]);
+  ];
+
+  const [messages, setMessages] = useState(() => {
+    const savedMessages = localStorage.getItem("mana-chat");
+
+    return savedMessages
+      ? JSON.parse(savedMessages)
+      : defaultMessages;
+  });
 
   const [isTyping, setIsTyping] = useState(false);
 
@@ -40,6 +48,13 @@ function ChatWindow() {
     });
   }, [messages, isTyping]);
 
+  useEffect(() => {
+    localStorage.setItem(
+      "mana-chat",
+      JSON.stringify(messages)
+    );
+  }, [messages]);
+
   const handleSend = (text) => {
     if (!text.trim()) return;
 
@@ -56,17 +71,18 @@ function ChatWindow() {
 
     setTimeout(() => {
       const randomReply =
-        aiReplies[Math.floor(Math.random() * aiReplies.length)];
+        aiReplies[
+          Math.floor(Math.random() * aiReplies.length)
+        ];
 
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: Date.now() + 1,
-          sender: "ai",
-          message: randomReply,
-          time: getCurrentTime(),
-        },
-      ]);
+      const aiMessage = {
+        id: Date.now() + 1,
+        sender: "ai",
+        message: randomReply,
+        time: getCurrentTime(),
+      };
+
+      setMessages((prev) => [...prev, aiMessage]);
 
       setIsTyping(false);
     }, 2000);
@@ -74,6 +90,18 @@ function ChatWindow() {
 
   const handleQuestionSelect = (question) => {
     handleSend(question);
+  };
+
+  const clearChat = () => {
+    const confirmed = window.confirm(
+      "Are you sure you want to clear the chat?"
+    );
+
+    if (!confirmed) return;
+
+    localStorage.removeItem("mana-chat");
+
+    setMessages(defaultMessages);
   };
 
   return (
@@ -95,8 +123,19 @@ function ChatWindow() {
 
         </div>
 
-        <div className="rounded-full bg-emerald-100 px-4 py-2 text-sm font-semibold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
-          AI Wellness Assistant
+        <div className="flex items-center gap-3">
+
+          <div className="rounded-full bg-emerald-100 px-4 py-2 text-sm font-semibold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
+            AI Wellness Assistant
+          </div>
+
+          <button
+            onClick={clearChat}
+            className="rounded-xl bg-red-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-600"
+          >
+            Clear Chat
+          </button>
+
         </div>
 
       </div>
@@ -126,9 +165,7 @@ function ChatWindow() {
           <div className="flex justify-start">
 
             <div className="animate-pulse rounded-3xl bg-gray-200 px-5 py-3 text-gray-700 shadow-md dark:bg-gray-800 dark:text-gray-300">
-
               🤖 Mana AI is typing...
-
             </div>
 
           </div>
@@ -138,7 +175,7 @@ function ChatWindow() {
 
       </div>
 
-      {/* Input */}
+      {/* Chat Input */}
 
       <ChatInput onSend={handleSend} />
 
