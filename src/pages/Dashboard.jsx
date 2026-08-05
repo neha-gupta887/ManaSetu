@@ -9,7 +9,21 @@ import QuickActions from "../components/dashboard/QuickActions";
 
 import LoadingSpinner from "../components/LoadingSpinner";
 import { getDashboardStats } from "../services/dashboardStatsService";
+import MoodAnalyticsChart from "../components/dashboard/MoodAnalyticsChart";
+import MoodDistributionChart from "../components/dashboard/MoodDistributionChart";
+import WellnessHeatmap from "../components/dashboard/WellnessHeatmap";
 
+import MoodHistory from "../components/dashboard/MoodHistory";
+import RecentActivity from "../components/dashboard/RecentActivity";
+
+import AIInsightCard from "../components/AIInsightCard";
+import AIWorkflow from "../components/AIWorkflow";
+
+import WellnessTimeline from "../components/WellnessTimeline";
+import HabitTrackerCard from "../components/HabitTrackerCard";
+import DailyChallengeCard from "../components/DailyChallengeCard";
+import QuoteCard from "../components/dashboard/QuoteCard";
+import MoodReminder from "../components/MoodReminder";
 function Dashboard() {
   const stats = getDashboardStats();
 
