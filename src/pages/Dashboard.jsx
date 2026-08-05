@@ -1,3 +1,4 @@
+import UpcomingSessions from "../components/dashboard/UpcomingSessions";
 import WellnessTips from "../components/dashboard/WellnessTips";
 import DailyGoals from "../components/dashboard/DailyGoals";
 import WeeklyProgress from "../components/dashboard/WeeklyProgress";
@@ -205,11 +206,13 @@ function Dashboard() {
 
 {/* Mood Charts */}
 
-<div className="grid xl:grid-cols-2 gap-8 mt-8">
+<div className="grid xl:grid-cols-3 gap-8 mt-8">
 
   <MoodHistory />
 
   <WellnessTimeline />
+
+  <UpcomingSessions />
 
 </div>
 
