@@ -1,3 +1,4 @@
+import AIChat from "./pages/AIChat";
 import Notifications from "./pages/Notifications";
 import Memory from "./pages/Memory";
 import AICommandCenter from "./pages/AICommandCenter";
@@ -19,6 +20,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/chat" element={<AIChat />} />
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/memory" element={<Memory />} />
         <Route path="/command-center" element={<AICommandCenter />} />
