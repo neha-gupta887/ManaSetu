@@ -1,31 +1,13 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import Sidebar from "../components/dashboard/Sidebar";
 import Topbar from "../components/dashboard/Topbar";
 import WelcomeCard from "../components/dashboard/WelcomeCard";
-import MoodSection from "../components/dashboard/MoodSection";
-import QuickActions from "../components/dashboard/QuickActions";
-import QuoteCard from "../components/dashboard/QuoteCard";
-import MoodHistory from "../components/dashboard/MoodHistory";
 import DashboardOverview from "../components/dashboard/DashboardOverview";
-import RecentActivity from "../components/dashboard/RecentActivity";
-
-import MoodReminder from "../components/MoodReminder";
-import HabitTrackerCard from "../components/HabitTrackerCard";
-import DailyChallengeCard from "../components/DailyChallengeCard";
-import WellnessScoreCard from "../components/WellnessScoreCard";
-import WellnessInsights from "../components/WellnessInsights";
-import WellnessTimeline from "../components/WellnessTimeline";
-import AIInsightCard from "../components/AIInsightCard";
-import AIWorkflow from "../components/AIWorkflow";
-
-import MoodAnalyticsChart from "../components/dashboard/MoodAnalyticsChart";
-import MoodDistributionChart from "../components/dashboard/MoodDistributionChart";
-import WellnessHeatmap from "../components/dashboard/WellnessHeatmap";
+import QuickActions from "../components/dashboard/QuickActions";
 
 import LoadingSpinner from "../components/LoadingSpinner";
-
 import { getDashboardStats } from "../services/dashboardStatsService";
 
 function Dashboard() {
@@ -47,270 +29,405 @@ function Dashboard() {
 
   return (
     <div
-      className="min-h-screen bg-gradient-to-br
-      from-emerald-50
+      className="
+      min-h-screen
+      bg-gradient-to-br
+      from-slate-50
       via-white
-      to-cyan-50
+      to-emerald-50
       dark:from-gray-950
       dark:via-gray-900
       dark:to-black
-      transition-all duration-500"
+      transition-all
+      duration-500"
     >
       <Sidebar />
 
-      <main className="lg:ml-72 px-5 sm:px-8 py-8">
+      <main className="lg:ml-72 px-6 py-8">
 
         <Topbar />
 
-        <div className="mt-8">
+        {/* Hero */}
 
-          <span className="rounded-full bg-emerald-100 dark:bg-emerald-900/40 px-4 py-2 text-sm font-semibold text-emerald-700 dark:text-emerald-300">
-            🌿 AI Powered Mental Wellness Platform
-          </span>
+        <section className="mt-8 rounded-3xl bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 p-10 text-white shadow-2xl">
 
-          <h1 className="mt-5 text-4xl lg:text-5xl font-extrabold text-gray-900 dark:text-white">
-            AI Wellness Dashboard
-          </h1>
-
-          <p className="mt-3 max-w-3xl text-lg leading-8 text-gray-600 dark:text-gray-300">
-            Welcome back! Monitor your emotional wellbeing,
-            mood history, AI insights, wellness score,
-            daily habits and personalized recommendations
-            in one intelligent dashboard.
-          </p>
-
-        </div>
-
-        <div className="mt-10">
-          <WelcomeCard />
-        </div>
-
-        <div className="mt-8">
-          <WellnessScoreCard score={stats.wellnessScore} />
-        </div>
-
-        <div className="mt-8">
-          <DashboardOverview stats={stats} />
-        </div>
-                {/* Quick Access */}
-
-        <div className="grid md:grid-cols-3 gap-6 mt-10">
-
-          <Link
-            to="/analytics"
-            className="group rounded-3xl bg-gradient-to-r from-emerald-600 to-green-600 p-8 text-white shadow-xl transition-all duration-300 hover:scale-[1.02]"
-          >
-            <div className="text-5xl">📊</div>
-
-            <h3 className="mt-5 text-2xl font-bold">
-              Mood Analytics
-            </h3>
-
-            <p className="mt-3 leading-7 text-green-100">
-              Explore your emotional patterns,
-              wellness score and AI-generated
-              insights.
-            </p>
-
-            <div className="mt-6 font-semibold">
-              Open Analytics →
-            </div>
-
-          </Link>
-
-          <Link
-            to="/command-center"
-            className="group rounded-3xl bg-gradient-to-r from-indigo-600 to-purple-600 p-8 text-white shadow-xl transition-all duration-300 hover:scale-[1.02]"
-          >
-            <div className="text-5xl">🤖</div>
-
-            <h3 className="mt-5 text-2xl font-bold">
-              AI Command Center
-            </h3>
-
-            <p className="mt-3 leading-7 text-indigo-100">
-              Watch your AI agents,
-              workflows and recommendations
-              in real time.
-            </p>
-
-            <div className="mt-6 font-semibold">
-              Open AI Center →
-            </div>
-
-          </Link>
-
-          <Link
-            to="/support"
-            className="group rounded-3xl bg-gradient-to-r from-red-600 to-pink-600 p-8 text-white shadow-xl transition-all duration-300 hover:scale-[1.02]"
-          >
-            <div className="text-5xl">🆘</div>
-
-            <h3 className="mt-5 text-2xl font-bold">
-              Support Center
-            </h3>
-
-            <p className="mt-3 leading-7 text-red-100">
-              Connect with mentors,
-              counselors and emergency
-              wellness resources.
-            </p>
-
-            <div className="mt-6 font-semibold">
-              Get Support →
-            </div>
-
-          </Link>
-
-        </div>
-
-        {/* Mood Reminder */}
-
-        <div className="mt-8">
-          <MoodReminder />
-        </div>
-
-        {/* Mood + Quick Actions */}
-
-        <div className="grid xl:grid-cols-2 gap-8 mt-8">
-
-          <MoodSection />
-
-          <QuickActions />
-
-        </div>
-
-        {/* Wellness Insights */}
-
-        <div className="grid xl:grid-cols-2 gap-8 mt-8">
-
-          <WellnessInsights />
-
-          <AIInsightCard />
-
-        </div>
-
-        {/* Mood History */}
-
-        <div className="grid xl:grid-cols-2 gap-8 mt-8">
-
-          <MoodHistory />
-
-          <WellnessTimeline />
-
-        </div>
-
-        {/* Analytics Charts */}
-
-        <div className="grid xl:grid-cols-2 gap-8 mt-8">
-
-          <MoodAnalyticsChart />
-
-          <MoodDistributionChart />
-
-        </div>
-
-        {/* Wellness Heatmap */}
-
-        <div className="mt-8">
-
-          <WellnessHeatmap />
-
-        </div>
-                {/* AI Workflow */}
-
-        <div className="mt-8">
-
-          <AIWorkflow />
-
-        </div>
-
-        {/* Recent Activity */}
-
-        <div className="mt-8">
-
-          <RecentActivity />
-
-        </div>
-
-        {/* Habit Tracker + Daily Challenge */}
-
-        <div className="grid xl:grid-cols-2 gap-8 mt-8">
-
-          <HabitTrackerCard />
-
-          <DailyChallengeCard />
-
-        </div>
-
-        {/* Daily Quote */}
-
-        <div className="mt-8">
-
-          <QuoteCard />
-
-        </div>
-
-        {/* Motivation Banner */}
-
-        <div className="mt-12 rounded-3xl bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 p-8 text-white shadow-2xl">
-
-          <div className="flex flex-col items-center justify-between gap-6 lg:flex-row">
+          <div className="flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between">
 
             <div>
 
-              <h2 className="text-3xl font-bold">
-                🌿 Keep Building Healthy Habits
-              </h2>
+              <span className="rounded-full bg-white/20 px-4 py-2 text-sm font-semibold backdrop-blur">
 
-              <p className="mt-3 max-w-2xl leading-7 text-green-100">
+                🌿 AI Powered Mental Wellness
 
-                Every mood you track, every journal entry you
-                write, and every healthy habit you complete
-                helps Mana AI understand you better and
-                deliver smarter wellness recommendations.
+              </span>
+
+              <h1 className="mt-6 text-5xl font-extrabold">
+
+                Welcome Back 👋
+
+              </h1>
+
+              <p className="mt-4 max-w-2xl text-lg leading-8 text-emerald-100">
+
+                Track your emotions, monitor your wellness,
+                chat with Mana AI, build healthy habits,
+                and visualize your progress through
+                intelligent analytics.
 
               </p>
 
             </div>
 
-            <Link to="/analytics">
+            <div className="grid grid-cols-2 gap-5">
 
-              <button className="rounded-2xl bg-white px-8 py-4 text-lg font-bold text-emerald-700 shadow-xl transition-all duration-300 hover:scale-105">
+              <div className="rounded-2xl bg-white/15 p-5 backdrop-blur">
 
-                📊 View Full Analytics
+                <p className="text-sm text-emerald-100">
+                  Wellness Score
+                </p>
 
-              </button>
+                <h2 className="mt-2 text-4xl font-bold">
+                  {stats.wellnessScore}%
+                </h2>
 
+              </div>
+
+              <div className="rounded-2xl bg-white/15 p-5 backdrop-blur">
+
+                <p className="text-sm text-emerald-100">
+                  Mood Streak
+                </p>
+
+                <h2 className="mt-2 text-4xl font-bold">
+                  🔥 12
+                </h2>
+
+              </div>
+
+              <div className="rounded-2xl bg-white/15 p-5 backdrop-blur">
+
+                <p className="text-sm text-emerald-100">
+                  Journal Entries
+                </p>
+
+                <h2 className="mt-2 text-4xl font-bold">
+                  24
+                </h2>
+
+              </div>
+
+              <div className="rounded-2xl bg-white/15 p-5 backdrop-blur">
+
+                <p className="text-sm text-emerald-100">
+                  AI Sessions
+                </p>
+
+                <h2 className="mt-2 text-4xl font-bold">
+                  58
+                </h2>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+        {/* Dashboard Overview + Quick Actions */}
+
+        <section className="mt-10 grid gap-8 xl:grid-cols-3">
+
+          <div className="xl:col-span-2">
+
+            <DashboardOverview stats={stats} />
+
+          </div>
+
+          <div>
+
+            <QuickActions />
+
+          </div>
+
+        </section>
+                {/* Analytics */}
+
+        <section className="mt-12">
+
+          <div className="mb-8 flex items-center justify-between">
+
+            <div>
+
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+
+                📊 Wellness Analytics
+
+              </h2>
+
+              <p className="mt-2 text-gray-500 dark:text-gray-400">
+
+                Track your emotional wellness and AI-powered insights.
+
+              </p>
+
+            </div>
+
+            <Link
+              to="/analytics"
+              className="rounded-xl bg-emerald-600 px-5 py-3 font-semibold text-white transition hover:bg-emerald-700"
+            >
+              View Full Analytics →
             </Link>
 
           </div>
 
-        </div>
+          <div className="grid gap-8 xl:grid-cols-2">
 
-        {/* Footer */}
+            <MoodAnalyticsChart />
 
-        <footer className="mt-12 border-t border-gray-200 pt-8 dark:border-gray-700">
+            <MoodDistributionChart />
 
-          <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+          </div>
 
-            <p className="text-gray-500 dark:text-gray-400">
+          <div className="mt-8">
 
-              © {new Date().getFullYear()} ManaSetu • AI Powered Mental Wellness Platform
+            <WellnessHeatmap />
+
+          </div>
+
+        </section>
+
+        {/* AI Section */}
+
+        <section className="mt-12">
+
+          <div className="mb-8">
+
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+
+              🤖 AI Wellness Assistant
+
+            </h2>
+
+            <p className="mt-2 text-gray-500 dark:text-gray-400">
+
+              Personalized recommendations generated from your wellness journey.
 
             </p>
 
-            <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-500 dark:text-gray-400">
+          </div>
 
-              <span>🌿 Wellness</span>
+          <div className="grid gap-8 xl:grid-cols-2">
 
-              <span>🤖 AI Companion</span>
+            <AIInsightCard />
 
-              <span>📈 Analytics</span>
+            <AIWorkflow />
 
-              <span>💚 Self Care</span>
+          </div>
+
+        </section>
+                {/* Wellness Hub */}
+
+        <section className="mt-12">
+
+          <div className="mb-8">
+
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+
+              🌿 Wellness Hub
+
+            </h2>
+
+            <p className="mt-2 text-gray-500 dark:text-gray-400">
+
+              Stay consistent with healthy habits, monitor your progress, and
+              keep your wellness journey on track.
+
+            </p>
+
+          </div>
+
+          <div className="grid gap-8 xl:grid-cols-2">
+
+            <MoodHistory />
+
+            <WellnessTimeline />
+
+          </div>
+
+          <div className="mt-8 grid gap-8 xl:grid-cols-2">
+
+            <HabitTrackerCard />
+
+            <DailyChallengeCard />
+
+          </div>
+
+        </section>
+
+        {/* Journal & Activity */}
+
+        <section className="mt-12">
+
+          <div className="mb-8">
+
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+
+              📖 Your Journey
+
+            </h2>
+
+            <p className="mt-2 text-gray-500 dark:text-gray-400">
+
+              Review your recent activities and stay motivated every day.
+
+            </p>
+
+          </div>
+
+          <div className="grid gap-8 xl:grid-cols-2">
+
+            <RecentActivity />
+
+            <QuoteCard />
+
+          </div>
+
+        </section>
+
+        {/* Daily Reminder */}
+
+        <section className="mt-12">
+
+          <MoodReminder />
+
+        </section>
+                {/* Call to Action */}
+
+        <section className="mt-12">
+
+          <div className="overflow-hidden rounded-3xl bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 p-10 text-white shadow-2xl">
+
+            <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+
+              <div>
+
+                <span className="rounded-full bg-white/20 px-4 py-2 text-sm font-semibold backdrop-blur">
+
+                  🌿 Daily Wellness
+
+                </span>
+
+                <h2 className="mt-5 text-4xl font-extrabold">
+
+                  Every Small Step Matters
+
+                </h2>
+
+                <p className="mt-4 max-w-2xl text-lg leading-8 text-emerald-100">
+
+                  Build healthy habits, journal your thoughts,
+                  monitor your emotions and let Mana AI guide
+                  you towards a happier and healthier life.
+
+                </p>
+
+              </div>
+
+              <div className="flex flex-wrap gap-4">
+
+                <Link to="/journal">
+
+                  <button className="rounded-2xl bg-white px-8 py-4 font-bold text-emerald-700 shadow-xl transition-all duration-300 hover:scale-105">
+
+                    📖 Open Journal
+
+                  </button>
+
+                </Link>
+
+                <Link to="/chat">
+
+                  <button className="rounded-2xl border border-white px-8 py-4 font-bold text-white transition-all duration-300 hover:bg-white hover:text-emerald-700">
+
+                    🤖 Chat with Mana AI
+
+                  </button>
+
+                </Link>
+
+              </div>
 
             </div>
+
+          </div>
+
+        </section>
+
+        {/* Footer */}
+
+        <footer className="mt-16 border-t border-gray-200 pt-8 dark:border-gray-700">
+
+          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+
+            <div>
+
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+
+                🌿 ManaSetu
+
+              </h3>
+
+              <p className="mt-2 text-gray-500 dark:text-gray-400">
+
+                AI Powered Mental Wellness Platform
+
+              </p>
+
+            </div>
+
+            <div className="flex flex-wrap gap-6 text-sm text-gray-500 dark:text-gray-400">
+
+              <Link
+                to="/dashboard"
+                className="hover:text-emerald-600"
+              >
+                Dashboard
+              </Link>
+
+              <Link
+                to="/journal"
+                className="hover:text-emerald-600"
+              >
+                Journal
+              </Link>
+
+              <Link
+                to="/analytics"
+                className="hover:text-emerald-600"
+              >
+                Analytics
+              </Link>
+
+              <Link
+                to="/chat"
+                className="hover:text-emerald-600"
+              >
+                AI Chat
+              </Link>
+
+            </div>
+
+          </div>
+
+          <div className="mt-8 border-t border-gray-200 pt-6 text-center dark:border-gray-700">
+
+            <p className="text-gray-500 dark:text-gray-400">
+
+              © {new Date().getFullYear()} ManaSetu • Built with ❤️ using React & Firebase
+
+            </p>
 
           </div>
 
