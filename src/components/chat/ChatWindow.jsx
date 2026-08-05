@@ -5,11 +5,19 @@ import ChatMessage from "./ChatMessage";
 import ChatInput from "./ChatInput";
 
 function ChatWindow() {
+  const getCurrentTime = () => {
+    return new Date().toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
   const [messages, setMessages] = useState([
     {
       id: 1,
       sender: "ai",
       message: "Hello! 👋 I'm Mana AI. How are you feeling today?",
+      time: getCurrentTime(),
     },
   ]);
 
@@ -39,6 +47,7 @@ function ChatWindow() {
       id: Date.now(),
       sender: "user",
       message: text,
+      time: getCurrentTime(),
     };
 
     setMessages((prev) => [...prev, userMessage]);
@@ -55,6 +64,7 @@ function ChatWindow() {
           id: Date.now() + 1,
           sender: "ai",
           message: randomReply,
+          time: getCurrentTime(),
         },
       ]);
 
@@ -108,6 +118,7 @@ function ChatWindow() {
             key={msg.id}
             sender={msg.sender}
             message={msg.message}
+            time={msg.time}
           />
         ))}
 
