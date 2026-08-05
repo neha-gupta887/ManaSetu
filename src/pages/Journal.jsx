@@ -6,102 +6,159 @@ import JournalSearch from "../components/journal/JournalSearch";
 import JournalStats from "../components/journal/JournalStats";
 import JournalInsights from "../components/journal/JournalInsights";
 
+import {
+  saveJournal,
+  getJournalHistory,
+  deleteJournal,
+  updateJournal,
+} from "../services/journalService";
+
 function Journal() {
-  const [entries, setEntries] = useState(() => {
-    const savedEntries = localStorage.getItem("journalEntries");
-
-    return savedEntries
-      ? JSON.parse(savedEntries)
-      : [];
-  });
-
+  const [entries, setEntries] = useState([]);
   const [editingEntry, setEditingEntry] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  // Load Journals
+  const loadJournals = async () => {
+    setLoading(true);
+
+    const journals = await getJournalHistory();
+
+    const formatted = journals.map((journal) => ({
+      id: journal.id,
+      title:
+        journal.title ||
+        journal.content?.slice(0, 40) ||
+        "Untitled",
+
+      content: journal.content,
+      mood: journal.mood || "😊",
+      category: journal.category || "Personal",
+
+      date: journal.createdAt?.toDate
+        ? journal.createdAt
+            .toDate()
+            .toLocaleDateString()
+        : "Today",
+    }));
+
+    setEntries(formatted);
+    setLoading(false);
+  };
 
   useEffect(() => {
-    localStorage.setItem(
-      "journalEntries",
-      JSON.stringify(entries)
-    );
-  }, [entries]);
+    loadJournals();
+  }, []);
 
-  const handleSave = (text, mood, category) => {
+  // Save Journal
+  const handleSave = async (
+    text,
+    mood,
+    category
+  ) => {
     if (!text.trim()) return;
 
+    const title = text.slice(0, 40);
+
     if (editingEntry) {
-      setEntries((prev) =>
-        prev.map((entry) =>
-          entry.id === editingEntry.id
-            ? {
-                ...entry,
-                title: text.slice(0, 40),
-                content: text,
-                mood,
-                category,
-              }
-            : entry
-        )
+      const success = await updateJournal(
+        editingEntry.id,
+        title,
+        text,
+        mood,
+        category
       );
 
-      setEditingEntry(null);
+      if (success) {
+        setEditingEntry(null);
+        loadJournals();
+      }
+
       return;
     }
 
-    const newEntry = {
-      id: Date.now(),
-      title: text.slice(0, 40),
-      content: text,
+    const success = await saveJournal(
+      title,
+      text,
       mood,
-      category,
-      date: new Date().toLocaleDateString(),
-    };
+      category
+    );
 
-    setEntries((prev) => [newEntry, ...prev]);
+    if (success) {
+      loadJournals();
+    }
   };
 
-  const handleDelete = (id) => {
+  // Delete Journal
+  const handleDelete = async (id) => {
     const confirmed = window.confirm(
       "Are you sure you want to delete this journal entry?"
     );
 
     if (!confirmed) return;
 
-    setEntries((prev) =>
-      prev.filter((entry) => entry.id !== id)
-    );
+    const success = await deleteJournal(id);
 
-    if (editingEntry?.id === id) {
-      setEditingEntry(null);
+    if (success) {
+      if (editingEntry?.id === id) {
+        setEditingEntry(null);
+      }
+
+      loadJournals();
     }
   };
 
-  const clearAllEntries = () => {
+  // Edit Journal
+  const handleEdit = (entry) => {
+    setEditingEntry(entry);
+  };
+
+  // Clear All
+  const clearAllEntries = async () => {
     const confirmed = window.confirm(
       "Delete all journal entries?"
     );
 
     if (!confirmed) return;
 
+    for (const entry of entries) {
+      await deleteJournal(entry.id);
+    }
+
     setEntries([]);
     setEditingEntry(null);
-
-    localStorage.removeItem("journalEntries");
   };
 
-  const handleEdit = (entry) => {
-    setEditingEntry(entry);
-  };
+  const filteredEntries = entries.filter(
+    (entry) => {
+      const search =
+        searchTerm.toLowerCase();
 
-  const filteredEntries = entries.filter((entry) => {
-    const search = searchTerm.toLowerCase();
+      return (
+        entry.title
+          .toLowerCase()
+          .includes(search) ||
+        entry.content
+          .toLowerCase()
+          .includes(search) ||
+        entry.mood.includes(search) ||
+        entry.category
+          .toLowerCase()
+          .includes(search)
+      );
+    }
+  );
 
+  if (loading) {
     return (
-      entry.title.toLowerCase().includes(search) ||
-      entry.content.toLowerCase().includes(search) ||
-      entry.mood.includes(search) ||
-      entry.category.toLowerCase().includes(search)
+      <div className="flex min-h-screen items-center justify-center bg-gray-100 dark:bg-gray-950">
+        <h2 className="text-xl font-semibold">
+          Loading Journals...
+        </h2>
+      </div>
     );
-  });
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 p-8 dark:bg-gray-950">
@@ -124,28 +181,21 @@ function Journal() {
         </div>
 
         <div className="mt-8">
-
           <JournalStats entries={entries} />
-
         </div>
 
         <div className="mt-8">
-
           <JournalSearch
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}
           />
-
         </div>
 
         <div className="mt-8">
-
           <JournalInsights entries={entries} />
-
         </div>
 
         <div className="mt-8 grid gap-8 lg:grid-cols-3">
-                    {/* Journal Editor */}
 
           <div className="lg:col-span-2">
 
@@ -155,8 +205,6 @@ function Journal() {
             />
 
           </div>
-
-          {/* Journal History */}
 
           <div>
 

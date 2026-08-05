@@ -12,17 +12,31 @@ import {
 
 import { auth, db } from "./firebase";
 
+// ===============================
 // Save Journal Entry
-export const saveJournal = async (content) => {
+// ===============================
+export const saveJournal = async (
+  title,
+  content,
+  mood,
+  category
+) => {
   try {
     const user = auth.currentUser;
 
-    if (!user) throw new Error("User is not logged in.");
+    if (!user) {
+      throw new Error("User is not logged in.");
+    }
 
     await addDoc(collection(db, "journals"), {
       uid: user.uid,
       email: user.email,
+
+      title,
       content,
+      mood,
+      category,
+
       createdAt: serverTimestamp(),
     });
 
@@ -33,7 +47,9 @@ export const saveJournal = async (content) => {
   }
 };
 
+// ===============================
 // Get Journal History
+// ===============================
 export const getJournalHistory = async () => {
   try {
     const user = auth.currentUser;
@@ -54,38 +70,70 @@ export const getJournalHistory = async () => {
 
     journals.sort((a, b) => {
       if (!a.createdAt || !b.createdAt) return 0;
-      return b.createdAt.seconds - a.createdAt.seconds;
+
+      return (
+        b.createdAt.seconds -
+        a.createdAt.seconds
+      );
     });
 
     return journals;
   } catch (error) {
-    console.error("Error fetching journals:", error);
+    console.error(
+      "Error fetching journals:",
+      error
+    );
+
     return [];
   }
 };
 
+// ===============================
 // Delete Journal
-export const deleteJournal = async (id) => {
+// ===============================
+export const deleteJournal = async (
+  id
+) => {
   try {
     await deleteDoc(doc(db, "journals", id));
+
     return true;
   } catch (error) {
-    console.error("Error deleting journal:", error);
+    console.error(
+      "Error deleting journal:",
+      error
+    );
+
     return false;
   }
 };
 
+// ===============================
 // Update Journal
-export const updateJournal = async (id, content) => {
+// ===============================
+export const updateJournal = async (
+  id,
+  title,
+  content,
+  mood,
+  category
+) => {
   try {
     await updateDoc(doc(db, "journals", id), {
+      title,
       content,
+      mood,
+      category,
       updatedAt: serverTimestamp(),
     });
 
     return true;
   } catch (error) {
-    console.error("Error updating journal:", error);
+    console.error(
+      "Error updating journal:",
+      error
+    );
+
     return false;
   }
 };
