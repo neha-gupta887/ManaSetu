@@ -1,3 +1,4 @@
+import SuggestedQuestions from "./SuggestedQuestions";
 import { useState } from "react";
 
 import ChatMessage from "./ChatMessage";
@@ -24,6 +25,9 @@ function ChatWindow() {
   ];
 
   const handleSend = (text) => {
+    const handleQuestionSelect = (question) => {
+  handleSend(question);
+};
     const userMessage = {
       id: Date.now(),
       sender: "user",
@@ -65,6 +69,9 @@ function ChatWindow() {
         </p>
 
       </div>
+      <SuggestedQuestions
+  onSelectQuestion={handleQuestionSelect}
+/>
 
       <div className="mt-6 flex-1 space-y-5 overflow-y-auto">
 
