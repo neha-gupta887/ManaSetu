@@ -74,8 +74,7 @@ export async function generateWellnessPlan(userData) {
     // Burnout Prediction Agent
     // =====================================
 
-    const history = getWellnessHistory();
-
+const history = await getWellnessHistory();
     result.burnout = predictBurnout(result, history);
     result.support = getEmergencySupport(result);
     result.explanation = generateExplanation(result);

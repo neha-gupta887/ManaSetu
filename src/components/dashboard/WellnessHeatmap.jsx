@@ -1,16 +1,44 @@
+import { useEffect, useState } from "react";
 import CalendarHeatmap from "react-calendar-heatmap";
 import "react-calendar-heatmap/dist/styles.css";
+
+import { getMoodHistory } from "../../services/moodService";
 
 function WellnessHeatmap() {
   const today = new Date();
 
-  const values = [
-    { date: "2026-08-01", count: 1 },
-    { date: "2026-08-02", count: 3 },
-    { date: "2026-08-03", count: 2 },
-    { date: "2026-08-04", count: 4 },
-    { date: "2026-08-05", count: 5 },
-  ];
+  const [values, setValues] = useState([]);
+
+  useEffect(() => {
+    const loadHeatmap = async () => {
+      const moods = await getMoodHistory();
+
+      const activityMap = {};
+
+      moods.forEach((mood) => {
+        if (!mood.createdAt?.toDate) return;
+
+        const date = mood.createdAt
+          .toDate()
+          .toISOString()
+          .split("T")[0];
+
+        activityMap[date] =
+          (activityMap[date] || 0) + 1;
+      });
+
+      const heatmapData = Object.keys(activityMap).map(
+        (date) => ({
+          date,
+          count: activityMap[date],
+        })
+      );
+
+      setValues(heatmapData);
+    };
+
+    loadHeatmap();
+  }, []);
 
   return (
     <div className="rounded-3xl bg-white p-8 shadow-xl dark:bg-gray-900">
