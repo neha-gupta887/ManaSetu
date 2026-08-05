@@ -1,3 +1,4 @@
+import MoodAnalyticsChart from "../components/dashboard/MoodAnalyticsChart";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
@@ -254,6 +255,9 @@ function Dashboard() {
 <div className="grid xl:grid-cols-3 gap-8 mt-8">
 
   <MoodHistory />
+  <div className="mt-8">
+  <MoodAnalyticsChart />
+</div>
 
   <WellnessTimeline />
 
