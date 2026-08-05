@@ -1,3 +1,4 @@
+import JournalStats from "../components/journal/JournalStats";
 import { useState } from "react";
 
 import JournalEditor from "../components/journal/JournalEditor";
@@ -80,6 +81,7 @@ function Journal() {
       <div className="mx-auto max-w-7xl">
 
         <h1 className="mb-8 text-4xl font-bold text-gray-900 dark:text-white">
+          <JournalStats entries={entries} />
           📝 Smart Wellness Journal
         </h1>
 
