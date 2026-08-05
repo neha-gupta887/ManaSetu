@@ -1,3 +1,4 @@
+import WellnessTips from "../components/dashboard/WellnessTips";
 import DailyGoals from "../components/dashboard/DailyGoals";
 import WeeklyProgress from "../components/dashboard/WeeklyProgress";
 import { useState, useEffect } from "react";
@@ -192,11 +193,13 @@ function Dashboard() {
 
 {/* Wellness Insights + AI */}
 
-<div className="grid xl:grid-cols-2 gap-8 mt-8">
+<div className="grid xl:grid-cols-3 gap-8 mt-8">
 
   <WellnessInsights />
 
   <AIInsightCard />
+
+  <WellnessTips />
 
 </div>
 
