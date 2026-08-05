@@ -1,3 +1,4 @@
+import RecentJournal from "../components/dashboard/RecentJournal";
 import NotificationPreview from "../components/dashboard/NotificationPreview";
 import DashboardSearch from "../components/dashboard/DashboardSearch";
 import AIRecommendations from "../components/dashboard/AIRecommendations";
@@ -239,13 +240,15 @@ function Dashboard() {
 </div>
         {/* Habit Tracker + Daily Challenge */}
 
-        <div className="grid xl:grid-cols-3 gap-8 mt-8">
+        <<div className="grid xl:grid-cols-4 gap-8 mt-8">
 
   <HabitTrackerCard />
 
   <DailyChallengeCard />
 
   <AIRecommendations />
+
+  <RecentJournal />
 
 </div>
 
