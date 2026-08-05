@@ -1,6 +1,6 @@
-import SuggestedQuestions from "./SuggestedQuestions";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
+import SuggestedQuestions from "./SuggestedQuestions";
 import ChatMessage from "./ChatMessage";
 import ChatInput from "./ChatInput";
 
@@ -15,6 +15,8 @@ function ChatWindow() {
 
   const [isTyping, setIsTyping] = useState(false);
 
+  const bottomRef = useRef(null);
+
   const aiReplies = [
     "I understand how you're feeling. 💚",
     "That's completely normal. Let's work through it together.",
@@ -24,10 +26,13 @@ function ChatWindow() {
     "I'm here to support you anytime. 🤖",
   ];
 
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
+  }, [messages, isTyping]);
+
   const handleSend = (text) => {
-    const handleQuestionSelect = (question) => {
-  handleSend(question);
-};
     const userMessage = {
       id: Date.now(),
       sender: "user",
@@ -55,6 +60,10 @@ function ChatWindow() {
     }, 2000);
   };
 
+  const handleQuestionSelect = (question) => {
+    handleSend(question);
+  };
+
   return (
     <div className="flex h-full flex-col rounded-3xl bg-white p-8 shadow-xl dark:bg-gray-900">
 
@@ -69,11 +78,12 @@ function ChatWindow() {
         </p>
 
       </div>
-      <SuggestedQuestions
-  onSelectQuestion={handleQuestionSelect}
-/>
 
-      <div className="mt-6 flex-1 space-y-5 overflow-y-auto">
+      <SuggestedQuestions
+        onSelectQuestion={handleQuestionSelect}
+      />
+
+      <div className="mt-6 flex-1 space-y-5 overflow-y-auto pr-2">
 
         {messages.map((msg) => (
           <ChatMessage
@@ -86,7 +96,7 @@ function ChatWindow() {
         {isTyping && (
           <div className="flex justify-start">
 
-            <div className="rounded-3xl bg-gray-200 px-5 py-3 text-gray-700 dark:bg-gray-800 dark:text-gray-300 animate-pulse">
+            <div className="animate-pulse rounded-3xl bg-gray-200 px-5 py-3 text-gray-700 dark:bg-gray-800 dark:text-gray-300">
 
               🤖 Mana AI is typing...
 
@@ -94,6 +104,8 @@ function ChatWindow() {
 
           </div>
         )}
+
+        <div ref={bottomRef} />
 
       </div>
 
