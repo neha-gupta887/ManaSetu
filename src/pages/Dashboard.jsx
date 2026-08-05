@@ -1,3 +1,4 @@
+import DashboardHero from "../components/dashboard/DashboardHero";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -106,115 +107,7 @@ const dailyMessage =
 
         <Topbar />
 
-        {/* Hero */}
-
-        <section className="mt-8 rounded-3xl bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 p-10 text-white shadow-2xl">
-
-          <div className="flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between">
-
-            <div>
-
-              <span className="rounded-full bg-white/20 px-4 py-2 text-sm font-semibold backdrop-blur">
-
-                🌿 AI Powered Mental Wellness
-
-              </span>
-
-              <div className="mt-6">
-
-  <p className="text-lg font-medium text-emerald-100">
-    {greeting}
-  </p>
-
-  <h1 className="mt-2 text-5xl font-extrabold leading-tight">
-    How is your heart feeling today? 💚
-  </h1>
-
-</div>
-
-              <div className="mt-6 max-w-2xl">
-
-  <p className="text-lg leading-8 text-emerald-50">
-
-    ManaSetu is your personal wellness companion.
-
-    Whether today feels peaceful, overwhelming,
-    or somewhere in between,
-    you're not alone.
-
-    Let's take one small step toward a healthier mind.
-
-  </p>
-
-  <div className="mt-6 rounded-2xl bg-white/10 p-4 backdrop-blur-md">
-
-    <p className="text-base font-medium text-white">
-
-      {dailyMessage}
-
-    </p>
-
-  </div>
-
-</div>
-
-            </div>
-
-            <div className="grid grid-cols-2 gap-5">
-
-              <div className="rounded-2xl bg-white/15 p-5 backdrop-blur">
-
-                <p className="text-sm text-emerald-100">
-                  Wellness Score
-                </p>
-
-                <h2 className="mt-2 text-4xl font-bold">
-                  {stats.wellnessScore}%
-                </h2>
-
-              </div>
-
-              <div className="rounded-2xl bg-white/15 p-5 backdrop-blur">
-
-                <p className="text-sm text-emerald-100">
-                  Mood Streak
-                </p>
-
-                <h2 className="mt-2 text-4xl font-bold">
-                  🔥 {stats.streak}
-                </h2>
-
-              </div>
-
-              <div className="rounded-2xl bg-white/15 p-5 backdrop-blur">
-
-                <p className="text-sm text-emerald-100">
-                  Journal Entries
-                </p>
-
-                <h2 className="mt-2 text-4xl font-bold">
-                  {stats.journalEntries}
-                </h2>
-
-              </div>
-
-              <div className="rounded-2xl bg-white/15 p-5 backdrop-blur">
-
-                <p className="text-sm text-emerald-100">
-                  AI Sessions
-                </p>
-
-                <h2 className="mt-2 text-4xl font-bold">
-                  {stats.totalMoodEntries}
-                </h2>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </section>
+        
 
         {/* Dashboard Overview + Quick Actions */}
 
