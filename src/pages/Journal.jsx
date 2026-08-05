@@ -2,10 +2,12 @@ import { useState } from "react";
 
 import JournalEditor from "../components/journal/JournalEditor";
 import JournalHistory from "../components/journal/JournalHistory";
+import JournalSearch from "../components/journal/JournalSearch";
 
 function Journal() {
   const [entries, setEntries] = useState([]);
   const [editingEntry, setEditingEntry] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleSave = (text, mood) => {
     if (!text.trim()) return;
@@ -39,6 +41,16 @@ function Journal() {
     setEntries((prev) => [newEntry, ...prev]);
   };
 
+  const filteredEntries = entries.filter((entry) => {
+    const search = searchTerm.toLowerCase();
+
+    return (
+      entry.title.toLowerCase().includes(search) ||
+      entry.content.toLowerCase().includes(search) ||
+      entry.mood.includes(search)
+    );
+  });
+
   return (
     <div className="min-h-screen bg-gray-100 p-8 dark:bg-gray-950">
 
@@ -48,18 +60,26 @@ function Journal() {
           📝 Smart Wellness Journal
         </h1>
 
-        <div className="grid gap-8 lg:grid-cols-3">
+        <JournalSearch
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+        />
+
+        <div className="mt-8 grid gap-8 lg:grid-cols-3">
 
           <div className="lg:col-span-2">
+
             <JournalEditor
               onSave={handleSave}
               editingEntry={editingEntry}
             />
+
           </div>
 
           <div>
+
             <JournalHistory
-              entries={entries}
+              entries={filteredEntries}
               onEdit={setEditingEntry}
               onDelete={(id) =>
                 setEntries((prev) =>
@@ -67,6 +87,7 @@ function Journal() {
                 )
               }
             />
+
           </div>
 
         </div>
