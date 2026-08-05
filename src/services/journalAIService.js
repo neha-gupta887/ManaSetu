@@ -1,3 +1,4 @@
+import { unlockAchievement } from "./achievementService";
 import { getAIJsonResponse } from "./geminiService";
 
 export async function analyzeJournal(content) {

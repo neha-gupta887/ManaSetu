@@ -63,7 +63,12 @@ export const saveJournal = async (
       const earnedXP =
         xpRewards[category] || xpRewards.default;
 
-      await addXP(earnedXP);
+      
+        await unlockAchievement(
+  "first-journal",
+  "First Step",
+  "🌱"
+);
 
       console.log(`🌱 +${earnedXP} XP awarded.`);
     } catch (xpError) {

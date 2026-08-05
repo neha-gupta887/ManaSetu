@@ -1,55 +1,88 @@
-export const getAchievements = (analytics) => {
-  const achievements = [];
+import {
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+  arrayUnion,
+  serverTimestamp,
+} from "firebase/firestore";
 
-  if (analytics.totalEntries >= 1) {
-    achievements.push({
-      id: 1,
-      title: "First Mood Logged",
-      icon: "🌱",
-      description: "You logged your first mood.",
-      unlocked: true,
+import { auth, db } from "./firebase";
+
+const COLLECTION = "achievements";
+
+// Initialize achievement document
+export const initializeAchievements = async () => {
+  const user = auth.currentUser;
+
+  if (!user) return;
+
+  const ref = doc(db, COLLECTION, user.uid);
+
+  const snap = await getDoc(ref);
+
+  if (!snap.exists()) {
+    await setDoc(ref, {
+      uid: user.uid,
+      unlocked: [],
+      updatedAt: serverTimestamp(),
     });
   }
+};
 
-  if (analytics.totalEntries >= 10) {
-    achievements.push({
-      id: 2,
-      title: "Mood Explorer",
-      icon: "😊",
-      description: "Logged 10 moods.",
-      unlocked: true,
-    });
+// Unlock achievement
+export const unlockAchievement = async (
+  id,
+  title,
+  icon
+) => {
+  const user = auth.currentUser;
+
+  if (!user) return false;
+
+  const ref = doc(db, COLLECTION, user.uid);
+
+  const snap = await getDoc(ref);
+
+  if (!snap.exists()) {
+    await initializeAchievements();
   }
 
-  if (analytics.totalEntries >= 30) {
-    achievements.push({
-      id: 3,
-      title: "Consistency Champion",
-      icon: "🏆",
-      description: "Logged 30 moods.",
-      unlocked: true,
-    });
-  }
+  const latest = await getDoc(ref);
 
-  if (analytics.streak >= 3) {
-    achievements.push({
-      id: 4,
-      title: "3-Day Streak",
-      icon: "🔥",
-      description: "Maintained a 3-day mood streak.",
-      unlocked: true,
-    });
-  }
+  const unlocked =
+    latest.data().unlocked || [];
 
-  if (analytics.streak >= 7) {
-    achievements.push({
-      id: 5,
-      title: "7-Day Streak",
-      icon: "⭐",
-      description: "Amazing consistency!",
-      unlocked: true,
-    });
-  }
+  const exists = unlocked.find(
+    (item) => item.id === id
+  );
 
-  return achievements;
+  if (exists) return false;
+
+  await updateDoc(ref, {
+    unlocked: arrayUnion({
+      id,
+      title,
+      icon,
+      unlockedAt: new Date().toISOString(),
+    }),
+    updatedAt: serverTimestamp(),
+  });
+
+  return true;
+};
+
+// Get achievements
+export const getAchievements = async () => {
+  const user = auth.currentUser;
+
+  if (!user) return [];
+
+  const ref = doc(db, COLLECTION, user.uid);
+
+  const snap = await getDoc(ref);
+
+  if (!snap.exists()) return [];
+
+  return snap.data().unlocked || [];
 };

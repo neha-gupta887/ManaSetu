@@ -1,3 +1,4 @@
+import AchievementCard from "../components/dashboard/AchievementCard";
 import WellnessGarden from "../components/dashboard/WellnessGarden";
 import DashboardHero from "../components/dashboard/DashboardHero";
 import { useEffect, useState } from "react";
@@ -181,6 +182,9 @@ const dailyMessage =
 <div className="mt-10">
 
   <WellnessGarden />
+  <div className="mt-8">
+  <AchievementCard />
+</div>
 
 </div>
 
