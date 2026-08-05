@@ -1,26 +1,27 @@
+import { useState } from "react";
+
 import ChatMessage from "./ChatMessage";
+import ChatInput from "./ChatInput";
 
 function ChatWindow() {
-  const messages = [
+  const [messages, setMessages] = useState([
     {
       id: 1,
       sender: "ai",
-      message:
-        "Hello! I'm Mana AI. How are you feeling today?",
+      message: "Hello! I'm Mana AI. How are you feeling today?",
     },
-    {
-      id: 2,
-      sender: "user",
-      message:
-        "I'm feeling a little stressed because of my assignments.",
-    },
-    {
-      id: 3,
-      sender: "ai",
-      message:
-        "I understand. Let's take things one step at a time. Would you like a short breathing exercise or help planning your work?",
-    },
-  ];
+  ]);
+
+  const handleSend = (text) => {
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: Date.now(),
+        sender: "user",
+        message: text,
+      },
+    ]);
+  };
 
   return (
     <div className="flex h-full flex-col rounded-3xl bg-white p-8 shadow-xl dark:bg-gray-900">
@@ -48,6 +49,8 @@ function ChatWindow() {
         ))}
 
       </div>
+
+      <ChatInput onSend={handleSend} />
 
     </div>
   );
