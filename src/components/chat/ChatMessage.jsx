@@ -1,7 +1,11 @@
+import { useState } from "react";
 import {
   FaRobot,
   FaUser,
   FaCopy,
+  FaThumbsUp,
+  FaHeart,
+  FaSmile,
 } from "react-icons/fa";
 
 function ChatMessage({
@@ -10,6 +14,8 @@ function ChatMessage({
   time,
 }) {
   const isUser = sender === "user";
+
+  const [reaction, setReaction] = useState("");
 
   const handleCopy = async () => {
     try {
@@ -26,15 +32,11 @@ function ChatMessage({
         isUser ? "justify-end" : "justify-start"
       }`}
     >
-      {/* AI Avatar */}
-
       {!isUser && (
         <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-emerald-600 text-white shadow-md">
           <FaRobot />
         </div>
       )}
-
-      {/* Message Bubble */}
 
       <div
         className={`group relative max-w-[75%] rounded-3xl px-5 py-4 shadow-md transition-all duration-300 hover:shadow-lg ${
@@ -47,25 +49,15 @@ function ChatMessage({
 
         <button
           onClick={handleCopy}
-          className={`absolute right-3 top-3 rounded-full p-1 opacity-0 transition-all duration-300 group-hover:opacity-100 ${
-            isUser
-              ? "hover:bg-emerald-500"
-              : "hover:bg-gray-200 dark:hover:bg-gray-700"
-          }`}
+          className="absolute right-3 top-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
           title="Copy message"
         >
-          <FaCopy
-            className={`text-sm ${
-              isUser
-                ? "text-white"
-                : "text-gray-500 dark:text-gray-300"
-            }`}
-          />
+          <FaCopy className="text-sm" />
         </button>
 
         {/* Message */}
 
-        <p className="break-words pr-8 leading-7">
+        <p className="break-words pr-6 leading-7">
           {message}
         </p>
 
@@ -80,9 +72,43 @@ function ChatMessage({
         >
           {time}
         </div>
-      </div>
 
-      {/* User Avatar */}
+        {/* Reactions */}
+
+        <div className="mt-3 flex items-center gap-2">
+
+          <button
+            onClick={() => setReaction("👍")}
+            className="rounded-full p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700"
+            title="Like"
+          >
+            <FaThumbsUp />
+          </button>
+
+          <button
+            onClick={() => setReaction("❤️")}
+            className="rounded-full p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700"
+            title="Love"
+          >
+            <FaHeart />
+          </button>
+
+          <button
+            onClick={() => setReaction("😊")}
+            className="rounded-full p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700"
+            title="Smile"
+          >
+            <FaSmile />
+          </button>
+
+          {reaction && (
+            <span className="ml-2 text-xl">
+              {reaction}
+            </span>
+          )}
+
+        </div>
+      </div>
 
       {isUser && (
         <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-blue-600 text-white shadow-md">
