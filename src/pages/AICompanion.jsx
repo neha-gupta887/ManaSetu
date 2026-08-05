@@ -1,6 +1,7 @@
 import {
   saveChatMessage,
   getChatHistory,
+  clearChatHistory,
 } from "../services/chatService";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -73,8 +74,34 @@ function AICompanion() {
   // ===========================
   // Suggested Prompts
   // ===========================
+const handleClearChat = async () => {
+  const confirmed = window.confirm(
+    "Are you sure you want to clear all chat history?"
+  );
 
+  if (!confirmed) return;
+
+  const success = await clearChatHistory();
+
+  if (success) {
+    setMessages([
+      {
+        sender: "ai",
+        text:
+          "👋 Hello! I'm Mana AI.\n\nI'm your Agentic Wellness Companion.\n\nTell me how you're feeling today and I'll analyze your wellbeing using multiple AI agents.",
+        time: new Date().toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+      },
+    ]);
+
+    setLatestResult(null);
+    setActiveAgents([]);
+  }
+};
   const suggestions = [
+
     "😔 I'm feeling stressed about exams",
     "😴 I'm not sleeping well",
     "😕 I feel anxious lately",
@@ -547,9 +574,38 @@ await saveChatMessage(
 
           <div>
 
-            <h2 className="text-2xl font-bold dark:text-white">
-              💬 Conversation
-            </h2>
+            <div className="border-b border-gray-200 dark:border-gray-700 p-5 flex items-center justify-between">
+
+  <div>
+    <h2 className="text-2xl font-bold dark:text-white">
+      💬 Conversation
+    </h2>
+
+    <p className="text-gray-500 dark:text-gray-400">
+      Chat naturally with Mana AI
+    </p>
+  </div>
+
+  <div className="flex items-center gap-3">
+
+    <button
+      onClick={handleClearChat}
+      className="rounded-xl bg-red-600 px-4 py-2 text-white hover:bg-red-700 transition"
+    >
+      🗑️ Clear Chat
+    </button>
+
+    <div className="hidden md:flex items-center gap-2 rounded-full bg-emerald-100 dark:bg-emerald-900 px-4 py-2">
+      <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+
+      <span className="text-sm font-medium text-emerald-700 dark:text-emerald-300">
+        Online
+      </span>
+    </div>
+
+  </div>
+
+</div>
 
             <p className="text-gray-500 dark:text-gray-400">
               Chat naturally with Mana AI
