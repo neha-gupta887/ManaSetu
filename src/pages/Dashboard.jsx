@@ -1,3 +1,4 @@
+import NotificationPreview from "../components/dashboard/NotificationPreview";
 import DashboardSearch from "../components/dashboard/DashboardSearch";
 import AIRecommendations from "../components/dashboard/AIRecommendations";
 import MoodCalendar from "../components/dashboard/MoodCalendar";
@@ -227,11 +228,13 @@ function Dashboard() {
 
 {/* AI Workflow */}
 
-<div className="grid xl:grid-cols-2 gap-8 mt-8">
+<div className="grid xl:grid-cols-3 gap-8 mt-8">
 
   <AIWorkflow />
 
   <MoodCalendar />
+
+  <NotificationPreview />
 
 </div>
         {/* Habit Tracker + Daily Challenge */}
