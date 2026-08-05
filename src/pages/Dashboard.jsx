@@ -1,3 +1,4 @@
+import DashboardSearch from "../components/dashboard/DashboardSearch";
 import AIRecommendations from "../components/dashboard/AIRecommendations";
 import MoodCalendar from "../components/dashboard/MoodCalendar";
 import UpcomingSessions from "../components/dashboard/UpcomingSessions";
@@ -62,7 +63,13 @@ function Dashboard() {
 
       <main className="lg:ml-72 px-5 sm:px-8 py-8">
 
-        <Topbar />
+        
+        <div className="mt-8">
+  <DashboardSearch
+    searchTerm={searchTerm}
+    setSearchTerm={setSearchTerm}
+  />
+</div>
 
         <div className="mt-8">
 
