@@ -1,3 +1,4 @@
+import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { FaSeedling } from "react-icons/fa";
 import { getGardenData } from "../../services/gardenService";

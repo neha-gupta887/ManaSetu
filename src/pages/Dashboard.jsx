@@ -1,23 +1,22 @@
-import AchievementCard from "../components/dashboard/AchievementCard";
-import WellnessGarden from "../components/dashboard/WellnessGarden";
-import DashboardHero from "../components/dashboard/DashboardHero";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import Sidebar from "../components/dashboard/Sidebar";
 import Topbar from "../components/dashboard/Topbar";
-import WelcomeCard from "../components/dashboard/WelcomeCard";
+import DashboardHero from "../components/dashboard/DashboardHero";
 import DashboardOverview from "../components/dashboard/DashboardOverview";
 import QuickActions from "../components/dashboard/QuickActions";
 
-import LoadingSpinner from "../components/LoadingSpinner";
-import { getDashboardStats } from "../services/dashboardStatsService";
+import WellnessGarden from "../components/dashboard/WellnessGarden";
+import AchievementCard from "../components/dashboard/AchievementCard";
+
 import MoodAnalyticsChart from "../components/dashboard/MoodAnalyticsChart";
 import MoodDistributionChart from "../components/dashboard/MoodDistributionChart";
 import WellnessHeatmap from "../components/dashboard/WellnessHeatmap";
 
 import MoodHistory from "../components/dashboard/MoodHistory";
 import RecentActivity from "../components/dashboard/RecentActivity";
+import QuoteCard from "../components/dashboard/QuoteCard";
 
 import AIInsightCard from "../components/AIInsightCard";
 import AIWorkflow from "../components/AIWorkflow";
@@ -25,97 +24,103 @@ import AIWorkflow from "../components/AIWorkflow";
 import WellnessTimeline from "../components/WellnessTimeline";
 import HabitTrackerCard from "../components/HabitTrackerCard";
 import DailyChallengeCard from "../components/DailyChallengeCard";
-import QuoteCard from "../components/dashboard/QuoteCard";
+
 import MoodReminder from "../components/MoodReminder";
+import LoadingSpinner from "../components/LoadingSpinner";
+
+import { getDashboardStats } from "../services/dashboardStatsService";
+
 function Dashboard() {
-const [stats, setStats] = useState({
-  wellnessScore: 0,
-  streak: 0,
-  journalEntries: 0,
-  currentMood: "Loading...",
-  totalMoodEntries: 0,
-});
+
+  const [stats, setStats] = useState({
+    wellnessScore: 0,
+    streak: 0,
+    journalEntries: 0,
+    currentMood: "Loading...",
+    totalMoodEntries: 0,
+  });
+
   const [loading, setLoading] = useState(true);
-  // ===============================
-// Dynamic Greeting
-// ===============================
 
-const hour = new Date().getHours();
+  // Dynamic Greeting
 
-const greeting =
-  hour < 12
-    ? "Good Morning ☀️"
-    : hour < 17
-    ? "Good Afternoon 🌤️"
-    : "Good Evening 🌙";
+  const hour = new Date().getHours();
 
-// ===============================
-// Daily Wellness Messages
-// ===============================
+  const greeting =
+    hour < 12
+      ? "Good Morning ☀️"
+      : hour < 17
+      ? "Good Afternoon 🌤️"
+      : "Good Evening 🌙";
 
-const wellnessMessages = [
-  "🌿 Every small step you take today matters.",
-  "💚 Thank you for taking time for yourself.",
-  "🍃 Breathe deeply. You don't have to carry everything at once.",
-  "🌸 Your wellbeing deserves care and attention.",
-  "✨ Progress isn't about perfection. It's about showing up.",
-  "🌞 You are stronger than yesterday, even if it doesn't feel like it.",
-];
+  // Daily Wellness Messages
 
-const dailyMessage =
-  wellnessMessages[
-    new Date().getDate() % wellnessMessages.length
+  const wellnessMessages = [
+    "🌿 Every small step you take today matters.",
+    "💚 Thank you for choosing yourself today.",
+    "🌸 Healing happens one day at a time.",
+    "🍃 Take a deep breath. You're doing your best.",
+    "✨ Progress is more important than perfection.",
+    "🌞 Your mental wellbeing deserves attention every day.",
+    "🌈 Keep showing up for yourself.",
   ];
 
+  const dailyMessage =
+    wellnessMessages[
+      new Date().getDate() %
+        wellnessMessages.length
+    ];
+
   useEffect(() => {
-  const loadDashboard = async () => {
-    try {
-      const data = await getDashboardStats();
 
-      setStats(data);
+    const loadDashboard = async () => {
 
-      setTimeout(() => {
+      try {
+
+        const data =
+          await getDashboardStats();
+
+        setStats(data);
+
+      } catch (error) {
+
+        console.error(error);
+
+      } finally {
+
         setLoading(false);
-      }, 900);
-    } catch (error) {
-      console.error(error);
-      setLoading(false);
-    }
-  };
 
-  loadDashboard();
-}, []);
+      }
+
+    };
+
+    loadDashboard();
+
+  }, []);
+
   if (loading) {
+
     return <LoadingSpinner />;
+
   }
 
   return (
-    <div
-      className="
-      min-h-screen
-      bg-gradient-to-br
-      from-slate-50
-      via-white
-      to-emerald-50
-      dark:from-gray-950
-      dark:via-gray-900
-      dark:to-black
-      transition-all
-      duration-500"
-    >
+
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50 dark:from-gray-950 dark:via-gray-900 dark:to-black transition-all duration-500">
+
       <Sidebar />
 
       <main className="lg:ml-72 px-6 py-8">
 
+        <Topbar />
+
         <DashboardHero
-  stats={stats}
-  greeting={greeting}
-  dailyMessage={dailyMessage}
-/>
+          stats={stats}
+          greeting={greeting}
+          dailyMessage={dailyMessage}
+        />
 
-        
-
-        {/* Dashboard Overview + Quick Actions */}
+        {/* Overview */}
 
         <section className="mt-10 grid gap-8 xl:grid-cols-3">
 
@@ -132,23 +137,32 @@ const dailyMessage =
           </div>
 
         </section>
-                {/* Analytics */}
+                {/* =========================
+            Wellness Analytics
+        ========================== */}
 
-        <section className="mt-12">
+        <section className="mt-14">
 
-          <div className="mb-8 flex items-center justify-between">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
 
             <div>
 
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+              <span className="rounded-full bg-emerald-100 px-4 py-2 text-sm font-semibold text-emerald-700 dark:bg-emerald-900 dark:text-emerald-200">
 
-                📊 Wellness Analytics
+                📊 Emotional Insights
+
+              </span>
+
+              <h2 className="mt-5 text-4xl font-bold text-gray-900 dark:text-white">
+
+                Wellness Analytics
 
               </h2>
 
-              <p className="mt-2 text-gray-500 dark:text-gray-400">
+              <p className="mt-3 max-w-3xl text-lg text-gray-600 dark:text-gray-400">
 
-                Track your emotional wellness and AI-powered insights.
+                Understand your emotional wellbeing through AI-powered
+                insights, mood trends and wellness statistics.
 
               </p>
 
@@ -156,150 +170,97 @@ const dailyMessage =
 
             <Link
               to="/analytics"
-              className="rounded-xl bg-emerald-600 px-5 py-3 font-semibold text-white transition hover:bg-emerald-700"
+              className="rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 px-6 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
             >
-              View Full Analytics →
+
+              View Full Report →
+
             </Link>
 
           </div>
 
-          <div className="grid gap-8 xl:grid-cols-2">
+          {/* Charts */}
 
-  <MoodAnalyticsChart />
+          <div className="mt-10 grid gap-8 xl:grid-cols-2">
 
-  <MoodDistributionChart />
+            <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
 
-</div>
+              <MoodAnalyticsChart />
 
-<div className="mt-8">
+            </div>
 
-  <WellnessHeatmap />
+            <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
 
-</div>
+              <MoodDistributionChart />
 
-{/* Wellness Garden */}
+            </div>
 
-<div className="mt-10">
+          </div>
 
-  <WellnessGarden />
-  <div className="mt-8">
-  <AchievementCard />
-</div>
+          {/* Heatmap */}
 
-</div>
+          <div className="mt-8 rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
+
+            <WellnessHeatmap />
+
+          </div>
 
         </section>
 
-        {/* AI Section */}
+        {/* =========================
+            Wellness Garden
+        ========================== */}
 
-        <section className="mt-12">
+        <section className="mt-16">
 
           <div className="mb-8">
 
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+            <span className="rounded-full bg-green-100 px-4 py-2 text-sm font-semibold text-green-700 dark:bg-green-900 dark:text-green-200">
 
-              🤖 AI Wellness Assistant
+              🌱 Your Progress
+
+            </span>
+
+            <h2 className="mt-5 text-4xl font-bold text-gray-900 dark:text-white">
+
+              Wellness Garden
 
             </h2>
 
-            <p className="mt-2 text-gray-500 dark:text-gray-400">
+            <p className="mt-3 max-w-3xl text-lg text-gray-600 dark:text-gray-400">
 
-              Personalized recommendations generated from your wellness journey.
+              Every healthy habit helps your digital garden grow.
+              Journal, breathe, reflect and let your tree bloom.
 
             </p>
 
           </div>
 
-          <div className="grid gap-8 xl:grid-cols-2">
+          <div className="grid gap-8 xl:grid-cols-3">
 
-            <AIInsightCard />
+            <div className="xl:col-span-2">
 
-            <AIWorkflow />
+              <WellnessGarden />
 
-          </div>
+            </div>
 
-        </section>
-                {/* Wellness Hub */}
+            <div>
 
-        <section className="mt-12">
+              <AchievementCard />
 
-          <div className="mb-8">
-
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
-
-              🌿 Wellness Hub
-
-            </h2>
-
-            <p className="mt-2 text-gray-500 dark:text-gray-400">
-
-              Stay consistent with healthy habits, monitor your progress, and
-              keep your wellness journey on track.
-
-            </p>
-
-          </div>
-
-          <div className="grid gap-8 xl:grid-cols-2">
-
-            <MoodHistory />
-
-            <WellnessTimeline />
-
-          </div>
-
-          <div className="mt-8 grid gap-8 xl:grid-cols-2">
-
-            <HabitTrackerCard />
-
-            <DailyChallengeCard />
+            </div>
 
           </div>
 
         </section>
 
-        {/* Journal & Activity */}
+        {/* =========================
+            Weekly Summary
+        ========================== */}
 
-        <section className="mt-12">
+        <section className="mt-16">
 
-          <div className="mb-8">
-
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
-
-              📖 Your Journey
-
-            </h2>
-
-            <p className="mt-2 text-gray-500 dark:text-gray-400">
-
-              Review your recent activities and stay motivated every day.
-
-            </p>
-
-          </div>
-
-          <div className="grid gap-8 xl:grid-cols-2">
-
-            <RecentActivity />
-
-            <QuoteCard />
-
-          </div>
-
-        </section>
-
-        {/* Daily Reminder */}
-
-        <section className="mt-12">
-
-          <MoodReminder />
-
-        </section>
-                {/* Call to Action */}
-
-        <section className="mt-12">
-
-          <div className="overflow-hidden rounded-3xl bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 p-10 text-white shadow-2xl">
+          <div className="rounded-[36px] bg-gradient-to-r from-indigo-500 via-violet-500 to-fuchsia-500 p-10 text-white shadow-2xl">
 
             <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
 
@@ -307,47 +268,47 @@ const dailyMessage =
 
                 <span className="rounded-full bg-white/20 px-4 py-2 text-sm font-semibold backdrop-blur">
 
-                  🌿 Daily Wellness
+                  📈 Weekly Wellness Summary
 
                 </span>
 
                 <h2 className="mt-5 text-4xl font-extrabold">
 
-                  Every Small Step Matters
+                  Keep Moving Forward
 
                 </h2>
 
-                <p className="mt-4 max-w-2xl text-lg leading-8 text-emerald-100">
+                <p className="mt-4 max-w-2xl text-lg leading-8 text-violet-100">
 
-                  Build healthy habits, journal your thoughts,
-                  monitor your emotions and let Mana AI guide
-                  you towards a happier and healthier life.
+                  Small habits create meaningful change.
+                  Celebrate your progress and continue building
+                  a healthier, happier version of yourself.
 
                 </p>
 
               </div>
 
-              <div className="flex flex-wrap gap-4">
+              <div className="grid grid-cols-2 gap-5">
 
-                <Link to="/journal">
+                <SummaryCard
+                  title="Wellness Score"
+                  value={`${stats.wellnessScore}%`}
+                />
 
-                  <button className="rounded-2xl bg-white px-8 py-4 font-bold text-emerald-700 shadow-xl transition-all duration-300 hover:scale-105">
+                <SummaryCard
+                  title="Current Streak"
+                  value={`${stats.streak} Days`}
+                />
 
-                    📖 Open Journal
+                <SummaryCard
+                  title="Journal Entries"
+                  value={stats.journalEntries}
+                />
 
-                  </button>
-
-                </Link>
-
-                <Link to="/chat">
-
-                  <button className="rounded-2xl border border-white px-8 py-4 font-bold text-white transition-all duration-300 hover:bg-white hover:text-emerald-700">
-
-                    🤖 Chat with Mana AI
-
-                  </button>
-
-                </Link>
+                <SummaryCard
+                  title="Mood Check-ins"
+                  value={stats.totalMoodEntries}
+                />
 
               </div>
 
@@ -356,79 +317,162 @@ const dailyMessage =
           </div>
 
         </section>
+        {/* =========================
+      AI WELLNESS CENTER
+========================= */}
 
-        {/* Footer */}
+<section className="mt-16">
 
-        <footer className="mt-16 border-t border-gray-200 pt-8 dark:border-gray-700">
+  <div className="mb-10">
 
-          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+    <span className="rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700 dark:bg-blue-900 dark:text-blue-200">
 
-            <div>
+      🤖 Personalized AI
 
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+    </span>
 
-                🌿 ManaSetu
+    <h2 className="mt-5 text-4xl font-bold text-gray-900 dark:text-white">
 
-              </h3>
+      Mana AI Wellness Coach
 
-              <p className="mt-2 text-gray-500 dark:text-gray-400">
+    </h2>
 
-                AI Powered Mental Wellness Platform
+    <p className="mt-3 max-w-3xl text-lg text-gray-600 dark:text-gray-400">
 
-              </p>
+      Receive personalized emotional insights, wellness recommendations,
+      and intelligent guidance based on your wellness journey.
 
-            </div>
+    </p>
 
-            <div className="flex flex-wrap gap-6 text-sm text-gray-500 dark:text-gray-400">
+  </div>
 
-              <Link
-                to="/dashboard"
-                className="hover:text-emerald-600"
-              >
-                Dashboard
-              </Link>
+  <div className="grid gap-8 xl:grid-cols-3">
 
-              <Link
-                to="/journal"
-                className="hover:text-emerald-600"
-              >
-                Journal
-              </Link>
+    <div className="xl:col-span-2 rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
 
-              <Link
-                to="/analytics"
-                className="hover:text-emerald-600"
-              >
-                Analytics
-              </Link>
-
-              <Link
-                to="/chat"
-                className="hover:text-emerald-600"
-              >
-                AI Chat
-              </Link>
-
-            </div>
-
-          </div>
-
-          <div className="mt-8 border-t border-gray-200 pt-6 text-center dark:border-gray-700">
-
-            <p className="text-gray-500 dark:text-gray-400">
-
-              © {new Date().getFullYear()} ManaSetu • Built with ❤️ using React & Firebase
-
-            </p>
-
-          </div>
-
-        </footer>
-
-      </main>
+      <AIWorkflow />
 
     </div>
-  );
-}
 
-export default Dashboard;
+    <div className="rounded-3xl bg-gradient-to-br from-sky-500 via-cyan-500 to-teal-500 p-8 text-white shadow-2xl">
+
+      <h3 className="text-2xl font-bold">
+
+        🌿 AI Coach
+
+      </h3>
+
+      <p className="mt-5 leading-8">
+
+        Based on your recent wellness activity, Mana AI believes:
+
+      </p>
+
+      <div className="mt-6 space-y-4">
+
+        <Insight
+          emoji="😊"
+          text="Your mood has improved this week."
+        />
+
+        <Insight
+          emoji="📖"
+          text="Journaling regularly increases emotional awareness."
+        />
+
+        <Insight
+          emoji="🌬"
+          text="A short breathing exercise could help today."
+        />
+
+        <Insight
+          emoji="💚"
+          text="Keep your current wellness streak alive!"
+        />
+
+      </div>
+
+      <Link to="/chat">
+
+        <button className="mt-8 w-full rounded-2xl bg-white py-4 font-bold text-teal-700 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+
+          🤖 Talk to Mana AI
+
+        </button>
+
+      </Link>
+
+    </div>
+
+  </div>
+
+  <div className="mt-8 rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
+
+    <AIInsightCard />
+
+  </div>
+
+</section>
+
+{/* =========================
+      WELLNESS HUB
+========================= */}
+
+<section className="mt-16">
+
+  <div className="mb-10">
+
+    <span className="rounded-full bg-pink-100 px-4 py-2 text-sm font-semibold text-pink-700 dark:bg-pink-900 dark:text-pink-200">
+
+      🌸 Daily Wellness
+
+    </span>
+
+    <h2 className="mt-5 text-4xl font-bold text-gray-900 dark:text-white">
+
+      Your Wellness Hub
+
+    </h2>
+
+    <p className="mt-3 max-w-3xl text-lg text-gray-600 dark:text-gray-400">
+
+      Build healthy routines, track habits, and celebrate
+      your emotional growth every day.
+
+    </p>
+
+  </div>
+
+  <div className="grid gap-8 xl:grid-cols-2">
+
+    <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
+
+      <MoodHistory />
+
+    </div>
+
+    <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
+
+      <WellnessTimeline />
+
+    </div>
+
+  </div>
+
+  <div className="mt-8 grid gap-8 xl:grid-cols-2">
+
+    <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
+
+      <HabitTrackerCard />
+
+    </div>
+
+    <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
+
+      <DailyChallengeCard />
+
+    </div>
+
+  </div>
+
+</section>
