@@ -121,8 +121,7 @@ function Topbar() {
             </h2>
 
             <p className="text-gray-500 dark:text-gray-400 mt-1">
-              {today} • Take care of your mind today.
-            </p>
+{today} • One small act of self-care today can make a big difference. 🌿            </p>
           </div>
         </div>
 
@@ -135,8 +134,7 @@ function Topbar() {
 
             <input
               type="text"
-              placeholder="Search..."
-              className="bg-transparent outline-none w-full text-gray-700 dark:text-white placeholder-gray-400"
+placeholder="Search your wellness journey..."              className="bg-transparent outline-none w-full text-gray-700 dark:text-white placeholder-gray-400"
             />
           </div>
 
@@ -223,6 +221,11 @@ function Topbar() {
               </div>
             )}
           </div>
+          <button
+  className="w-12 h-12 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-emerald-900 transition duration-300"
+>
+  <FaMoon className="text-gray-700 dark:text-yellow-300" />
+</button>
 
           {/* Profile */}
           <div className="flex items-center gap-3 bg-gray-100 dark:bg-gray-700 rounded-2xl px-4 py-2 hover:shadow-lg transition duration-300 cursor-pointer">
@@ -234,8 +237,7 @@ function Topbar() {
               </h3>
 
               <p className="text-sm text-gray-500 dark:text-gray-400">
-                ManaSetu User
-              </p>
+Wellness Explorer 🌿              </p>
             </div>
           </div>
         </div>
