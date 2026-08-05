@@ -256,8 +256,13 @@ function Dashboard() {
 
   <MoodHistory />
   <div className="mt-8">
+<div className="grid gap-8 xl:grid-cols-2">
+
   <MoodAnalyticsChart />
-</div>
+
+  <MoodDistributionChart />
+
+</div></div>
 
   <WellnessTimeline />
 
