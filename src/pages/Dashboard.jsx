@@ -624,3 +624,145 @@ function Dashboard() {
   </div>
 
 </section>
+{/* =========================
+      DAILY WELLNESS
+========================= */}
+
+<section className="mt-16">
+
+  <div className="overflow-hidden rounded-[40px] bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 p-12 shadow-2xl">
+
+    <div className="flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between">
+
+      <div className="max-w-2xl">
+
+        <span className="rounded-full bg-white/20 px-5 py-2 text-sm font-semibold text-white backdrop-blur">
+
+          🌿 One Small Step Every Day
+
+        </span>
+
+        <h2 className="mt-6 text-5xl font-extrabold text-white">
+
+          Your wellbeing matters.
+
+        </h2>
+
+        <p className="mt-6 text-lg leading-8 text-emerald-100">
+
+          Healing isn't about being perfect.
+
+          It's about showing up,
+          taking one small step,
+          and being kind to yourself.
+
+          ManaSetu will always walk beside you.
+
+        </p>
+
+      </div>
+
+      <div className="flex flex-wrap gap-5">
+
+        <Link to="/journal">
+
+          <button className="rounded-2xl bg-white px-8 py-4 font-bold text-emerald-700 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+
+            📝 Reflect Now
+
+          </button>
+
+        </Link>
+
+        <Link to="/chat">
+
+          <button className="rounded-2xl border border-white px-8 py-4 font-bold text-white transition-all duration-300 hover:bg-white hover:text-emerald-700">
+
+            🤖 Talk to Mana
+
+          </button>
+
+        </Link>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+{/* =========================
+      FOOTER
+========================= */}
+
+<footer className="mt-20 border-t border-gray-200 pt-10 dark:border-gray-700">
+
+  <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+
+    <div>
+
+      <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
+
+        🌿 ManaSetu
+
+      </h3>
+
+      <p className="mt-3 max-w-md text-gray-600 dark:text-gray-400">
+
+        A safe digital space designed to help students
+        understand their emotions,
+        build healthy habits,
+        and grow through every step of their wellness journey.
+
+      </p>
+
+    </div>
+
+    <div className="flex flex-wrap gap-6 text-gray-600 dark:text-gray-400">
+
+      <Link to="/dashboard" className="hover:text-emerald-600">
+
+        Home
+
+      </Link>
+
+      <Link to="/journal" className="hover:text-emerald-600">
+
+        Journal
+
+      </Link>
+
+      <Link to="/analytics" className="hover:text-emerald-600">
+
+        Analytics
+
+      </Link>
+
+      <Link to="/chat" className="hover:text-emerald-600">
+
+        Mana AI
+
+      </Link>
+
+    </div>
+
+  </div>
+
+  <div className="mt-10 border-t border-gray-200 pt-6 text-center dark:border-gray-700">
+
+    <p className="text-gray-500 dark:text-gray-400">
+
+      💚 Thank you for taking care of yourself today.
+
+    </p>
+
+    <p className="mt-2 text-sm text-gray-400">
+
+      © {new Date().getFullYear()} ManaSetu · Empowering Students Through Mental Wellness
+
+    </p>
+
+  </div>
+
+</footer>
