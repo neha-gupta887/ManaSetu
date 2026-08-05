@@ -5,8 +5,8 @@ import {
 
 function JournalHistory({
   entries,
-  onDelete,
   onEdit,
+  onDelete,
 }) {
   return (
     <div className="rounded-3xl bg-white p-8 shadow-xl dark:bg-gray-900">
@@ -27,15 +27,23 @@ function JournalHistory({
               key={entry.id}
               className="rounded-2xl border border-gray-200 p-4 dark:border-gray-700"
             >
-              <h3 className="font-semibold text-gray-900 dark:text-white">
-                {entry.title}
-              </h3>
+              <div className="flex items-center justify-between">
 
-              <p className="mt-2 text-gray-600 dark:text-gray-300">
+                <h3 className="font-semibold text-gray-900 dark:text-white">
+                  {entry.title}
+                </h3>
+
+                <span className="text-3xl">
+                  {entry.mood}
+                </span>
+
+              </div>
+
+              <p className="mt-3 text-gray-600 dark:text-gray-300">
                 {entry.content}
               </p>
 
-              <p className="mt-2 text-xs text-gray-500">
+              <p className="mt-3 text-xs text-gray-500">
                 {entry.date}
               </p>
 
@@ -43,20 +51,16 @@ function JournalHistory({
 
                 <button
                   onClick={() => onEdit(entry)}
-                  className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+                  className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
                 >
                   <FaEdit />
-                  Edit
                 </button>
 
                 <button
-                  onClick={() =>
-                    onDelete(entry.id)
-                  }
-                  className="flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+                  onClick={() => onDelete(entry.id)}
+                  className="rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700"
                 >
                   <FaTrash />
-                  Delete
                 </button>
 
               </div>
