@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
-function Hero() {
-  return (
+function Hero({ stats = {} }) {  return (
     <section
       id="top"
       className="relative overflow-hidden min-h-screen flex items-center bg-gradient-to-br from-emerald-50 via-white to-teal-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-800 transition-colors duration-500"
@@ -221,8 +220,7 @@ function Hero() {
 
               <h3 className="text-5xl font-extrabold mt-3">
 
-               {stats.wellnessScore}%
-
+{stats?.wellnessScore ?? 95}%
               </h3>
 
               <p className="mt-3">

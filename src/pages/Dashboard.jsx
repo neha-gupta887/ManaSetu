@@ -33,6 +33,36 @@ const [stats, setStats] = useState({
   totalMoodEntries: 0,
 });
   const [loading, setLoading] = useState(true);
+  // ===============================
+// Dynamic Greeting
+// ===============================
+
+const hour = new Date().getHours();
+
+const greeting =
+  hour < 12
+    ? "Good Morning ☀️"
+    : hour < 17
+    ? "Good Afternoon 🌤️"
+    : "Good Evening 🌙";
+
+// ===============================
+// Daily Wellness Messages
+// ===============================
+
+const wellnessMessages = [
+  "🌿 Every small step you take today matters.",
+  "💚 Thank you for taking time for yourself.",
+  "🍃 Breathe deeply. You don't have to carry everything at once.",
+  "🌸 Your wellbeing deserves care and attention.",
+  "✨ Progress isn't about perfection. It's about showing up.",
+  "🌞 You are stronger than yesterday, even if it doesn't feel like it.",
+];
+
+const dailyMessage =
+  wellnessMessages[
+    new Date().getDate() % wellnessMessages.length
+  ];
 
   useEffect(() => {
   const loadDashboard = async () => {
@@ -90,20 +120,43 @@ const [stats, setStats] = useState({
 
               </span>
 
-              <h1 className="mt-6 text-5xl font-extrabold">
+              <div className="mt-6">
 
-                Welcome Back 👋
+  <p className="text-lg font-medium text-emerald-100">
+    {greeting}
+  </p>
 
-              </h1>
+  <h1 className="mt-2 text-5xl font-extrabold leading-tight">
+    How is your heart feeling today? 💚
+  </h1>
 
-              <p className="mt-4 max-w-2xl text-lg leading-8 text-emerald-100">
+</div>
 
-                Track your emotions, monitor your wellness,
-                chat with Mana AI, build healthy habits,
-                and visualize your progress through
-                intelligent analytics.
+              <div className="mt-6 max-w-2xl">
 
-              </p>
+  <p className="text-lg leading-8 text-emerald-50">
+
+    ManaSetu is your personal wellness companion.
+
+    Whether today feels peaceful, overwhelming,
+    or somewhere in between,
+    you're not alone.
+
+    Let's take one small step toward a healthier mind.
+
+  </p>
+
+  <div className="mt-6 rounded-2xl bg-white/10 p-4 backdrop-blur-md">
+
+    <p className="text-base font-medium text-white">
+
+      {dailyMessage}
+
+    </p>
+
+  </div>
+
+</div>
 
             </div>
 

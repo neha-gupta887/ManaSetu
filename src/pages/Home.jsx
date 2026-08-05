@@ -14,7 +14,7 @@ function Home() {
 
       {/* Prevent content from hiding behind fixed navbar */}
       <main className="pt-20">
-        <Hero />
+        <Hero />            
         <Features />
         <HowItWorks />
         <WhyChoose />
