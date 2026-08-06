@@ -448,3 +448,180 @@ function Dashboard() {
           </div>
 
         </section>
+                {/* =======================================================
+                            AI WELLNESS CENTER
+        ======================================================== */}
+
+        <section className="space-y-8">
+
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+
+            <div>
+
+              <span className="rounded-full bg-sky-100 px-4 py-2 text-sm font-semibold text-sky-700">
+
+                🤖 AI Wellness Coach
+
+              </span>
+
+              <h2 className="mt-4 text-4xl font-bold text-gray-900 dark:text-white">
+
+                Your Personal Mental Wellness Companion
+
+              </h2>
+
+              <p className="mt-3 max-w-2xl text-gray-600 dark:text-gray-400">
+
+                Mana AI understands your emotional journey and provides
+                personalized wellness suggestions, encouragement and
+                intelligent support whenever you need it.
+
+              </p>
+
+            </div>
+
+            <Link
+              to="/chat"
+              className="rounded-2xl bg-gradient-to-r from-sky-500 to-cyan-500 px-6 py-4 font-semibold text-white shadow-lg transition hover:-translate-y-1 hover:shadow-xl"
+            >
+
+              Open Mana AI →
+
+            </Link>
+
+          </div>
+
+          {/* AI Cards */}
+
+          <div className="grid gap-8 xl:grid-cols-2">
+
+            <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
+
+              <AIRecommendation />
+
+            </div>
+
+            <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
+
+              <AIQuickChat />
+
+            </div>
+
+          </div>
+
+        </section>
+
+        {/* =======================================================
+                        JOURNAL & ACTIVITY
+        ======================================================== */}
+
+        <section className="space-y-8">
+
+          <div>
+
+            <span className="rounded-full bg-orange-100 px-4 py-2 text-sm font-semibold text-orange-700">
+
+              📖 Reflection Space
+
+            </span>
+
+            <h2 className="mt-4 text-4xl font-bold text-gray-900 dark:text-white">
+
+              Continue Your Wellness Journey
+
+            </h2>
+
+            <p className="mt-3 max-w-2xl text-gray-600 dark:text-gray-400">
+
+              Review your latest journal entries, revisit important
+              reflections and stay connected with your emotional growth.
+
+            </p>
+
+          </div>
+
+          <div className="grid gap-8 xl:grid-cols-2">
+
+            <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
+
+              <RecentJournal />
+
+            </div>
+
+            <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
+
+              <RecentActivity />
+
+            </div>
+
+          </div>
+
+        </section>
+
+        {/* =======================================================
+                        AI QUICK HELP
+        ======================================================== */}
+
+        <section>
+
+          <div className="rounded-[36px] bg-gradient-to-r from-sky-500 via-cyan-500 to-blue-600 p-10 text-white shadow-2xl">
+
+            <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+
+              <div>
+
+                <span className="rounded-full bg-white/20 px-4 py-2 text-sm font-semibold backdrop-blur">
+
+                  💚 AI Wellness Tip
+
+                </span>
+
+                <h2 className="mt-5 text-4xl font-extrabold">
+
+                  Feeling Overwhelmed?
+
+                </h2>
+
+                <p className="mt-5 max-w-2xl text-lg leading-8 text-cyan-100">
+
+                  Take one deep breath.
+
+                  Write one thought.
+
+                  Talk to Mana.
+
+                  Small actions today create meaningful emotional growth.
+
+                </p>
+
+              </div>
+
+              <div className="flex flex-wrap gap-4">
+
+                <Link to="/journal">
+
+                  <button className="rounded-2xl bg-white px-6 py-4 font-semibold text-sky-700 transition hover:scale-105">
+
+                    📝 Journal
+
+                  </button>
+
+                </Link>
+
+                <Link to="/chat">
+
+                  <button className="rounded-2xl border border-white px-6 py-4 font-semibold text-white transition hover:bg-white hover:text-sky-700">
+
+                    🤖 Chat with Mana
+
+                  </button>
+
+                </Link>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
