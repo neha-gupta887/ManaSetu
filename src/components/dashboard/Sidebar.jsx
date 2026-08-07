@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import {
   FaHome,
@@ -27,7 +28,56 @@ const wellnessNavigation = [
   { label: "Counsellor", icon: FaUserMd, to: "/counselor" },
 ];
 
-function Sidebar({ isOpen = false, onClose }) {
+function Sidebar({ isOpen: controlledOpen, onClose: controlledClose }) {
+  const [internalOpen, setInternalOpen] = useState(false);
+
+  const isControlled = typeof controlledOpen === "boolean";
+  const isOpen = isControlled ? controlledOpen : internalOpen;
+
+  const closeSidebar = () => {
+    if (controlledClose) {
+      controlledClose();
+    }
+
+    setInternalOpen(false);
+  };
+
+  useEffect(() => {
+    const handleOpenSidebar = () => {
+      setInternalOpen(true);
+    };
+
+    window.addEventListener("open-sidebar", handleOpenSidebar);
+
+    return () => {
+      window.removeEventListener("open-sidebar", handleOpenSidebar);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleEscape = (event) => {
+      if (event.key === "Escape") {
+        closeSidebar();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : "";
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
   return (
     <>
       {/* Mobile backdrop */}
@@ -37,20 +87,20 @@ function Sidebar({ isOpen = false, onClose }) {
             ? "pointer-events-auto opacity-100"
             : "pointer-events-none opacity-0"
         }`}
-        onClick={onClose}
+        onClick={closeSidebar}
         aria-hidden="true"
       />
 
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-[280px] flex-col border-r border-slate-200/80 bg-white/95 shadow-[15px_0_60px_-40px_rgba(15,23,42,0.35)] backdrop-blur-2xl transition-transform duration-300 dark:border-white/5 dark:bg-[#0b1210]/95 lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-50 flex w-[280px] flex-col border-r border-slate-200/80 bg-white/95 shadow-[15px_0_60px_-40px_rgba(15,23,42,0.35)] backdrop-blur-2xl transition-transform duration-300 dark:border-white/5 dark:bg-[#0b1210]/95 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
+        } lg:translate-x-0`}
       >
         {/* Brand */}
         <div className="flex h-[82px] shrink-0 items-center justify-between border-b border-slate-100 px-5 dark:border-white/5">
           <NavLink
             to="/dashboard"
-            onClick={onClose}
+            onClick={closeSidebar}
             className="group flex items-center gap-3"
           >
             <div className="relative flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-500/20 transition duration-300 group-hover:scale-105">
@@ -70,7 +120,7 @@ function Sidebar({ isOpen = false, onClose }) {
 
           <button
             type="button"
-            onClick={onClose}
+            onClick={closeSidebar}
             className="flex h-9 w-9 items-center justify-center rounded-xl text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-white/5 dark:hover:text-white lg:hidden"
             aria-label="Close navigation"
           >
@@ -78,14 +128,14 @@ function Sidebar({ isOpen = false, onClose }) {
           </button>
         </div>
 
-        {/* Scrollable navigation */}
+        {/* Navigation */}
         <div className="flex-1 overflow-y-auto px-4 py-6">
           <SidebarSection title="Workspace">
             {mainNavigation.map((item) => (
               <SidebarLink
                 key={item.to}
                 {...item}
-                onClick={onClose}
+                onClick={closeSidebar}
               />
             ))}
           </SidebarSection>
@@ -95,12 +145,12 @@ function Sidebar({ isOpen = false, onClose }) {
               <SidebarLink
                 key={item.to}
                 {...item}
-                onClick={onClose}
+                onClick={closeSidebar}
               />
             ))}
           </SidebarSection>
 
-          {/* Wellness card */}
+          {/* Wellness reminder */}
           <div className="mt-8 overflow-hidden rounded-[24px] border border-emerald-100 bg-gradient-to-br from-emerald-50 via-white to-teal-50 p-4 dark:border-emerald-900/30 dark:from-emerald-950/30 dark:via-white/[0.025] dark:to-teal-950/20">
             <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-white text-emerald-600 shadow-sm dark:bg-white/[0.06] dark:text-emerald-400">
               <FaLeaf />
@@ -117,22 +167,20 @@ function Sidebar({ isOpen = false, onClose }) {
 
             <NavLink
               to="/breathing"
-              onClick={onClose}
-              className="mt-4 inline-flex items-center text-xs font-semibold text-emerald-700 transition hover:text-emerald-800 dark:text-emerald-400"
+              onClick={closeSidebar}
+              className="mt-4 inline-flex text-xs font-semibold text-emerald-700 transition hover:text-emerald-800 dark:text-emerald-400"
             >
               Take a breath
-              <span className="ml-1.5 transition-transform duration-200 group-hover:translate-x-1">
-                →
-              </span>
+              <span className="ml-1.5">→</span>
             </NavLink>
           </div>
         </div>
 
-        {/* Bottom */}
+        {/* Settings */}
         <div className="shrink-0 border-t border-slate-100 p-4 dark:border-white/5">
           <NavLink
             to="/settings"
-            onClick={onClose}
+            onClick={closeSidebar}
             className={({ isActive }) =>
               `group flex items-center gap-3 rounded-2xl px-3 py-3 transition-all duration-200 ${
                 isActive
@@ -141,7 +189,7 @@ function Sidebar({ isOpen = false, onClose }) {
               }`
             }
           >
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-sm text-slate-500 transition dark:bg-white/5 dark:text-slate-400">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-sm text-slate-500 dark:bg-white/5 dark:text-slate-400">
               <FaCog />
             </span>
 
