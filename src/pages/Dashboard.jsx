@@ -128,73 +128,78 @@ function Dashboard() {
           <div className="mx-auto max-w-[1500px] space-y-8 px-4 pb-16 pt-6 sm:px-6 lg:px-8">
 
             {/* =====================================================
-                WELCOME
-            ====================================================== */}
+    WELCOME
+===================================================== */}
 
-            <section className="group relative overflow-hidden rounded-[32px] border border-emerald-100/80 bg-white shadow-[0_24px_80px_-45px_rgba(16,185,129,0.38)] transition-all duration-500 hover:shadow-[0_30px_90px_-45px_rgba(16,185,129,0.48)] dark:border-white/[0.07] dark:bg-[#101815]">
+<section className="group relative overflow-hidden rounded-[32px] border border-emerald-100/80 bg-white shadow-[0_24px_80px_-45px_rgba(16,185,129,0.38)] transition-all duration-500 hover:shadow-[0_30px_90px_-45px_rgba(16,185,129,0.48)] dark:border-white/[0.07] dark:bg-[#101815]">
 
-              <div className="pointer-events-none absolute inset-0 overflow-hidden">
-                <div className="absolute -right-28 -top-32 h-[420px] w-[420px] rounded-full bg-emerald-200/35 blur-3xl transition-transform duration-700 group-hover:scale-110 dark:bg-emerald-900/15" />
+  <div className="pointer-events-none absolute inset-0 overflow-hidden">
+            <div className="absolute -right-24 -top-28 h-[420px] w-[420px] rounded-full bg-emerald-200/30 blur-3xl transition-transform duration-700 group-hover:scale-110 dark:bg-emerald-900/15" />
 
-                <div className="absolute -bottom-40 left-1/3 h-[320px] w-[320px] rounded-full bg-teal-100/35 blur-3xl dark:bg-teal-950/15" />
+            <div className="absolute -bottom-40 left-1/3 h-[340px] w-[340px] rounded-full bg-teal-100/30 blur-3xl dark:bg-teal-950/15" />
 
-                <div className="absolute right-[28%] top-1/2 h-32 w-32 rounded-full bg-lime-100/30 blur-3xl dark:bg-lime-900/10" />
-              </div>
+            <div className="absolute right-[30%] top-1/2 h-36 w-36 rounded-full bg-lime-100/25 blur-3xl dark:bg-lime-900/10" />
+          </div>
 
-              <div className="relative p-6 sm:p-8 lg:p-10">
+          <div className="relative p-6 sm:p-8 lg:p-10">
 
-                <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+            <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
 
-                  <div className="max-w-3xl">
+              <div className="max-w-3xl">
 
-                    <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200/80 bg-emerald-50/80 px-3.5 py-2 text-xs font-semibold text-emerald-700 shadow-sm backdrop-blur dark:border-emerald-900/50 dark:bg-emerald-950/30 dark:text-emerald-300">
-                      <span className="relative flex h-2 w-2">
-                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
-                        <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-                      </span>
+                <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200/80 bg-emerald-50/80 px-3.5 py-2 text-xs font-semibold text-emerald-700 shadow-sm backdrop-blur-md dark:border-emerald-900/50 dark:bg-emerald-950/30 dark:text-emerald-300">
 
-                      Your private wellness space
-                    </div>
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                  </span>
 
-                    <p className="mt-6 text-xs font-medium uppercase tracking-[0.16em] text-slate-400 dark:text-slate-500">
-                      {formatToday()}
-                    </p>
+                  Your private wellness space
+                </div>
 
-                    <h1 className="mt-2 text-3xl font-bold tracking-[-0.035em] text-slate-900 sm:text-4xl lg:text-[46px] lg:leading-[1.08] dark:text-white">
-                      {greeting},{" "}
-                      <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent dark:from-emerald-400 dark:to-teal-300">
-                        {getFirstName()}
-                      </span>
-                      <span className="text-slate-900 dark:text-white">
-                        .
-                      </span>
-                    </h1>
+                <p className="mt-6 text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-600/80 dark:text-emerald-400/70">
+                  {formatToday()}
+                </p>
 
-                    <p className="mt-5 max-w-2xl text-sm leading-7 text-slate-500 sm:text-base dark:text-slate-400">
-                      {dailyMessage}
-                    </p>
+                <h1 className="mt-2 text-3xl font-bold tracking-[-0.04em] text-slate-900 sm:text-4xl lg:text-[48px] lg:leading-[1.06] dark:text-white">
+                  {greeting},{" "}
 
-                    <div className="mt-6 flex items-center gap-3">
-                      <div className="flex -space-x-1.5">
-                        <span className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-emerald-100 text-xs dark:border-[#101815]">
-                          🌿
-                        </span>
+                  <span className="bg-gradient-to-r from-emerald-600 via-teal-500 to-emerald-500 bg-clip-text text-transparent dark:from-emerald-400 dark:via-teal-300 dark:to-emerald-400">
+                    {getFirstName()}
+                  </span>
 
-                        <span className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-teal-100 text-xs dark:border-[#101815]">
-                          💚
-                        </span>
+                  <span className="text-slate-900 dark:text-white">
+                    .
+                  </span>
+                </h1>
 
-                        <span className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-lime-100 text-xs dark:border-[#101815]">
-                          ✨
-                        </span>
-                      </div>
+                <p className="mt-5 max-w-2xl text-sm leading-7 text-slate-500 sm:text-base dark:text-slate-400">
+                  {dailyMessage}
+                </p>
 
-                      <p className="text-xs text-slate-400 dark:text-slate-500">
-                        A little care for yourself goes a long way.
-                      </p>
-                    </div>
+                <div className="mt-6 flex items-center gap-3">
 
+                  <div className="flex -space-x-1.5">
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-emerald-100 text-xs shadow-sm dark:border-[#101815]">
+                      🌿
+                    </span>
+
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-teal-100 text-xs shadow-sm dark:border-[#101815]">
+                      💚
+                    </span>
+
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-lime-100 text-xs shadow-sm dark:border-[#101815]">
+                      ✨
+                    </span>
                   </div>
+
+                  <p className="text-xs text-slate-400 dark:text-slate-500">
+                    A little care for yourself goes a long way.
+                  </p>
+
+                </div>
+
+              </div>
 
 
                   {/* Hero Actions */}
