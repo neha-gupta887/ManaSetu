@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
+import { FaHeart, FaFire, FaBookOpen, FaSmile } from "react-icons/fa";
 import Sidebar from "../components/dashboard/Sidebar";
 import Topbar from "../components/dashboard/Topbar";
 
@@ -507,8 +507,7 @@ function Dashboard() {
                 action={
                   <Link
                     to="/analytics"
-                    className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-600 transition hover:border-emerald-200 hover:text-emerald-600 dark:border-white/10 dark:bg-white/5 dark:text-slate-300"
-                  >
+className="group/analytics inline-flex items-center gap-2 rounded-xl border border-emerald-200/80 bg-emerald-50/70 px-4 py-2.5 text-sm font-semibold text-emerald-700 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-emerald-100 hover:shadow-md hover:shadow-emerald-500/10 dark:border-emerald-900/40 dark:bg-emerald-950/20 dark:text-emerald-300 dark:hover:border-emerald-800/60 dark:hover:bg-emerald-950/40"                  >
                     Full analytics →
                   </Link>
                 }
