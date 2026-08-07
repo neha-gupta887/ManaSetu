@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { FaHeart, FaFire, FaBookOpen, FaSmile } from "react-icons/fa";
+import {
+  FaHeart,
+  FaFire,
+  FaBookOpen,
+  FaSmile,
+} from "react-icons/fa";
+
 import Sidebar from "../components/dashboard/Sidebar";
 import Topbar from "../components/dashboard/Topbar";
 
 import DashboardOverview from "../components/dashboard/DashboardOverview";
 import QuickActions from "../components/dashboard/QuickActions";
-
-import WelcomeCard from "../components/dashboard/WelcomeCard";
-
 import MoodAnalyticsChart from "../components/dashboard/MoodAnalyticsChart";
 import MoodDistributionChart from "../components/dashboard/MoodDistributionChart";
 import MoodCalendar from "../components/dashboard/MoodCalendar";
@@ -32,8 +35,8 @@ import NotificationPreview from "../components/dashboard/NotificationPreview";
 import WidgetToggle from "../components/dashboard/WidgetToggle";
 
 import LoadingSpinner from "../components/LoadingSpinner";
-
 import { getDashboardStats } from "../services/dashboardStatsService";
+
 
 function Dashboard() {
   const [stats, setStats] = useState({
@@ -96,11 +99,13 @@ function Dashboard() {
     return <LoadingSpinner />;
   }
 
-  const wellnessScore = stats?.wellnessScore ?? 0;
-  const streak = stats?.streak ?? 0;
-  const journalEntries = stats?.journalEntries ?? 0;
-  const totalMoodEntries = stats?.totalMoodEntries ?? 0;
-  const currentMood = stats?.currentMood || "Calm";
+  const moodEmoji = {
+    Happy: "😊",
+    Calm: "😌",
+    Sad: "😔",
+    Anxious: "😟",
+    Angry: "😤",
+  };
 
   return (
     <div className="min-h-screen bg-[#F5F8F5] text-slate-800 transition-colors duration-500 dark:bg-[#09100E] dark:text-white">
@@ -109,12 +114,10 @@ function Dashboard() {
 
       <main className="relative min-h-screen lg:ml-72">
 
-        {/* Ambient background */}
+        {/* Background atmosphere */}
         <div className="pointer-events-none fixed inset-0 overflow-hidden">
           <div className="absolute -left-40 top-20 h-96 w-96 rounded-full bg-emerald-200/20 blur-3xl dark:bg-emerald-900/10" />
-
           <div className="absolute right-0 top-40 h-96 w-96 rounded-full bg-teal-200/15 blur-3xl dark:bg-teal-900/10" />
-
           <div className="absolute bottom-0 left-1/2 h-80 w-80 rounded-full bg-lime-100/20 blur-3xl dark:bg-lime-900/5" />
         </div>
 
@@ -122,335 +125,211 @@ function Dashboard() {
 
           <Topbar />
 
-          {/* Main content */}
           <div className="mx-auto max-w-[1500px] space-y-8 px-4 pb-16 pt-6 sm:px-6 lg:px-8">
 
-            {/* =========================================
+            {/* =====================================================
                 WELCOME
-            ========================================== */}
+            ====================================================== */}
 
-         <section className="group relative overflow-hidden rounded-[32px] border border-emerald-100/80 bg-white shadow-[0_24px_80px_-45px_rgba(16,185,129,0.38)] transition-all duration-500 hover:shadow-[0_30px_90px_-45px_rgba(16,185,129,0.48)] dark:border-white/[0.07] dark:bg-[#101815]">
-  {/* Ambient background */}
-  <div className="pointer-events-none absolute inset-0 overflow-hidden">
-    <div className="absolute -right-28 -top-32 h-[420px] w-[420px] rounded-full bg-emerald-200/35 blur-3xl transition-transform duration-700 group-hover:scale-110 dark:bg-emerald-900/15" />
+            <section className="group relative overflow-hidden rounded-[32px] border border-emerald-100/80 bg-white shadow-[0_24px_80px_-45px_rgba(16,185,129,0.38)] transition-all duration-500 hover:shadow-[0_30px_90px_-45px_rgba(16,185,129,0.48)] dark:border-white/[0.07] dark:bg-[#101815]">
 
-    <div className="absolute -bottom-40 left-1/3 h-[320px] w-[320px] rounded-full bg-teal-100/35 blur-3xl dark:bg-teal-950/15" />
+              <div className="pointer-events-none absolute inset-0 overflow-hidden">
+                <div className="absolute -right-28 -top-32 h-[420px] w-[420px] rounded-full bg-emerald-200/35 blur-3xl transition-transform duration-700 group-hover:scale-110 dark:bg-emerald-900/15" />
 
-    <div className="absolute right-[28%] top-1/2 h-32 w-32 rounded-full bg-lime-100/30 blur-3xl dark:bg-lime-900/10" />
-  </div>
+                <div className="absolute -bottom-40 left-1/3 h-[320px] w-[320px] rounded-full bg-teal-100/35 blur-3xl dark:bg-teal-950/15" />
 
-  {/* Decorative grid */}
-  <div
-    className="pointer-events-none absolute inset-0 opacity-[0.035] dark:opacity-[0.025]"
-    style={{
-      backgroundImage:
-        "linear-gradient(rgba(16,185,129,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(16,185,129,0.8) 1px, transparent 1px)",
-      backgroundSize: "36px 36px",
-    }}
-  />
+                <div className="absolute right-[28%] top-1/2 h-32 w-32 rounded-full bg-lime-100/30 blur-3xl dark:bg-lime-900/10" />
+              </div>
 
-  <div className="relative p-6 sm:p-8 lg:p-10">
-    <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
-      {/* Left content */}
-      <div className="max-w-3xl">
-        {/* Private space badge */}
-        <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200/80 bg-emerald-50/80 px-3.5 py-2 text-xs font-semibold text-emerald-700 shadow-sm backdrop-blur dark:border-emerald-900/50 dark:bg-emerald-950/30 dark:text-emerald-300">
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-          </span>
+              <div className="relative p-6 sm:p-8 lg:p-10">
 
-          Your private wellness space
-        </div>
+                <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
 
-        {/* Date */}
-        <p className="mt-6 text-xs font-medium uppercase tracking-[0.16em] text-slate-400 dark:text-slate-500">
-          {formatToday()}
-        </p>
+                  <div className="max-w-3xl">
 
-        {/* Greeting */}
-        <h1 className="mt-2 text-3xl font-bold tracking-[-0.035em] text-slate-900 sm:text-4xl lg:text-[46px] lg:leading-[1.08] dark:text-white">
-          {greeting},{" "}
-          <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent dark:from-emerald-400 dark:to-teal-300">
-            {getFirstName()}
-          </span>
-          <span className="text-slate-900 dark:text-white">.</span>
-        </h1>
+                    <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200/80 bg-emerald-50/80 px-3.5 py-2 text-xs font-semibold text-emerald-700 shadow-sm backdrop-blur dark:border-emerald-900/50 dark:bg-emerald-950/30 dark:text-emerald-300">
+                      <span className="relative flex h-2 w-2">
+                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+                        <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                      </span>
 
-        {/* Message */}
-        <p className="mt-5 max-w-2xl text-sm leading-7 text-slate-500 sm:text-base dark:text-slate-400">
-          {dailyMessage}
-        </p>
+                      Your private wellness space
+                    </div>
 
-        {/* Mini reassurance */}
-        <div className="mt-6 flex items-center gap-3">
-          <div className="flex -space-x-1.5">
-            <span className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-emerald-100 text-xs dark:border-[#101815]">
-              🌿
-            </span>
+                    <p className="mt-6 text-xs font-medium uppercase tracking-[0.16em] text-slate-400 dark:text-slate-500">
+                      {formatToday()}
+                    </p>
 
-            <span className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-teal-100 text-xs dark:border-[#101815]">
-              💚
-            </span>
+                    <h1 className="mt-2 text-3xl font-bold tracking-[-0.035em] text-slate-900 sm:text-4xl lg:text-[46px] lg:leading-[1.08] dark:text-white">
+                      {greeting},{" "}
+                      <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent dark:from-emerald-400 dark:to-teal-300">
+                        {getFirstName()}
+                      </span>
+                      <span className="text-slate-900 dark:text-white">
+                        .
+                      </span>
+                    </h1>
 
-            <span className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-lime-100 text-xs dark:border-[#101815]">
-              ✨
-            </span>
-          </div>
+                    <p className="mt-5 max-w-2xl text-sm leading-7 text-slate-500 sm:text-base dark:text-slate-400">
+                      {dailyMessage}
+                    </p>
 
-          <p className="text-xs text-slate-400 dark:text-slate-500">
-            A little care for yourself goes a long way.
-          </p>
-        </div>
-      </div>
+                    <div className="mt-6 flex items-center gap-3">
+                      <div className="flex -space-x-1.5">
+                        <span className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-emerald-100 text-xs dark:border-[#101815]">
+                          🌿
+                        </span>
 
-      {/* Right action area */}
-      <div className="relative shrink-0">
-        <div className="absolute -inset-4 rounded-[32px] bg-emerald-400/10 blur-2xl" />
+                        <span className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-teal-100 text-xs dark:border-[#101815]">
+                          💚
+                        </span>
 
-        <div className="relative rounded-[26px] border border-slate-200/80 bg-white/80 p-3 shadow-[0_20px_50px_-30px_rgba(15,23,42,0.35)] backdrop-blur-xl dark:border-white/[0.07] dark:bg-white/[0.035]">
-          {/* Check in */}
-          <Link
-            to="/journal"
-            className="group/action flex min-w-[210px] items-center gap-3 rounded-[20px] bg-slate-900 px-4 py-3.5 text-white shadow-lg shadow-slate-900/10 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl dark:bg-white dark:text-slate-900"
-          >
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-lg dark:bg-slate-900/10">
-              ✍️
-            </span>
+                        <span className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-lime-100 text-xs dark:border-[#101815]">
+                          ✨
+                        </span>
+                      </div>
 
-            <span className="flex-1 text-left">
-              <span className="block text-sm font-semibold">
-                Check in
-              </span>
+                      <p className="text-xs text-slate-400 dark:text-slate-500">
+                        A little care for yourself goes a long way.
+                      </p>
+                    </div>
 
-              <span className="mt-0.5 block text-[10px] text-white/60 dark:text-slate-500">
-                How are you feeling?
-              </span>
-            </span>
-
-            <span className="text-sm transition-transform duration-300 group-hover/action:translate-x-1">
-              →
-            </span>
-          </Link>
-
-          {/* Talk to Mana */}
-          <Link
-            to="/chat"
-            className="group/action mt-2 flex min-w-[210px] items-center gap-3 rounded-[20px] border border-slate-200/80 bg-white px-4 py-3.5 text-slate-700 transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald-200 hover:bg-emerald-50/70 hover:text-emerald-700 dark:border-white/[0.08] dark:bg-white/[0.035] dark:text-slate-200 dark:hover:border-emerald-900/50 dark:hover:bg-emerald-950/20 dark:hover:text-emerald-300"
-          >
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-50 text-base dark:bg-violet-950/30">
-              ✦
-            </span>
-
-            <span className="flex-1 text-left">
-              <span className="block text-sm font-semibold">
-                Talk to Mana
-              </span>
-
-              <span className="mt-0.5 block text-[10px] text-slate-400">
-                Your AI wellness companion
-              </span>
-            </span>
-
-            <span className="text-sm text-slate-300 transition-transform duration-300 group-hover/action:translate-x-1 dark:text-slate-600">
-              →
-            </span>
-          </Link>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+                  </div>
 
 
-            {/* =========================================
+                  {/* Hero Actions */}
+                  <div className="relative shrink-0">
+
+                    <div className="absolute -inset-4 rounded-[32px] bg-emerald-400/10 blur-2xl" />
+
+                    <div className="relative rounded-[26px] border border-slate-200/80 bg-white/80 p-3 shadow-[0_20px_50px_-30px_rgba(15,23,42,0.35)] backdrop-blur-xl dark:border-white/[0.07] dark:bg-white/[0.035]">
+
+                      <Link
+                        to="/journal"
+                        className="group/action flex min-w-[210px] items-center gap-3 rounded-[20px] bg-slate-900 px-4 py-3.5 text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl dark:bg-white dark:text-slate-900"
+                      >
+                        <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-lg dark:bg-slate-900/10">
+                          ✍️
+                        </span>
+
+                        <span className="flex-1 text-left">
+                          <span className="block text-sm font-semibold">
+                            Check in
+                          </span>
+
+                          <span className="mt-0.5 block text-[10px] text-white/60 dark:text-slate-500">
+                            How are you feeling?
+                          </span>
+                        </span>
+
+                        <span className="transition-transform duration-300 group-hover/action:translate-x-1">
+                          →
+                        </span>
+                      </Link>
+
+                      <Link
+                        to="/chat"
+                        className="group/action mt-2 flex min-w-[210px] items-center gap-3 rounded-[20px] border border-slate-200/80 bg-white px-4 py-3.5 text-slate-700 transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald-200 hover:bg-emerald-50/70 hover:text-emerald-700 dark:border-white/[0.08] dark:bg-white/[0.035] dark:text-slate-200 dark:hover:border-emerald-900/50 dark:hover:bg-emerald-950/20 dark:hover:text-emerald-300"
+                      >
+                        <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-50 text-base dark:bg-violet-950/30">
+                          ✦
+                        </span>
+
+                        <span className="flex-1 text-left">
+                          <span className="block text-sm font-semibold">
+                            Talk to Mana
+                          </span>
+
+                          <span className="mt-0.5 block text-[10px] text-slate-400">
+                            Your AI wellness companion
+                          </span>
+                        </span>
+
+                        <span className="transition-transform duration-300 group-hover/action:translate-x-1">
+                          →
+                        </span>
+                      </Link>
+
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </section>
+
+
+            {/* =====================================================
                 WELLNESS SNAPSHOT
-            ========================================== */}
+            ====================================================== */}
 
-            {/* =========================================
-    WELLNESS SNAPSHOT
-========================================== */}
-<section className="mt-6">
-  <div className="mb-4 flex items-end justify-between">
-    <div>
-      <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-400">
-        Your progress
-      </p>
+            <section>
 
-      <h2 className="mt-1 text-lg font-semibold tracking-tight text-slate-900 dark:text-white">
-        Wellness snapshot
-      </h2>
-    </div>
+              <div className="mb-4 flex items-end justify-between">
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-400">
+                    Your progress
+                  </p>
 
-    <p className="hidden text-xs text-slate-400 sm:block">
-      Small steps count.
-    </p>
-  </div>
+                  <h2 className="mt-1 text-lg font-semibold tracking-tight text-slate-900 dark:text-white">
+                    Wellness snapshot
+                  </h2>
+                </div>
 
-  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-    {/* Wellness Score */}
-    <div className="group relative overflow-hidden rounded-[24px] border border-emerald-100 bg-white p-5 shadow-[0_15px_45px_-35px_rgba(16,185,129,0.5)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_22px_55px_-35px_rgba(16,185,129,0.55)] dark:border-emerald-900/30 dark:bg-[#101815]">
-      <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-emerald-100/60 blur-2xl transition-transform duration-500 group-hover:scale-125 dark:bg-emerald-900/20" />
+                <p className="hidden text-xs text-slate-400 sm:block">
+                  Small steps count.
+                </p>
+              </div>
 
-      <div className="relative flex items-start justify-between">
-        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
-          <FaHeart />
-        </div>
 
-        <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-semibold text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
-          Overall
-        </span>
-      </div>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
 
-      <div className="relative mt-6">
-        <p className="text-xs font-medium text-slate-400">
-          Wellness Score
-        </p>
+                <StatCard
+                  icon={<FaHeart />}
+                  label="Wellness Score"
+                  value={stats.wellnessScore}
+                  suffix="/ 100"
+                  accent="emerald"
+                  footer="Overall wellbeing"
+                />
 
-        <div className="mt-1 flex items-end gap-1.5">
-          <span className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
-            {stats.wellnessScore}
-          </span>
+                <StatCard
+                  icon={<FaFire />}
+                  label="Day Streak"
+                  value={stats.streak}
+                  suffix=" days"
+                  accent="amber"
+                  footer="Keep your gentle rhythm going."
+                />
 
-          <span className="mb-1 text-xs text-slate-400">
-            / 100
-          </span>
-        </div>
+                <StatCard
+                  icon={<FaBookOpen />}
+                  label="Journal Entries"
+                  value={stats.journalEntries}
+                  suffix=" entries"
+                  accent="violet"
+                  footer="Your thoughts deserve a safe space."
+                />
 
-        <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-emerald-100 dark:bg-emerald-950/50">
-          <div
-            className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 transition-all duration-700"
-            style={{
-              width: `${Math.min(
-                Math.max(Number(stats.wellnessScore) || 0, 0),
-                100
-              )}%`,
-            }}
-          />
-        </div>
-      </div>
-    </div>
+                <StatCard
+                  icon={<FaSmile />}
+                  label="Today's Mood"
+                  value={
+                    <>
+                      {moodEmoji[stats.currentMood] || "🌱"}{" "}
+                      {stats.currentMood}
+                    </>
+                  }
+                  accent="sky"
+                  footer="Notice it. Name it. Be kind to it."
+                />
 
-    {/* Streak */}
-    <div className="group relative overflow-hidden rounded-[24px] border border-amber-100 bg-white p-5 shadow-[0_15px_45px_-35px_rgba(245,158,11,0.45)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_22px_55px_-35px_rgba(245,158,11,0.5)] dark:border-amber-900/30 dark:bg-[#101815]">
-      <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-amber-100/60 blur-2xl transition-transform duration-500 group-hover:scale-125 dark:bg-amber-900/20" />
+              </div>
+            </section>
 
-      <div className="relative flex items-start justify-between">
-        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-50 text-amber-500 dark:bg-amber-950/40 dark:text-amber-400">
-          <FaFire />
-        </div>
 
-        <span className="rounded-full bg-amber-50 px-2.5 py-1 text-[10px] font-semibold text-amber-600 dark:bg-amber-950/40 dark:text-amber-400">
-          Consistency
-        </span>
-      </div>
-
-      <div className="relative mt-6">
-        <p className="text-xs font-medium text-slate-400">
-          Day Streak
-        </p>
-
-        <div className="mt-1 flex items-end gap-1.5">
-          <span className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
-            {stats.streak}
-          </span>
-
-          <span className="mb-1 text-xs text-slate-400">
-            days
-          </span>
-        </div>
-
-        <p className="mt-3 text-[11px] text-slate-400">
-          Keep your gentle rhythm going.
-        </p>
-      </div>
-    </div>
-
-    {/* Journal */}
-    <div className="group relative overflow-hidden rounded-[24px] border border-violet-100 bg-white p-5 shadow-[0_15px_45px_-35px_rgba(139,92,246,0.45)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_22px_55px_-35px_rgba(139,92,246,0.5)] dark:border-violet-900/30 dark:bg-[#101815]">
-      <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-violet-100/60 blur-2xl transition-transform duration-500 group-hover:scale-125 dark:bg-violet-900/20" />
-
-      <div className="relative flex items-start justify-between">
-        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-violet-50 text-violet-600 dark:bg-violet-950/40 dark:text-violet-400">
-          <FaBookOpen />
-        </div>
-
-        <span className="rounded-full bg-violet-50 px-2.5 py-1 text-[10px] font-semibold text-violet-600 dark:bg-violet-950/40 dark:text-violet-400">
-          Reflection
-        </span>
-      </div>
-
-      <div className="relative mt-6">
-        <p className="text-xs font-medium text-slate-400">
-          Journal Entries
-        </p>
-
-        <div className="mt-1 flex items-end gap-1.5">
-          <span className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
-            {stats.journalEntries}
-          </span>
-
-          <span className="mb-1 text-xs text-slate-400">
-            entries
-          </span>
-        </div>
-
-        <p className="mt-3 text-[11px] text-slate-400">
-          Your thoughts deserve a safe space.
-        </p>
-      </div>
-    </div>
-
-    {/* Mood */}
-    <div className="group relative overflow-hidden rounded-[24px] border border-sky-100 bg-white p-5 shadow-[0_15px_45px_-35px_rgba(14,165,233,0.45)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_22px_55px_-35px_rgba(14,165,233,0.5)] dark:border-sky-900/30 dark:bg-[#101815]">
-      <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-sky-100/60 blur-2xl transition-transform duration-500 group-hover:scale-125 dark:bg-sky-900/20" />
-
-      <div className="relative flex items-start justify-between">
-        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-sky-50 text-sky-500 dark:bg-sky-950/40 dark:text-sky-400">
-          <FaSmile />
-        </div>
-
-        <span className="rounded-full bg-sky-50 px-2.5 py-1 text-[10px] font-semibold text-sky-600 dark:bg-sky-950/40 dark:text-sky-400">
-          Today
-        </span>
-      </div>
-
-      <div className="relative mt-6">
-        <p className="text-xs font-medium text-slate-400">
-          Today's Mood
-        </p>
-
-        <div className="mt-1 flex items-center gap-2">
-          <span className="text-2xl">
-            {stats.currentMood === "Happy"
-              ? "😊"
-              : stats.currentMood === "Calm"
-              ? "😌"
-              : stats.currentMood === "Sad"
-              ? "😔"
-              : stats.currentMood === "Anxious"
-              ? "😟"
-              : stats.currentMood === "Angry"
-              ? "😤"
-              : "🌱"}
-          </span>
-
-          <span className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
-            {stats.currentMood}
-          </span>
-        </div>
-
-        <p className="mt-3 text-[11px] text-slate-400">
-          Notice it. Name it. Be kind to it.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-            {/* =========================================
+            {/* =====================================================
                 MAIN OVERVIEW
-            ========================================== */}
+            ====================================================== */}
 
             <section className="grid gap-6 xl:grid-cols-[1.55fr_0.85fr]">
 
@@ -458,45 +337,40 @@ function Dashboard() {
                 <DashboardOverview stats={stats} />
               </div>
 
-              <div className="group relative overflow-hidden rounded-[28px] border border-slate-200/80 bg-white p-5 shadow-[0_18px_55px_-42px_rgba(15,23,42,0.35)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_25px_65px_-40px_rgba(16,185,129,0.25)] sm:p-6 dark:border-white/[0.07] dark:bg-[#101815]">
+              <div className="premium-card p-5 sm:p-6">
 
-  {/* Premium glow */}
-  <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-emerald-100/50 blur-3xl transition-transform duration-500 group-hover:scale-125 dark:bg-emerald-950/20" />
+                <div className="mb-5 flex items-center justify-between">
 
-  {/* Header */}
-  <div className="relative mb-5 flex items-center justify-between">
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-400">
+                      One tap away
+                    </p>
 
-    <div>
-      <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-400">
-        One tap away
-      </p>
+                    <h3 className="mt-1 text-lg font-semibold text-slate-900 dark:text-white">
+                      Quick actions
+                    </h3>
 
-      <h3 className="mt-1 text-lg font-semibold tracking-tight text-slate-900 dark:text-white">
-        Quick actions
-      </h3>
+                    <p className="mt-1 text-xs text-slate-400">
+                      Choose what you need right now.
+                    </p>
+                  </div>
 
-      <p className="mt-1 text-xs text-slate-400">
-        Choose what you need right now.
-      </p>
-    </div>
+                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/35 dark:text-emerald-400">
+                    ✨
+                  </div>
 
-    <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/35 dark:text-emerald-400">
-      ✨
-    </div>
+                </div>
 
-  </div>
+                <QuickActions />
 
-  {/* Existing QuickActions component */}
-  <div className="relative">
-    <QuickActions />
-  </div>
-
-</div>
+              </div>
 
             </section>
-                        {/* =========================================
+
+
+            {/* =====================================================
                 EMOTIONAL INSIGHTS
-            ========================================== */}
+            ====================================================== */}
 
             <section className="space-y-5">
 
@@ -507,7 +381,8 @@ function Dashboard() {
                 action={
                   <Link
                     to="/analytics"
-className="group/analytics inline-flex items-center gap-2 rounded-xl border border-emerald-200/80 bg-emerald-50/70 px-4 py-2.5 text-sm font-semibold text-emerald-700 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-emerald-100 hover:shadow-md hover:shadow-emerald-500/10 dark:border-emerald-900/40 dark:bg-emerald-950/20 dark:text-emerald-300 dark:hover:border-emerald-800/60 dark:hover:bg-emerald-950/40"                  >
+                    className="inline-flex items-center gap-2 rounded-xl border border-emerald-200/80 bg-emerald-50/70 px-4 py-2.5 text-sm font-semibold text-emerald-700 shadow-sm transition-all hover:-translate-y-0.5 hover:bg-emerald-100 dark:border-emerald-900/40 dark:bg-emerald-950/20 dark:text-emerald-300"
+                  >
                     Full analytics →
                   </Link>
                 }
@@ -516,19 +391,14 @@ className="group/analytics inline-flex items-center gap-2 rounded-xl border bord
               <div className="grid gap-5 xl:grid-cols-2">
 
                 <div className="premium-card p-5 sm:p-6">
-                  <div className="mb-5 flex items-center justify-between">
-                    <div>
-                      <h3 className="font-semibold text-slate-900 dark:text-white">
-                        Mood trend
-                      </h3>
-                      <p className="mt-1 text-xs text-slate-400">
-                        Your emotional rhythm
-                      </p>
-                    </div>
+                  <div className="mb-5">
+                    <h3 className="font-semibold text-slate-900 dark:text-white">
+                      Mood trend
+                    </h3>
 
-                    <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-600 dark:bg-emerald-950/30 dark:text-emerald-400">
-                      Live
-                    </span>
+                    <p className="mt-1 text-xs text-slate-400">
+                      Your emotional rhythm
+                    </p>
                   </div>
 
                   <MoodAnalyticsChart />
@@ -551,7 +421,6 @@ className="group/analytics inline-flex items-center gap-2 rounded-xl border bord
 
               </div>
 
-
               <div className="grid gap-5 xl:grid-cols-2">
 
                 <div className="premium-card p-5 sm:p-6">
@@ -567,9 +436,9 @@ className="group/analytics inline-flex items-center gap-2 rounded-xl border bord
             </section>
 
 
-            {/* =========================================
+            {/* =====================================================
                 WELLNESS GARDEN
-            ========================================== */}
+            ====================================================== */}
 
             <section className="space-y-5">
 
@@ -582,11 +451,9 @@ className="group/analytics inline-flex items-center gap-2 rounded-xl border bord
               <div className="grid gap-6 xl:grid-cols-[1.45fr_0.8fr]">
 
                 <div className="overflow-hidden rounded-[28px] border border-emerald-100 bg-gradient-to-br from-emerald-50 via-white to-teal-50 p-2 shadow-[0_20px_60px_-35px_rgba(16,185,129,0.35)] dark:border-emerald-900/30 dark:from-emerald-950/20 dark:via-white/[0.03] dark:to-teal-950/20">
-
                   <div className="rounded-[22px] bg-white/60 p-2 backdrop-blur dark:bg-black/10">
                     <WellnessGarden />
                   </div>
-
                 </div>
 
 
@@ -612,7 +479,6 @@ className="group/analytics inline-flex items-center gap-2 rounded-xl border bord
                     <DailyGoals />
                   </div>
 
-
                   <div className="premium-card p-6">
                     <NotificationPreview />
                   </div>
@@ -620,35 +486,28 @@ className="group/analytics inline-flex items-center gap-2 rounded-xl border bord
                 </div>
 
               </div>
-
             </section>
 
 
-            {/* =========================================
+            {/* =====================================================
                 WEEKLY PROGRESS
-            ========================================== */}
+            ====================================================== */}
 
             <section className="premium-card overflow-hidden">
 
               <div className="border-b border-slate-100 px-6 py-5 dark:border-white/5">
 
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-400">
+                  Weekly rhythm
+                </p>
 
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-400">
-                      Weekly rhythm
-                    </p>
+                <h2 className="mt-1 text-xl font-semibold text-slate-900 dark:text-white">
+                  Your progress this week
+                </h2>
 
-                    <h2 className="mt-1 text-xl font-semibold text-slate-900 dark:text-white">
-                      Your progress this week
-                    </h2>
-                  </div>
-
-                  <div className="text-sm text-slate-400">
-                    Consistency over perfection
-                  </div>
-
-                </div>
+                <p className="mt-1 text-sm text-slate-400">
+                  Consistency over perfection.
+                </p>
 
               </div>
 
@@ -659,9 +518,9 @@ className="group/analytics inline-flex items-center gap-2 rounded-xl border bord
             </section>
 
 
-            {/* =========================================
+            {/* =====================================================
                 DAILY WELLNESS ACTIONS
-            ========================================== */}
+            ====================================================== */}
 
             <section className="space-y-5">
 
@@ -701,11 +560,12 @@ className="group/analytics inline-flex items-center gap-2 rounded-xl border bord
                 />
 
               </div>
-
             </section>
-                        {/* =========================================
+
+
+            {/* =====================================================
                 MANA AI
-            ========================================== */}
+            ====================================================== */}
 
             <section className="space-y-5">
 
@@ -726,13 +586,10 @@ className="group/analytics inline-flex items-center gap-2 rounded-xl border bord
               <div className="grid gap-5 xl:grid-cols-2">
 
                 <div className="overflow-hidden rounded-[28px] border border-violet-100 bg-gradient-to-br from-violet-50 via-white to-white p-1 shadow-[0_20px_60px_-40px_rgba(139,92,246,0.35)] dark:border-violet-900/20 dark:from-violet-950/20 dark:via-white/[0.03] dark:to-white/[0.02]">
-
                   <div className="rounded-[24px] bg-white/70 p-5 backdrop-blur sm:p-6 dark:bg-black/10">
                     <AIRecommendations />
                   </div>
-
                 </div>
-
 
                 <div className="premium-card overflow-hidden p-5 sm:p-6">
                   <AIQuickChat />
@@ -743,9 +600,9 @@ className="group/analytics inline-flex items-center gap-2 rounded-xl border bord
             </section>
 
 
-            {/* =========================================
+            {/* =====================================================
                 JOURNAL & ACTIVITY
-            ========================================== */}
+            ====================================================== */}
 
             <section className="space-y-5">
 
@@ -758,7 +615,9 @@ className="group/analytics inline-flex items-center gap-2 rounded-xl border bord
               <div className="grid gap-5 xl:grid-cols-2">
 
                 <div className="premium-card p-5 sm:p-6">
+
                   <div className="mb-5 flex items-center justify-between">
+
                     <div>
                       <h3 className="font-semibold text-slate-900 dark:text-white">
                         Recent journal
@@ -771,17 +630,20 @@ className="group/analytics inline-flex items-center gap-2 rounded-xl border bord
 
                     <Link
                       to="/journal"
-                      className="text-sm font-medium text-emerald-600 hover:text-emerald-700"
+                      className="text-sm font-medium text-emerald-600 transition hover:text-emerald-700 dark:text-emerald-400"
                     >
                       View all →
                     </Link>
+
                   </div>
 
                   <RecentJournal />
+
                 </div>
 
 
                 <div className="premium-card p-5 sm:p-6">
+
                   <div className="mb-5">
                     <h3 className="font-semibold text-slate-900 dark:text-white">
                       Recent activity
@@ -793,6 +655,7 @@ className="group/analytics inline-flex items-center gap-2 rounded-xl border bord
                   </div>
 
                   <RecentActivity />
+
                 </div>
 
               </div>
@@ -800,9 +663,9 @@ className="group/analytics inline-flex items-center gap-2 rounded-xl border bord
             </section>
 
 
-            {/* =========================================
+            {/* =====================================================
                 WELLNESS CENTER
-            ========================================== */}
+            ====================================================== */}
 
             <section className="space-y-5">
 
@@ -833,25 +696,27 @@ className="group/analytics inline-flex items-center gap-2 rounded-xl border bord
 
 
                 <div className="overflow-hidden rounded-[28px] border border-violet-100 bg-gradient-to-br from-violet-50 to-fuchsia-50 p-6 dark:border-violet-900/20 dark:from-violet-950/20 dark:to-fuchsia-950/10">
+
                   <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-2xl bg-white/80 text-xl shadow-sm dark:bg-white/10">
                     ✨
                   </div>
 
                   <QuoteCard />
+
                 </div>
 
               </div>
-
             </section>
 
 
-            {/* =========================================
+            {/* =====================================================
                 PERSONALIZATION
-            ========================================== */}
+            ====================================================== */}
 
             <section className="grid gap-5 xl:grid-cols-2">
 
               <div className="premium-card p-6 sm:p-7">
+
                 <div className="mb-5">
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
                     Personalize
@@ -863,6 +728,7 @@ className="group/analytics inline-flex items-center gap-2 rounded-xl border bord
                 </div>
 
                 <WidgetToggle />
+
               </div>
 
 
@@ -891,28 +757,12 @@ className="group/analytics inline-flex items-center gap-2 rounded-xl border bord
 
                 </div>
 
-
                 <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
 
-                  <ReminderCard
-                    emoji="😊"
-                    title="Mood"
-                  />
-
-                  <ReminderCard
-                    emoji="📖"
-                    title="Journal"
-                  />
-
-                  <ReminderCard
-                    emoji="🌬"
-                    title="Breathe"
-                  />
-
-                  <ReminderCard
-                    emoji="✦"
-                    title="Mana"
-                  />
+                  <ReminderCard emoji="😊" title="Mood" />
+                  <ReminderCard emoji="📖" title="Journal" />
+                  <ReminderCard emoji="🌬" title="Breathe" />
+                  <ReminderCard emoji="✦" title="Mana" />
 
                 </div>
 
@@ -921,9 +771,9 @@ className="group/analytics inline-flex items-center gap-2 rounded-xl border bord
             </section>
 
 
-            {/* =========================================
-                FINAL QUIET CTA
-            ========================================== */}
+            {/* =====================================================
+                FINAL CTA
+            ====================================================== */}
 
             <section className="relative overflow-hidden rounded-[32px] bg-slate-900 px-6 py-10 text-white shadow-[0_25px_70px_-35px_rgba(15,23,42,0.6)] sm:px-10">
 
@@ -950,7 +800,6 @@ className="group/analytics inline-flex items-center gap-2 rounded-xl border bord
 
                 </div>
 
-
                 <div className="flex flex-wrap gap-3">
 
                   <Link
@@ -970,13 +819,12 @@ className="group/analytics inline-flex items-center gap-2 rounded-xl border bord
                 </div>
 
               </div>
-
             </section>
 
 
-            {/* =========================================
+            {/* =====================================================
                 FOOTER
-            ========================================== */}
+            ====================================================== */}
 
             <footer className="border-t border-slate-200/80 pt-8 dark:border-white/5">
 
@@ -1043,104 +891,105 @@ className="group/analytics inline-flex items-center gap-2 rounded-xl border bord
             </footer>
 
           </div>
-
         </div>
-
       </main>
-
     </div>
   );
 }
-/* =========================================================
-   HELPER COMPONENTS
-========================================================= */
-
-function formatToday() {
-  return new Date().toLocaleDateString("en-IN", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-}
-
-
-function getFirstName() {
-  const storedName =
-    localStorage.getItem("userName") ||
-    localStorage.getItem("name");
-
-  if (storedName) {
-    return storedName.split(" ")[0];
-  }
-
-  return "there";
-}
 
 
 /* =========================================================
-   METRIC CARD
+   STAT CARD
 ========================================================= */
 
-function MetricCard({
+function StatCard({
   icon,
   label,
   value,
   suffix = "",
-  description,
   accent = "emerald",
+  footer,
 }) {
   const accents = {
-    emerald:
-      "bg-emerald-50 text-emerald-600 dark:bg-emerald-950/30 dark:text-emerald-400",
+    emerald: {
+      border: "border-emerald-100 dark:border-emerald-900/30",
+      icon: "bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400",
+      badge: "bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400",
+    },
 
-    amber:
-      "bg-amber-50 text-amber-600 dark:bg-amber-950/30 dark:text-amber-400",
+    amber: {
+      border: "border-amber-100 dark:border-amber-900/30",
+      icon: "bg-amber-50 text-amber-500 dark:bg-amber-950/40 dark:text-amber-400",
+      badge: "bg-amber-50 text-amber-600 dark:bg-amber-950/40 dark:text-amber-400",
+    },
 
-    violet:
-      "bg-violet-50 text-violet-600 dark:bg-violet-950/30 dark:text-violet-400",
+    violet: {
+      border: "border-violet-100 dark:border-violet-900/30",
+      icon: "bg-violet-50 text-violet-600 dark:bg-violet-950/40 dark:text-violet-400",
+      badge: "bg-violet-50 text-violet-600 dark:bg-violet-950/40 dark:text-violet-400",
+    },
 
-    sky:
-      "bg-sky-50 text-sky-600 dark:bg-sky-950/30 dark:text-sky-400",
+    sky: {
+      border: "border-sky-100 dark:border-sky-900/30",
+      icon: "bg-sky-50 text-sky-500 dark:bg-sky-950/40 dark:text-sky-400",
+      badge: "bg-sky-50 text-sky-600 dark:bg-sky-950/40 dark:text-sky-400",
+    },
   };
 
+  const style = accents[accent] || accents.emerald;
+
   return (
-    <div className="group rounded-[24px] border border-slate-200/80 bg-white/80 p-5 shadow-[0_12px_40px_-30px_rgba(15,23,42,0.35)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-[0_20px_50px_-30px_rgba(16,185,129,0.35)] dark:border-white/5 dark:bg-white/[0.035] dark:hover:border-emerald-900/50">
+    <div
+      className={`group relative overflow-hidden rounded-[24px] border bg-white p-5 shadow-[0_15px_45px_-35px_rgba(15,23,42,0.3)] transition-all duration-300 hover:-translate-y-1 dark:bg-[#101815] ${style.border}`}
+    >
 
-      <div className="flex items-start justify-between gap-4">
+      <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-slate-100/70 blur-2xl transition-transform duration-500 group-hover:scale-125 dark:bg-white/[0.03]" />
 
-        <div>
-
-          <p className="text-xs font-medium text-slate-400 dark:text-slate-500">
-            {label}
-          </p>
-
-          <div className="mt-2 flex items-baseline">
-
-            <span className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white">
-              {value}
-            </span>
-
-            {suffix && (
-              <span className="text-sm font-medium text-slate-400">
-                {suffix}
-              </span>
-            )}
-
-          </div>
-
-          <p className="mt-1 text-xs text-slate-400">
-            {description}
-          </p>
-
-        </div>
-
+      <div className="relative flex items-start justify-between">
 
         <div
-          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-lg transition-transform duration-300 group-hover:scale-105 ${accents[accent]}`}
+          className={`flex h-11 w-11 items-center justify-center rounded-2xl ${style.icon}`}
         >
           {icon}
         </div>
+
+        <span
+          className={`rounded-full px-2.5 py-1 text-[10px] font-semibold ${style.badge}`}
+        >
+          {accent === "emerald"
+            ? "Overall"
+            : accent === "amber"
+            ? "Consistency"
+            : accent === "violet"
+            ? "Reflection"
+            : "Today"}
+        </span>
+
+      </div>
+
+      <div className="relative mt-6">
+
+        <p className="text-xs font-medium text-slate-400">
+          {label}
+        </p>
+
+        <div className="mt-1 flex items-end gap-1.5">
+
+          <span className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+            {value}
+          </span>
+
+          {suffix && (
+            <span className="mb-1 text-xs text-slate-400">
+              {suffix}
+            </span>
+          )}
+
+        </div>
+
+        <p className="mt-3 text-[11px] text-slate-400">
+          {footer}
+        </p>
 
       </div>
 
@@ -1274,23 +1123,30 @@ function ReminderCard({ emoji, title }) {
 
 
 /* =========================================================
-   PREMIUM CARD GLOBAL CLASS
+   HELPERS
 ========================================================= */
 
-const premiumCardStyles = `
-  rounded-[28px]
-  border
-  border-slate-200/80
-  bg-white/85
-  shadow-[0_15px_50px_-35px_rgba(15,23,42,0.35)]
-  backdrop-blur-xl
-  dark:border-white/5
-  dark:bg-white/[0.035]
-`;
+function formatToday() {
+  return new Date().toLocaleDateString("en-IN", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
 
 
-/* =========================================================
-   EXPORT
-========================================================= */
+function getFirstName() {
+  const storedName =
+    localStorage.getItem("userName") ||
+    localStorage.getItem("name");
+
+  if (storedName) {
+    return storedName.split(" ")[0];
+  }
+
+  return "there";
+}
+
 
 export default Dashboard;
