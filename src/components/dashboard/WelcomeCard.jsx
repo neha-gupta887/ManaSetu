@@ -1,22 +1,43 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import {
+  FaArrowRight,
+  FaBookOpen,
+  FaChartLine,
+  FaCheck,
+  FaFire,
+  FaHeart,
+  FaLeaf,
+  FaRobot,
+  FaSmile,
+  FaWind,
+} from "react-icons/fa";
+
 import { auth } from "../../services/firebase";
 
 function WelcomeCard({ stats = {} }) {
   const [userName, setUserName] = useState("Student");
 
+  /* =====================================================
+     TIME / GREETING
+  ===================================================== */
+
   const hour = new Date().getHours();
 
   let greeting = "Good Evening";
-  let emoji = "🌙";
+  let greetingIcon = "🌙";
 
   if (hour < 12) {
     greeting = "Good Morning";
-    emoji = "☀️";
+    greetingIcon = "☀️";
   } else if (hour < 17) {
     greeting = "Good Afternoon";
-    emoji = "🌤️";
+    greetingIcon = "🌤️";
   }
+
+  /* =====================================================
+     DATE
+  ===================================================== */
 
   const today = new Date().toLocaleDateString("en-IN", {
     weekday: "long",
@@ -24,6 +45,10 @@ function WelcomeCard({ stats = {} }) {
     month: "long",
     year: "numeric",
   });
+
+  /* =====================================================
+     FIREBASE USER
+  ===================================================== */
 
   useEffect(() => {
     const user = auth.currentUser;
@@ -38,152 +63,617 @@ function WelcomeCard({ stats = {} }) {
     }
   }, []);
 
-  const wellnessScore = stats?.wellnessScore ?? 0;
-  const streak = stats?.streak ?? 0;
-  const journalEntries = stats?.journalEntries ?? 0;
+  /* =====================================================
+     STATS
+  ===================================================== */
+
+  const wellnessScore = Number(stats?.wellnessScore ?? 0);
+  const streak = Number(stats?.streak ?? 0);
+  const journalEntries = Number(stats?.journalEntries ?? 0);
   const currentMood = stats?.currentMood || "Not checked";
 
+  /* =====================================================
+     MOOD DATA
+  ===================================================== */
+
+  const moods = [
+    {
+      emoji: "😊",
+      label: "Good",
+      value: "Happy",
+    },
+    {
+      emoji: "😌",
+      label: "Calm",
+      value: "Calm",
+    },
+    {
+      emoji: "😐",
+      label: "Okay",
+      value: "Neutral",
+    },
+    {
+      emoji: "😔",
+      label: "Low",
+      value: "Sad",
+    },
+    {
+      emoji: "😣",
+      label: "Stressed",
+      value: "Stressed",
+    },
+  ];
+
   return (
-    <section className="relative mt-6 overflow-hidden rounded-[32px] bg-gradient-to-br from-emerald-600 via-green-600 to-teal-600 text-white shadow-2xl">
+    <section className="mana-fade-up space-y-6">
 
-      {/* Decorative Background */}
+      {/* =====================================================
+          WELCOME / HERO
+      ===================================================== */}
 
-      <div className="absolute -left-24 -top-24 h-80 w-80 rounded-full bg-white/10 blur-3xl" />
+      <div
+        className="
+          relative overflow-hidden
+          rounded-[28px]
+          border border-[var(--mana-border)]
+          bg-[var(--mana-surface)]
+          shadow-[var(--mana-shadow)]
+        "
+      >
+        {/* Soft decorative glow */}
 
-      <div className="absolute -bottom-24 -right-24 h-96 w-96 rounded-full bg-teal-300/10 blur-3xl" />
+        <div
+          className="
+            pointer-events-none
+            absolute -right-24 -top-24
+            h-72 w-72
+            rounded-full
+            bg-[var(--mana-mint)]
+            opacity-70
+            blur-3xl
+          "
+        />
 
-      <div className="absolute right-1/3 top-1/2 h-64 w-64 rounded-full bg-emerald-300/10 blur-3xl" />
+        <div
+          className="
+            pointer-events-none
+            absolute -bottom-32 left-1/3
+            h-64 w-64
+            rounded-full
+            bg-[var(--mana-sage-light)]
+            opacity-20
+            blur-3xl
+          "
+        />
 
-      {/* Small floating circles */}
+        <div className="relative p-6 sm:p-8 lg:p-10">
 
-      <div className="absolute right-10 top-10 h-3 w-3 rounded-full bg-white/30" />
+          {/* ---------------------------------------------
+              Top Row
+          --------------------------------------------- */}
 
-      <div className="absolute right-24 top-24 h-2 w-2 rounded-full bg-white/40" />
+          <div className="flex flex-wrap items-center justify-between gap-4">
 
-      <div className="absolute bottom-20 left-1/2 h-2 w-2 rounded-full bg-white/30" />
+            {/* AI status */}
 
-      {/* Content */}
+            <div
+              className="
+                inline-flex items-center gap-2.5
+                rounded-full
+                border border-[var(--mana-border)]
+                bg-[var(--mana-surface-soft)]
+                px-3.5 py-2
+              "
+            >
+              <span className="mana-status-dot" />
 
-      <div className="relative z-10 p-7 sm:p-8 lg:p-10">
+              <span className="text-xs font-semibold text-[var(--mana-text-soft)]">
+                Mana is here when you need it
+              </span>
+            </div>
 
-        {/* AI Status */}
+            {/* Date */}
 
-        <div className="inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-5 py-2 backdrop-blur-md">
+            <p className="text-xs font-medium text-[var(--mana-text-muted)] sm:text-sm">
+              {today}
+            </p>
 
-          <span className="h-3 w-3 animate-pulse rounded-full bg-green-300" />
+          </div>
 
-          <span className="text-sm font-medium sm:text-base">
-            Mana AI is here for you
-          </span>
 
-        </div>
+          {/* ---------------------------------------------
+              Greeting
+          --------------------------------------------- */}
 
-        {/* Date */}
+          <div className="mt-8 max-w-4xl">
 
-        <p className="mt-6 text-sm tracking-wide text-emerald-100 sm:text-base">
-          {today}
-        </p>
+            <p className="text-sm font-medium text-[var(--mana-text-muted)]">
+              {greetingIcon} {greeting}
+            </p>
 
-        {/* Greeting */}
+            <h1
+              className="
+                mt-2
+                text-3xl
+                font-bold
+                tracking-[-0.035em]
+                text-[var(--mana-text)]
+                sm:text-4xl
+                lg:text-[46px]
+                lg:leading-[1.08]
+              "
+            >
+              Welcome back,{" "}
+              <span className="text-[var(--mana-forest)]">
+                {userName}
+              </span>
+              .
+            </h1>
 
-        <h2 className="mt-4 text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+            <p
+              className="
+                mt-4
+                max-w-2xl
+                text-sm
+                leading-7
+                text-[var(--mana-text-soft)]
+                sm:text-base
+              "
+            >
+              You don't have to have everything figured out today.
+              Take a moment, check in with yourself, and take one
+              small step toward feeling a little better.
+            </p>
 
-          {emoji} {greeting},{" "}
+          </div>
 
-          <span className="text-yellow-200">
-            {userName}
-          </span>
 
-          {" "}👋
+          {/* ---------------------------------------------
+              Main Actions
+          --------------------------------------------- */}
 
-        </h2>
+          <div className="mt-7 flex flex-wrap gap-3">
 
-        {/* Main Message */}
+            <Link
+              to="/journal"
+              className="
+                group
+                inline-flex items-center gap-2
+                rounded-xl
+                bg-[var(--mana-forest)]
+                px-5 py-3
+                text-sm font-semibold
+                text-white
+                shadow-sm
+                transition-all duration-200
+                hover:-translate-y-0.5
+                hover:bg-[var(--mana-forest-dark)]
+                hover:shadow-md
+              "
+            >
+              <FaSmile className="text-sm" />
 
-        <h3 className="mt-5 max-w-3xl text-2xl font-bold sm:text-3xl">
+              Check in with yourself
 
-          How are you feeling today?
+              <FaArrowRight
+                className="
+                  text-xs
+                  transition-transform duration-200
+                  group-hover:translate-x-0.5
+                "
+              />
+            </Link>
 
-        </h3>
+            <Link
+              to="/ai-companion"
+              className="
+                inline-flex items-center gap-2
+                rounded-xl
+                border border-[var(--mana-border-strong)]
+                bg-[var(--mana-surface)]
+                px-5 py-3
+                text-sm font-semibold
+                text-[var(--mana-text)]
+                transition-all duration-200
+                hover:-translate-y-0.5
+                hover:border-[var(--mana-sage)]
+                hover:shadow-sm
+              "
+            >
+              <FaRobot className="text-[var(--mana-forest)]" />
 
-        <p className="mt-4 max-w-3xl text-base leading-8 text-emerald-100 sm:text-lg">
+              Talk to Mana
+            </Link>
 
-          You don't have to have everything figured out.
+          </div>
 
-          Take a moment, check in with yourself,
-          and let ManaSetu help you take one small
-          step toward feeling better.
 
-        </p>
+          {/* ---------------------------------------------
+              Gentle Reminder
+          --------------------------------------------- */}
 
-        {/* Main Actions */}
-
-        <div className="mt-8 flex flex-wrap gap-4">
-
-          <Link
-            to="/journal"
-            className="rounded-2xl bg-white px-7 py-3.5 font-semibold text-emerald-700 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+          <div
+            className="
+              mt-8
+              flex max-w-3xl
+              items-start gap-3
+              rounded-2xl
+              border border-[var(--mana-border)]
+              bg-[var(--mana-surface-soft)]
+              p-4 sm:p-5
+            "
           >
-            😊 Check In
-          </Link>
 
-          <Link
-            to="/ai-companion"
-            className="rounded-2xl border border-white/30 bg-white/10 px-7 py-3.5 font-semibold backdrop-blur-md transition-all duration-300 hover:bg-white hover:text-emerald-700"
-          >
-            🤖 Talk to Mana
-          </Link>
+            <div
+              className="
+                flex h-9 w-9
+                shrink-0
+                items-center justify-center
+                rounded-xl
+                bg-[var(--mana-mint)]
+                text-[var(--mana-forest)]
+              "
+            >
+              <FaLeaf className="text-sm" />
+            </div>
+
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wide text-[var(--mana-text-muted)]">
+                A gentle reminder
+              </p>
+
+              <p className="mt-1.5 text-sm leading-6 text-[var(--mana-text-soft)]">
+                You are allowed to slow down. Your mental wellbeing
+                matters just as much as your productivity.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+
+      {/* =====================================================
+          MOOD CHECK-IN
+      ===================================================== */}
+
+      <div
+        className="
+          rounded-[24px]
+          border border-[var(--mana-border)]
+          bg-[var(--mana-surface)]
+          p-5
+          shadow-[var(--mana-shadow-sm)]
+          sm:p-6
+        "
+      >
+
+        <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+
+          <div>
+            <div className="flex items-center gap-2">
+              <div
+                className="
+                  flex h-8 w-8
+                  items-center justify-center
+                  rounded-xl
+                  bg-[var(--mana-mint)]
+                  text-[var(--mana-forest)]
+                "
+              >
+                <FaHeart className="text-sm" />
+              </div>
+
+              <p className="text-xs font-bold uppercase tracking-[0.12em] text-[var(--mana-text-muted)]">
+                Daily check-in
+              </p>
+            </div>
+
+            <h2 className="mt-2 text-xl font-bold text-[var(--mana-text)]">
+              How are you feeling today?
+            </h2>
+
+            <p className="mt-1 text-sm text-[var(--mana-text-muted)]">
+              There is no right or wrong answer.
+            </p>
+          </div>
+
+          {currentMood !== "Not checked" && (
+            <div
+              className="
+                inline-flex items-center gap-2
+                self-start
+                rounded-full
+                bg-[var(--mana-mint)]
+                px-3 py-1.5
+                text-xs font-semibold
+                text-[var(--mana-forest)]
+                sm:self-auto
+              "
+            >
+              <FaCheck className="text-[10px]" />
+
+              Checked in
+            </div>
+          )}
 
         </div>
 
-        {/* Gentle Reminder */}
 
-        <div className="mt-8 max-w-3xl rounded-2xl border border-white/10 bg-white/10 p-5 backdrop-blur-md">
+        {/* Mood choices */}
 
-          <p className="text-sm font-semibold text-emerald-100">
-            🌿 A gentle reminder
-          </p>
+        <div className="mt-6 grid grid-cols-5 gap-2 sm:gap-3">
 
-          <p className="mt-2 text-base leading-7 text-white">
-            You are allowed to slow down.
-            Your mental wellbeing matters just as much as your productivity.
-          </p>
+          {moods.map((mood) => {
+            const isCurrentMood =
+              currentMood?.toLowerCase() === mood.value.toLowerCase();
+
+            return (
+              <Link
+                key={mood.value}
+                to="/journal"
+                className={`
+                  group
+                  flex flex-col
+                  items-center
+                  justify-center
+                  rounded-2xl
+                  border
+                  px-2 py-4
+                  transition-all duration-200
+                  ${
+                    isCurrentMood
+                      ? `
+                        border-[var(--mana-sage)]
+                        bg-[var(--mana-mint)]
+                        shadow-sm
+                      `
+                      : `
+                        border-[var(--mana-border)]
+                        bg-[var(--mana-surface-soft)]
+                        hover:-translate-y-0.5
+                        hover:border-[var(--mana-sage)]
+                        hover:bg-[var(--mana-mint)]
+                      `
+                  }
+                `}
+              >
+
+                <span
+                  className="
+                    text-2xl
+                    transition-transform duration-200
+                    group-hover:scale-110
+                    sm:text-3xl
+                  "
+                >
+                  {mood.emoji}
+                </span>
+
+                <span
+                  className="
+                    mt-2
+                    text-[10px]
+                    font-semibold
+                    text-[var(--mana-text-soft)]
+                    sm:text-xs
+                  "
+                >
+                  {mood.label}
+                </span>
+
+              </Link>
+            );
+          })}
 
         </div>
 
-        {/* Stats */}
+      </div>
 
-        <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
 
-          <StatCard
-            value={`${wellnessScore}%`}
-            label="Wellness Score"
-            icon="💚"
+      {/* =====================================================
+          WELLNESS STATS
+      ===================================================== */}
+
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+
+        <WellnessStat
+          icon={<FaHeart />}
+          iconClass="bg-[var(--mana-mint)] text-[var(--mana-forest)]"
+          value={`${wellnessScore}%`}
+          label="Wellness score"
+          description="Your current wellbeing"
+        />
+
+        <WellnessStat
+          icon={<FaFire />}
+          iconClass="bg-[var(--mana-peach)] text-orange-600"
+          value={streak}
+          label="Day streak"
+          description="Days showing up for yourself"
+        />
+
+        <WellnessStat
+          icon={<FaBookOpen />}
+          iconClass="bg-[var(--mana-lavender)] text-purple-600"
+          value={journalEntries}
+          label="Journal entries"
+          description="Thoughts you've captured"
+        />
+
+      </div>
+
+
+      {/* =====================================================
+          LOWER DASHBOARD
+      ===================================================== */}
+
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-5">
+
+        {/* Gentle plan */}
+
+        <div
+          className="
+            lg:col-span-3
+            rounded-[24px]
+            border border-[var(--mana-border)]
+            bg-[var(--mana-surface)]
+            p-6
+            shadow-[var(--mana-shadow-sm)]
+          "
+        >
+
+          <div className="flex items-center justify-between">
+
+            <div className="flex items-center gap-3">
+
+              <div
+                className="
+                  flex h-10 w-10
+                  items-center justify-center
+                  rounded-xl
+                  bg-[var(--mana-mint)]
+                  text-[var(--mana-forest)]
+                "
+              >
+                <FaWind />
+              </div>
+
+              <div>
+                <h2 className="font-bold text-[var(--mana-text)]">
+                  Your gentle plan
+                </h2>
+
+                <p className="text-xs text-[var(--mana-text-muted)]">
+                  Small steps count.
+                </p>
+              </div>
+
+            </div>
+
+            <FaChartLine className="text-[var(--mana-text-muted)]" />
+
+          </div>
+
+
+          <div className="mt-6 space-y-3">
+
+            <PlanItem
+              icon="🌿"
+              title="Check in with yourself"
+              description="Notice how you're feeling without judgement."
+            />
+
+            <PlanItem
+              icon="🌬️"
+              title="Take five quiet minutes"
+              description="Pause, breathe, and let your mind settle."
+            />
+
+            <PlanItem
+              icon="📖"
+              title="Write one thought"
+              description="You don't need a perfect journal entry."
+            />
+
+          </div>
+
+        </div>
+
+
+        {/* Mana card */}
+
+        <div
+          className="
+            relative
+            overflow-hidden
+            lg:col-span-2
+            rounded-[24px]
+            border border-[var(--mana-border)]
+            bg-[var(--mana-mint)]
+            p-6
+          "
+        >
+
+          {/* Decorative circle */}
+
+          <div
+            className="
+              pointer-events-none
+              absolute -right-10 -top-10
+              h-32 w-32
+              rounded-full
+              bg-white/40
+              blur-2xl
+            "
           />
 
-          <StatCard
-            value={streak}
-            label="Day Streak"
-            icon="🔥"
-          />
+          <div className="relative">
 
-          <StatCard
-            value={journalEntries}
-            label="Journals"
-            icon="📖"
-          />
+            <div className="flex items-center justify-between">
 
-          <StatCard
-            value={currentMood}
-            label="Today's Mood"
-            icon="😊"
-          />
+              <div
+                className="
+                  flex h-11 w-11
+                  items-center justify-center
+                  rounded-2xl
+                  bg-[var(--mana-surface)]
+                  text-[var(--mana-forest)]
+                  shadow-sm
+                "
+              >
+                <FaRobot />
+              </div>
 
-          <StatCard
-            value="Online"
-            label="Mana AI"
-            icon="🤖"
-          />
+              <div className="flex items-center gap-2">
+
+                <span className="mana-status-dot" />
+
+                <span className="text-xs font-semibold text-[var(--mana-forest)]">
+                  Online
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <p className="mt-6 text-xs font-bold uppercase tracking-[0.12em] text-[var(--mana-forest)]">
+              Mana AI
+            </p>
+
+            <h2 className="mt-2 text-xl font-bold text-[var(--mana-text)]">
+              A space to talk, anytime.
+            </h2>
+
+            <p className="mt-2 text-sm leading-6 text-[var(--mana-text-soft)]">
+              Feeling overwhelmed, distracted, or simply want to
+              talk? Mana is here to listen.
+            </p>
+
+
+            <Link
+              to="/ai-companion"
+              className="
+                mt-6
+                inline-flex items-center gap-2
+                rounded-xl
+                bg-[var(--mana-forest)]
+                px-4 py-2.5
+                text-xs font-semibold
+                text-white
+                transition-all duration-200
+                hover:-translate-y-0.5
+                hover:bg-[var(--mana-forest-dark)]
+              "
+            >
+              Talk to Mana
+
+              <FaArrowRight className="text-[10px]" />
+            </Link>
+
+          </div>
 
         </div>
 
@@ -193,24 +683,111 @@ function WelcomeCard({ stats = {} }) {
   );
 }
 
-function StatCard({ value, label, icon }) {
-  return (
-    <div className="rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:bg-white/15">
 
-      <div className="text-2xl sm:text-3xl">
-        {icon}
+/* =========================================================
+   WELLNESS STAT
+========================================================= */
+
+function WellnessStat({
+  icon,
+  iconClass,
+  value,
+  label,
+  description,
+}) {
+  return (
+    <div
+      className="
+        mana-surface
+        p-5
+      "
+    >
+
+      <div className="flex items-start justify-between">
+
+        <div
+          className={`
+            flex h-10 w-10
+            items-center justify-center
+            rounded-xl
+            ${iconClass}
+          `}
+        >
+          {icon}
+        </div>
+
+        <FaArrowRight className="mt-1 text-xs text-[var(--mana-text-muted)]" />
+
       </div>
 
-      <h3 className="mt-2 truncate text-xl font-bold sm:text-2xl">
+      <h3 className="mt-5 text-2xl font-bold tracking-tight text-[var(--mana-text)]">
         {value}
       </h3>
 
-      <p className="mt-1 text-xs text-emerald-100 sm:text-sm">
+      <p className="mt-1 text-sm font-semibold text-[var(--mana-text-soft)]">
         {label}
+      </p>
+
+      <p className="mt-1 text-xs text-[var(--mana-text-muted)]">
+        {description}
       </p>
 
     </div>
   );
 }
+
+
+/* =========================================================
+   PLAN ITEM
+========================================================= */
+
+function PlanItem({
+  icon,
+  title,
+  description,
+}) {
+  return (
+    <div
+      className="
+        flex items-center gap-3
+        rounded-2xl
+        border border-[var(--mana-border)]
+        bg-[var(--mana-surface-soft)]
+        p-3.5
+        transition-colors duration-200
+        hover:border-[var(--mana-border-strong)]
+      "
+    >
+
+      <div
+        className="
+          flex h-9 w-9
+          shrink-0
+          items-center justify-center
+          rounded-xl
+          bg-[var(--mana-surface)]
+          text-base
+          shadow-sm
+        "
+      >
+        {icon}
+      </div>
+
+      <div className="min-w-0">
+
+        <p className="text-sm font-semibold text-[var(--mana-text)]">
+          {title}
+        </p>
+
+        <p className="mt-0.5 truncate text-xs text-[var(--mana-text-muted)]">
+          {description}
+        </p>
+
+      </div>
+
+    </div>
+  );
+}
+
 
 export default WelcomeCard;
