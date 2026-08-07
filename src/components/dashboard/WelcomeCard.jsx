@@ -44,9 +44,9 @@ function WelcomeCard({ stats = {} }) {
   const currentMood = stats?.currentMood || "Not checked";
 
   return (
-    <section className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-emerald-600 via-green-600 to-teal-600 text-white shadow-2xl">
+    <section className="relative mt-6 overflow-hidden rounded-[32px] bg-gradient-to-br from-emerald-600 via-green-600 to-teal-600 text-white shadow-2xl">
 
-      {/* Decorative Glow */}
+      {/* Decorative Background */}
 
       <div className="absolute -left-24 -top-24 h-80 w-80 rounded-full bg-white/10 blur-3xl" />
 
@@ -54,31 +54,39 @@ function WelcomeCard({ stats = {} }) {
 
       <div className="absolute right-1/3 top-1/2 h-64 w-64 rounded-full bg-emerald-300/10 blur-3xl" />
 
+      {/* Small floating circles */}
+
+      <div className="absolute right-10 top-10 h-3 w-3 rounded-full bg-white/30" />
+
+      <div className="absolute right-24 top-24 h-2 w-2 rounded-full bg-white/40" />
+
+      <div className="absolute bottom-20 left-1/2 h-2 w-2 rounded-full bg-white/30" />
+
       {/* Content */}
 
       <div className="relative z-10 p-7 sm:p-8 lg:p-10">
 
-        {/* AI Badge */}
+        {/* AI Status */}
 
         <div className="inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-5 py-2 backdrop-blur-md">
 
           <span className="h-3 w-3 animate-pulse rounded-full bg-green-300" />
 
-          <span className="font-medium">
-            Mana AI is Active
+          <span className="text-sm font-medium sm:text-base">
+            Mana AI is here for you
           </span>
 
         </div>
 
         {/* Date */}
 
-        <p className="mt-6 tracking-wide text-green-100">
+        <p className="mt-6 text-sm tracking-wide text-emerald-100 sm:text-base">
           {today}
         </p>
 
         {/* Greeting */}
 
-        <h2 className="mt-5 text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
+        <h2 className="mt-4 text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
 
           {emoji} {greeting},{" "}
 
@@ -90,47 +98,62 @@ function WelcomeCard({ stats = {} }) {
 
         </h2>
 
-        {/* Title */}
+        {/* Main Message */}
 
-        <h3 className="mt-4 text-2xl font-bold sm:text-3xl">
-          Welcome back to ManaSetu 🌿
+        <h3 className="mt-5 max-w-3xl text-2xl font-bold sm:text-3xl">
+
+          How are you feeling today?
+
         </h3>
 
-        {/* Description */}
+        <p className="mt-4 max-w-3xl text-base leading-8 text-emerald-100 sm:text-lg">
 
-        <p className="mt-6 max-w-3xl text-base leading-8 text-green-100 sm:text-lg">
+          You don't have to have everything figured out.
 
-          Your AI wellness companion is ready to help you
-          improve focus, reduce stress, build healthier
-          habits, and maintain better mental wellbeing.
+          Take a moment, check in with yourself,
+          and let ManaSetu help you take one small
+          step toward feeling better.
 
         </p>
 
-        {/* Action Buttons */}
+        {/* Main Actions */}
 
         <div className="mt-8 flex flex-wrap gap-4">
 
           <Link
             to="/journal"
-            className="rounded-2xl bg-white px-7 py-3 font-semibold text-emerald-700 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-emerald-300/40"
+            className="rounded-2xl bg-white px-7 py-3.5 font-semibold text-emerald-700 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
           >
-            😊 Start Mood Check
+            😊 Check In
           </Link>
 
           <Link
             to="/ai-companion"
-            className="rounded-2xl border border-white/30 bg-white/10 px-7 py-3 font-semibold backdrop-blur-md transition-all duration-300 hover:bg-white hover:text-emerald-700"
+            className="rounded-2xl border border-white/30 bg-white/10 px-7 py-3.5 font-semibold backdrop-blur-md transition-all duration-300 hover:bg-white hover:text-emerald-700"
           >
-            🤖 Talk to Mana AI
+            🤖 Talk to Mana
           </Link>
 
         </div>
 
-        {/* Dashboard Stats */}
+        {/* Gentle Reminder */}
+
+        <div className="mt-8 max-w-3xl rounded-2xl border border-white/10 bg-white/10 p-5 backdrop-blur-md">
+
+          <p className="text-sm font-semibold text-emerald-100">
+            🌿 A gentle reminder
+          </p>
+
+          <p className="mt-2 text-base leading-7 text-white">
+            You are allowed to slow down.
+            Your mental wellbeing matters just as much as your productivity.
+          </p>
+
+        </div>
+
+        {/* Stats */}
 
         <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-
-          {/* Wellness Score */}
 
           <StatCard
             value={`${wellnessScore}%`}
@@ -138,15 +161,11 @@ function WelcomeCard({ stats = {} }) {
             icon="💚"
           />
 
-          {/* Streak */}
-
           <StatCard
             value={streak}
             label="Day Streak"
             icon="🔥"
           />
-
-          {/* Journal */}
 
           <StatCard
             value={journalEntries}
@@ -154,19 +173,15 @@ function WelcomeCard({ stats = {} }) {
             icon="📖"
           />
 
-          {/* Mood */}
-
           <StatCard
             value={currentMood}
             label="Today's Mood"
             icon="😊"
           />
 
-          {/* AI */}
-
           <StatCard
             value="Online"
-            label="Mana AI Status"
+            label="Mana AI"
             icon="🤖"
           />
 
@@ -178,13 +193,9 @@ function WelcomeCard({ stats = {} }) {
   );
 }
 
-/* =====================================================
-                      STAT CARD
-===================================================== */
-
 function StatCard({ value, label, icon }) {
   return (
-    <div className="rounded-2xl border border-white/20 bg-white/15 p-4 text-center backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:bg-white/20 sm:p-5">
+    <div className="rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:bg-white/15">
 
       <div className="text-2xl sm:text-3xl">
         {icon}
@@ -194,7 +205,7 @@ function StatCard({ value, label, icon }) {
         {value}
       </h3>
 
-      <p className="mt-1 text-xs text-green-100 sm:text-sm">
+      <p className="mt-1 text-xs text-emerald-100 sm:text-sm">
         {label}
       </p>
 
