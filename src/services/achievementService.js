@@ -31,11 +31,7 @@ export const initializeAchievements = async () => {
 };
 
 // Unlock achievement
-export const unlockAchievement = async (
-  id,
-  title,
-  icon
-) => {
+export const unlockAchievement = async (id, title, icon) => {
   const user = auth.currentUser;
 
   if (!user) return false;
@@ -50,8 +46,7 @@ export const unlockAchievement = async (
 
   const latest = await getDoc(ref);
 
-  const unlocked =
-    latest.data().unlocked || [];
+  const unlocked = latest.data()?.unlocked || [];
 
   const exists = unlocked.find(
     (item) => item.id === id
@@ -84,5 +79,5 @@ export const getAchievements = async () => {
 
   if (!snap.exists()) return [];
 
-  return snap.data().unlocked || [];
+  return snap.data()?.unlocked || [];
 };

@@ -1,39 +1,50 @@
 import { getMoodHistory } from "./moodService";
 import { getJournalHistory } from "./journalService";
+import { getMoodAnalytics } from "./analyticsService";
+
+// =====================================================
+// GET DASHBOARD STATS
+// =====================================================
 
 export const getDashboardStats = async () => {
   try {
-    const moods = await getMoodHistory();
-    const journals = await getJournalHistory();
+    const [moods, journals, analytics] = await Promise.all([
+      getMoodHistory(),
+      getJournalHistory(),
+      getMoodAnalytics(),
+    ]);
 
     const totalMoodEntries = moods.length;
     const totalJournalEntries = journals.length;
 
-    const currentMood =
-      totalMoodEntries > 0
-        ? `${moods[0].emoji} ${moods[0].mood}`
-        : "No Mood";
+    const latestMood = moods[0];
 
-    // Temporary streak
-    const streak = totalMoodEntries;
-
-    // Wellness Score (temporary formula)
-    const wellnessScore = Math.min(
-      100,
-      50 +
-        totalMoodEntries * 2 +
-        totalJournalEntries
-    );
+    const currentMood = latestMood
+      ? `${latestMood.emoji || ""} ${latestMood.mood}`.trim()
+      : "No Mood";
 
     return {
-      wellnessScore,
-      streak,
+      wellnessScore: analytics.wellnessScore ?? 0,
+
+      streak: analytics.streak ?? 0,
+
       journalEntries: totalJournalEntries,
+
       currentMood,
+
       totalMoodEntries,
+
+      mostFrequentMood:
+        analytics.mostFrequentMood ?? "No Data",
+
+      moodDistribution:
+        analytics.moodDistribution ?? [],
+
+      weeklyTrend:
+        analytics.weeklyTrend ?? [],
     };
   } catch (error) {
-    console.error("Dashboard Stats Error:", error);
+    console.error("❌ Dashboard Stats Error:", error);
 
     return {
       wellnessScore: 0,
@@ -41,6 +52,9 @@ export const getDashboardStats = async () => {
       journalEntries: 0,
       currentMood: "No Mood",
       totalMoodEntries: 0,
+      mostFrequentMood: "No Data",
+      moodDistribution: [],
+      weeklyTrend: [],
     };
   }
 };

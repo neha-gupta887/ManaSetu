@@ -15,7 +15,6 @@ import AICompanion from "./pages/AICompanion";
 import BreathingExercise from "./pages/BreathingExercise";
 import MoodAnalytics from "./pages/MoodAnalytics";
 import Support from "./pages/Support";
-
 function App() {
   return (
     <BrowserRouter>

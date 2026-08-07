@@ -1,46 +1,93 @@
 import { getAchievements } from "../services/achievementService";
 
 function AchievementsCard({ analytics }) {
-  const achievements = getAchievements(analytics);
+  const result = getAchievements(analytics);
+
+  // Make sure achievements is always an array
+  const achievements = Array.isArray(result) ? result : [];
 
   return (
-    <div className="bg-white rounded-3xl shadow-xl p-8 mt-10">
-      <h2 className="text-2xl font-bold text-emerald-700 mb-6">
-        🏆 Achievements
-      </h2>
+    <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-gray-900">
 
+      {/* Header */}
+      <div className="mb-6 flex items-center gap-3">
+        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-50 text-2xl dark:bg-amber-950/30">
+          🏆
+        </div>
+
+        <div>
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+            Achievements
+          </h2>
+
+          <p className="text-sm text-slate-500 dark:text-slate-400">
+            Celebrate your wellness progress
+          </p>
+        </div>
+      </div>
+
+      {/* Empty State */}
       {achievements.length === 0 ? (
-        <p className="text-gray-500 text-center">
-          Start tracking your mood to unlock achievements!
-        </p>
+        <div className="rounded-2xl bg-slate-50 p-8 text-center dark:bg-white/[0.03]">
+
+          <div className="mb-3 text-4xl">
+            🌱
+          </div>
+
+          <p className="font-medium text-slate-700 dark:text-slate-300">
+            Start tracking your mood to unlock achievements!
+          </p>
+
+          <p className="mt-2 text-sm text-slate-400">
+            Your wellness milestones will appear here.
+          </p>
+
+        </div>
       ) : (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+
           {achievements.map((achievement) => (
             <div
               key={achievement.id}
-              className="border border-emerald-200 rounded-2xl p-5 hover:shadow-lg transition bg-emerald-50"
+              className="
+                rounded-2xl
+                border
+                border-emerald-100
+                bg-emerald-50/60
+                p-5
+                transition-all
+                duration-300
+                hover:-translate-y-1
+                hover:shadow-lg
+                dark:border-emerald-900/40
+                dark:bg-emerald-950/20
+              "
             >
-              <div className="text-5xl text-center">
+
+              <div className="text-center text-5xl">
                 {achievement.icon}
               </div>
 
-              <h3 className="text-lg font-bold text-center mt-3">
+              <h3 className="mt-3 text-center text-lg font-bold text-slate-900 dark:text-white">
                 {achievement.title}
               </h3>
 
-              <p className="text-sm text-gray-600 text-center mt-2">
+              <p className="mt-2 text-center text-sm leading-6 text-slate-600 dark:text-slate-400">
                 {achievement.description}
               </p>
 
-              <div className="text-center mt-4">
-                <span className="bg-emerald-600 text-white px-4 py-1 rounded-full text-sm">
+              <div className="mt-4 text-center">
+                <span className="inline-flex rounded-full bg-emerald-600 px-4 py-1 text-sm font-medium text-white">
                   ✅ Unlocked
                 </span>
               </div>
+
             </div>
           ))}
+
         </div>
       )}
+
     </div>
   );
 }

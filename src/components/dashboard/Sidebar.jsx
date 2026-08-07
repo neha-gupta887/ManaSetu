@@ -1,265 +1,449 @@
-import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
 import {
   FaHome,
   FaSmile,
-  FaBookOpen,
+  FaBook,
   FaChartLine,
-  FaWind,
-  FaComments,
-  FaUserFriends,
-  FaUserMd,
   FaCog,
+  FaWind,
+  FaUsers,
+  FaSignOutAlt,
   FaLeaf,
-  FaTimes,
+  FaRobot,
 } from "react-icons/fa";
 
-const mainNavigation = [
-  { label: "Dashboard", icon: FaHome, to: "/dashboard" },
-  { label: "Mood Check-in", icon: FaSmile, to: "/mood" },
-  { label: "Journal", icon: FaBookOpen, to: "/journal" },
-  { label: "Analytics", icon: FaChartLine, to: "/analytics" },
-];
+import { NavLink, useNavigate } from "react-router-dom";
+import { auth } from "../../services/firebase";
+import { signOut } from "firebase/auth";
 
-const wellnessNavigation = [
-  { label: "Breathing", icon: FaWind, to: "/breathing" },
-  { label: "Talk to Mana", icon: FaComments, to: "/chat" },
-  { label: "Senior Buddy", icon: FaUserFriends, to: "/senior-buddy" },
-  { label: "Counsellor", icon: FaUserMd, to: "/counselor" },
-];
+function Sidebar() {
+  const navigate = useNavigate();
 
-function Sidebar({ isOpen: controlledOpen, onClose: controlledClose }) {
-  const [internalOpen, setInternalOpen] = useState(false);
+  const menuSections = [
+    {
+      title: "WORKSPACE",
+      items: [
+        {
+          icon: <FaHome />,
+          label: "Dashboard",
+          path: "/dashboard",
+        },
+        {
+          icon: <FaSmile />,
+          label: "Mood Check-in",
+          path: "/mood-checkin",
+        },
+        {
+          icon: <FaBook />,
+          label: "Journal",
+          path: "/journal",
+        },
+        {
+          icon: <FaChartLine />,
+          label: "Analytics",
+          path: "/analytics",
+        },
+      ],
+    },
+    {
+      title: "SUPPORT",
+      items: [
+        {
+          icon: <FaWind />,
+          label: "Breathing",
+          path: "/breathing",
+        },
+        {
+          icon: <FaRobot />,
+          label: "Talk to Mana",
+          path: "/chat",
+        },
+        {
+          icon: <FaUsers />,
+          label: "Senior Buddy",
+          path: "/senior-buddy",
+        },
+      ],
+    },
+  ];
 
-  const isControlled = typeof controlledOpen === "boolean";
-  const isOpen = isControlled ? controlledOpen : internalOpen;
-
-  const closeSidebar = () => {
-    if (controlledClose) {
-      controlledClose();
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout error:", error);
     }
-
-    setInternalOpen(false);
   };
 
-  useEffect(() => {
-    const handleOpenSidebar = () => {
-      setInternalOpen(true);
-    };
-
-    window.addEventListener("open-sidebar", handleOpenSidebar);
-
-    return () => {
-      window.removeEventListener("open-sidebar", handleOpenSidebar);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const handleEscape = (event) => {
-      if (event.key === "Escape") {
-        closeSidebar();
-      }
-    };
-
-    document.addEventListener("keydown", handleEscape);
-
-    return () => {
-      document.removeEventListener("keydown", handleEscape);
-    };
-  }, [isOpen]);
-
-  useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "";
-
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isOpen]);
-
   return (
-    <>
-      {/* Mobile backdrop */}
-      <div
-        className={`fixed inset-0 z-40 bg-slate-950/40 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
-          isOpen
-            ? "pointer-events-auto opacity-100"
-            : "pointer-events-none opacity-0"
-        }`}
-        onClick={closeSidebar}
-        aria-hidden="true"
-      />
+    <aside
+      className="
+        fixed
+        left-0
+        top-0
+        z-50
+        flex
+        h-screen
+        w-72
+        flex-col
+        overflow-hidden
+        border-r
+        border-slate-200/80
+        bg-white
+        dark:border-white/[0.06]
+        dark:bg-gray-950
+      "
+    >
+      {/* =========================================
+          LOGO
+      ========================================= */}
 
-      <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-[280px] flex-col border-r border-slate-200/80 bg-white/95 shadow-[15px_0_60px_-40px_rgba(15,23,42,0.35)] backdrop-blur-2xl transition-transform duration-300 dark:border-white/5 dark:bg-[#0b1210]/95 ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0`}
-      >
-        {/* Brand */}
-        <div className="flex h-[82px] shrink-0 items-center justify-between border-b border-slate-100 px-5 dark:border-white/5">
-          <NavLink
-            to="/dashboard"
-            onClick={closeSidebar}
-            className="group flex items-center gap-3"
+      <div className="px-6 pb-6 pt-7">
+
+        <div className="flex items-center gap-3">
+
+          {/* Logo */}
+          <div
+            className="
+              flex
+              h-12
+              w-12
+              shrink-0
+              items-center
+              justify-center
+              rounded-2xl
+              bg-gradient-to-br
+              from-emerald-500
+              to-teal-500
+              text-xl
+              text-white
+              shadow-lg
+              shadow-emerald-500/20
+            "
           >
-            <div className="relative flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-500/20 transition duration-300 group-hover:scale-105">
-              <FaLeaf className="text-lg" />
+            <FaLeaf />
+          </div>
+
+          {/* Brand */}
+          <div>
+            <h1 className="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+              Mana<span className="text-emerald-500">Setu</span>
+            </h1>
+
+            <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500">
+              Your wellness space
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+      {/* =========================================
+          SMALL WELLNESS STATUS
+      ========================================= */}
+
+      <div className="mx-5 mb-7">
+
+        <div
+          className="
+            rounded-2xl
+            border
+            border-emerald-100
+            bg-gradient-to-br
+            from-emerald-50
+            to-teal-50
+            px-4
+            py-4
+            dark:border-emerald-900/40
+            dark:from-emerald-950/30
+            dark:to-teal-950/20
+          "
+        >
+
+          <div className="flex items-center gap-3">
+
+            <div className="relative">
+
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-emerald-500 shadow-sm dark:bg-white/[0.06]">
+                <FaLeaf />
+              </div>
+
+              <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full border-2 border-white bg-emerald-400 dark:border-gray-950" />
+
             </div>
 
             <div>
-              <p className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">
-                ManaSetu
+              <p className="text-sm font-semibold text-slate-800 dark:text-white">
+                Mana AI
               </p>
 
-              <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-slate-400">
-                Your wellness space
+              <p className="mt-0.5 text-xs text-emerald-600 dark:text-emerald-400">
+                Here when you need it
               </p>
             </div>
-          </NavLink>
 
-          <button
-            type="button"
-            onClick={closeSidebar}
-            className="flex h-9 w-9 items-center justify-center rounded-xl text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-white/5 dark:hover:text-white lg:hidden"
-            aria-label="Close navigation"
-          >
-            <FaTimes />
-          </button>
-        </div>
-
-        {/* Navigation */}
-        <div className="flex-1 overflow-y-auto px-4 py-6">
-          <SidebarSection title="Workspace">
-            {mainNavigation.map((item) => (
-              <SidebarLink
-                key={item.to}
-                {...item}
-                onClick={closeSidebar}
-              />
-            ))}
-          </SidebarSection>
-
-          <SidebarSection title="Support" className="mt-7">
-            {wellnessNavigation.map((item) => (
-              <SidebarLink
-                key={item.to}
-                {...item}
-                onClick={closeSidebar}
-              />
-            ))}
-          </SidebarSection>
-
-          {/* Wellness reminder */}
-          <div className="mt-8 overflow-hidden rounded-[24px] border border-emerald-100 bg-gradient-to-br from-emerald-50 via-white to-teal-50 p-4 dark:border-emerald-900/30 dark:from-emerald-950/30 dark:via-white/[0.025] dark:to-teal-950/20">
-            <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-white text-emerald-600 shadow-sm dark:bg-white/[0.06] dark:text-emerald-400">
-              <FaLeaf />
-            </div>
-
-            <p className="text-sm font-semibold text-slate-800 dark:text-white">
-              Take a gentle pause
-            </p>
-
-            <p className="mt-1.5 text-xs leading-5 text-slate-500 dark:text-slate-400">
-              You don't have to solve everything at once. One small moment of
-              care is enough.
-            </p>
-
-            <NavLink
-              to="/breathing"
-              onClick={closeSidebar}
-              className="mt-4 inline-flex text-xs font-semibold text-emerald-700 transition hover:text-emerald-800 dark:text-emerald-400"
-            >
-              Take a breath
-              <span className="ml-1.5">→</span>
-            </NavLink>
           </div>
+
         </div>
+
+      </div>
+
+      {/* =========================================
+          NAVIGATION
+      ========================================= */}
+
+      <div className="flex-1 overflow-y-auto px-4 pb-5">
+
+        {menuSections.map((section) => (
+
+          <div key={section.title} className="mb-8">
+
+            <p className="mb-3 px-3 text-[10px] font-bold tracking-[0.18em] text-slate-400 dark:text-slate-500">
+              {section.title}
+            </p>
+
+            <nav className="space-y-1">
+
+              {section.items.map((item) => (
+
+                <NavLink
+                  key={item.label}
+                  to={item.path}
+                  className={({ isActive }) =>
+                    `
+                    group
+                    relative
+                    flex
+                    items-center
+                    gap-3
+                    rounded-2xl
+                    px-3
+                    py-2.5
+                    text-sm
+                    font-medium
+                    transition-all
+                    duration-200
+                    ${
+                      isActive
+                        ? `
+                          bg-emerald-50
+                          text-emerald-700
+                          shadow-sm
+                          dark:bg-emerald-950/30
+                          dark:text-emerald-300
+                        `
+                        : `
+                          text-slate-600
+                          hover:bg-slate-50
+                          hover:text-slate-900
+                          dark:text-slate-300
+                          dark:hover:bg-white/[0.04]
+                          dark:hover:text-white
+                        `
+                    }
+                    `
+                  }
+                >
+                  {({ isActive }) => (
+                    <>
+
+                      {/* Active Indicator */}
+                      {isActive && (
+                        <span
+                          className="
+                            absolute
+                            left-0
+                            top-1/2
+                            h-7
+                            w-1
+                            -translate-y-1/2
+                            rounded-r-full
+                            bg-emerald-500
+                          "
+                        />
+                      )}
+
+                      {/* Icon */}
+                      <span
+                        className={`
+                          flex
+                          h-10
+                          w-10
+                          shrink-0
+                          items-center
+                          justify-center
+                          rounded-xl
+                          text-sm
+                          transition-all
+                          ${
+                            isActive
+                              ? `
+                                bg-white
+                                text-emerald-600
+                                shadow-sm
+                                dark:bg-white/[0.07]
+                                dark:text-emerald-400
+                              `
+                              : `
+                                bg-slate-50
+                                text-slate-400
+                                group-hover:bg-white
+                                group-hover:text-emerald-600
+                                dark:bg-white/[0.04]
+                                dark:text-slate-500
+                                dark:group-hover:text-emerald-400
+                              `
+                          }
+                        `}
+                      >
+                        {item.icon}
+                      </span>
+
+                      {/* Label */}
+                      <span className="flex-1">
+                        {item.label}
+                      </span>
+
+                      {/* Active Arrow */}
+                      {isActive && (
+                        <span className="pr-1 text-sm text-emerald-500">
+                          →
+                        </span>
+                      )}
+
+                    </>
+                  )}
+                </NavLink>
+
+              ))}
+
+            </nav>
+
+          </div>
+
+        ))}
+
+      </div>
+
+      {/* =========================================
+          BOTTOM SECTION
+      ========================================= */}
+
+      <div
+        className="
+          border-t
+          border-slate-100
+          bg-white
+          px-4
+          pb-5
+          pt-4
+          dark:border-white/[0.06]
+          dark:bg-gray-950
+        "
+      >
 
         {/* Settings */}
-        <div className="shrink-0 border-t border-slate-100 p-4 dark:border-white/5">
-          <NavLink
-            to="/settings"
-            onClick={closeSidebar}
-            className={({ isActive }) =>
-              `group flex items-center gap-3 rounded-2xl px-3 py-3 transition-all duration-200 ${
-                isActive
-                  ? "bg-slate-100 text-slate-900 dark:bg-white/10 dark:text-white"
-                  : "text-slate-500 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-white/5 dark:hover:text-white"
-              }`
+
+        <NavLink
+          to="/settings"
+          className={({ isActive }) =>
+            `
+            group
+            flex
+            items-center
+            gap-3
+            rounded-2xl
+            px-3
+            py-2.5
+            text-sm
+            font-medium
+            transition-all
+            ${
+              isActive
+                ? "bg-slate-100 text-slate-900 dark:bg-white/[0.06] dark:text-white"
+                : "text-slate-500 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-white/[0.04] dark:hover:text-white"
             }
+            `
+          }
+        >
+          <span
+            className="
+              flex
+              h-10
+              w-10
+              items-center
+              justify-center
+              rounded-xl
+              bg-slate-50
+              text-slate-400
+              dark:bg-white/[0.04]
+              dark:text-slate-500
+            "
           >
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-sm text-slate-500 dark:bg-white/5 dark:text-slate-400">
-              <FaCog />
-            </span>
+            <FaCog />
+          </span>
 
-            <span className="text-sm font-medium">Settings</span>
-          </NavLink>
+          <span>Settings</span>
+        </NavLink>
 
-          <p className="mt-3 px-2 text-[10px] leading-4 text-slate-400">
+        {/* Logout */}
+
+        <button
+          type="button"
+          onClick={handleLogout}
+          className="
+            mt-1
+            flex
+            w-full
+            items-center
+            gap-3
+            rounded-2xl
+            px-3
+            py-2.5
+            text-sm
+            font-medium
+            text-slate-500
+            transition-all
+            hover:bg-red-50
+            hover:text-red-600
+            dark:text-slate-400
+            dark:hover:bg-red-950/20
+            dark:hover:text-red-400
+          "
+        >
+          <span
+            className="
+              flex
+              h-10
+              w-10
+              items-center
+              justify-center
+              rounded-xl
+              bg-slate-50
+              text-slate-400
+              dark:bg-white/[0.04]
+            "
+          >
+            <FaSignOutAlt />
+          </span>
+
+          <span>Logout</span>
+        </button>
+
+        {/* Footer */}
+
+        <div className="mt-4 px-3">
+
+          <p className="text-[10px] leading-5 text-slate-400 dark:text-slate-500">
             ManaSetu · A calmer space for your mind.
           </p>
+
         </div>
-      </aside>
-    </>
-  );
-}
 
-function SidebarSection({ title, children, className = "" }) {
-  return (
-    <section className={className}>
-      <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-600">
-        {title}
-      </p>
+      </div>
 
-      <div className="space-y-1">{children}</div>
-    </section>
-  );
-}
-
-function SidebarLink({ label, icon: Icon, to, onClick }) {
-  return (
-    <NavLink
-      to={to}
-      onClick={onClick}
-      className={({ isActive }) =>
-        `group relative flex items-center gap-3 rounded-2xl px-3 py-3 text-sm font-medium transition-all duration-200 ${
-          isActive
-            ? "bg-emerald-50 text-emerald-700 shadow-sm dark:bg-emerald-950/30 dark:text-emerald-300"
-            : "text-slate-500 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-white/[0.045] dark:hover:text-white"
-        }`
-      }
-    >
-      {({ isActive }) => (
-        <>
-          {isActive && (
-            <span className="absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r-full bg-emerald-500" />
-          )}
-
-          <span
-            className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-all duration-200 ${
-              isActive
-                ? "bg-white text-emerald-600 shadow-sm dark:bg-white/10 dark:text-emerald-400"
-                : "bg-slate-100/80 text-slate-400 group-hover:bg-white group-hover:text-slate-600 dark:bg-white/[0.035] dark:text-slate-500 dark:group-hover:bg-white/[0.06] dark:group-hover:text-slate-300"
-            }`}
-          >
-            <Icon className="text-sm" />
-          </span>
-
-          <span className="truncate">{label}</span>
-
-          <span
-            className={`ml-auto text-xs transition-all duration-200 ${
-              isActive
-                ? "translate-x-0 text-emerald-500 opacity-100"
-                : "-translate-x-1 opacity-0 group-hover:translate-x-0 group-hover:opacity-50"
-            }`}
-          >
-            →
-          </span>
-        </>
-      )}
-    </NavLink>
+    </aside>
   );
 }
 
