@@ -1,4 +1,5 @@
 import toast from "react-hot-toast";
+
 import {
   FaHome,
   FaSmile,
@@ -9,10 +10,11 @@ import {
   FaSignOutAlt,
   FaBrain,
   FaMicrochip,
-  FaCircle,
   FaUserCircle,
   FaHeart,
+  FaMemory,
 } from "react-icons/fa";
+
 import { NavLink, useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../../services/firebase";
@@ -24,6 +26,7 @@ function Sidebar() {
   const handleLogout = async () => {
     try {
       await signOut(auth);
+      toast.success("See you soon 🌿");
       navigate("/login");
     } catch (error) {
       console.error(error);
@@ -40,7 +43,7 @@ function Sidebar() {
     {
       icon: <FaSmile />,
       label: "Mood Tracker",
-      path: "/dashboard",
+      path: "/mood",
     },
     {
       icon: <FaBook />,
@@ -51,6 +54,7 @@ function Sidebar() {
       icon: <FaRobot />,
       label: "AI Companion",
       path: "/ai-companion",
+      badge: "AI",
     },
     {
       icon: <FaBrain />,
@@ -66,201 +70,266 @@ function Sidebar() {
       icon: <FaChartLine />,
       label: "Analytics",
       path: "/analytics",
-    },
-    {
-      icon: <FaCog />,
-      label: "Settings",
-      path: "/settings",
+      badge: "New",
     },
   ];
 
   return (
-    <aside className="fixed left-0 top-0 hidden h-screen w-72 flex-col border-r border-white/20 bg-white/80 shadow-2xl backdrop-blur-3xl transition-all duration-500 dark:border-gray-700 dark:bg-gray-900/90 lg:flex">
+    <aside className="flex h-screen w-[270px] flex-shrink-0 flex-col overflow-y-auto border-r border-gray-200/70 bg-white/90 backdrop-blur-xl dark:border-gray-800 dark:bg-gray-950/90">
 
-      {/* Logo */}
-      <div className="border-b border-gray-200 p-6 dark:border-gray-700">
-        <div className="flex items-center gap-4">
-          <div className="flex h-16 w-16 items-center justify-center rounded-3xl bg-gradient-to-br from-emerald-500 via-green-500 to-teal-500 text-3xl shadow-xl">
-            🌿
+      {/* =========================
+          BRAND
+      ========================= */}
+      <div className="px-6 pb-5 pt-7">
+
+        <div className="flex items-center gap-3">
+
+          {/* Logo */}
+          <div className="relative flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 text-2xl shadow-lg shadow-emerald-500/20">
+
+            <span>🌿</span>
+
+            <span className="absolute -right-1 -top-1 h-3 w-3 rounded-full border-2 border-white bg-emerald-400 dark:border-gray-950" />
+
           </div>
 
+          {/* Brand */}
           <div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-emerald-700 dark:text-emerald-400">
-              ManaSetu
+            <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+              Mana<span className="text-emerald-600">Setu</span>
             </h1>
 
-            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-              AI Mental Wellness
+            <p className="text-[11px] font-medium tracking-wide text-gray-400">
+              AI MENTAL WELLNESS
             </p>
           </div>
+
         </div>
+
       </div>
 
-      {/* User Card */}
-      <div className="mx-5 mt-6 overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-500 via-green-500 to-teal-500 p-6 text-white shadow-xl">
+      {/* =========================
+          USER MINI PROFILE
+      ========================= */}
+      <div className="mx-4 mb-5 rounded-2xl border border-emerald-100 bg-gradient-to-br from-emerald-50 to-teal-50 p-4 dark:border-emerald-900/40 dark:from-emerald-950/30 dark:to-teal-950/20">
 
-        <div className="flex items-center gap-4">
-          <FaUserCircle className="text-6xl" />
+        <div className="flex items-center gap-3">
 
-          <div>
-            <h3 className="text-lg font-bold">
+          <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-emerald-500 text-xl text-white shadow-md">
+            <FaUserCircle />
+          </div>
+
+          <div className="min-w-0">
+
+            <p className="truncate text-sm font-bold text-gray-800 dark:text-white">
               {user?.displayName || "Student"}
-            </h3>
-
-            <p className="text-sm text-emerald-100">
-              {user?.email}
             </p>
+
+            <p className="truncate text-xs text-gray-500 dark:text-gray-400">
+              Wellness Explorer 🌱
+            </p>
+
           </div>
+
         </div>
 
-        <div className="mt-5 flex items-center gap-2">
-          <FaCircle className="animate-pulse text-xs text-green-200" />
-          <span className="text-sm font-medium">
-            Mana AI Connected
+        {/* AI Status */}
+        <div className="mt-3 flex items-center gap-2">
+
+          <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
+
+          <span className="text-[11px] font-medium text-emerald-700 dark:text-emerald-400">
+            Mana AI connected
           </span>
+
         </div>
 
       </div>
 
-      {/* Wellness Card */}
-      <div className="mx-5 mt-5 rounded-3xl border border-emerald-200 bg-gradient-to-r from-emerald-50 to-green-50 p-5 shadow-sm dark:border-emerald-800 dark:from-gray-800 dark:to-gray-800">
+      {/* =========================
+          WELLNESS SCORE
+      ========================= */}
+      <div className="mx-4 mb-6 rounded-2xl bg-gray-50 p-4 dark:bg-gray-900">
 
         <div className="flex items-center justify-between">
 
           <div>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              Wellness Score
+            <p className="text-[11px] font-medium uppercase tracking-wide text-gray-400">
+              Wellness
             </p>
 
-            <h2 className="mt-2 text-3xl font-bold text-emerald-600">
+            <p className="mt-1 text-2xl font-extrabold text-gray-900 dark:text-white">
               92%
-            </h2>
+            </p>
           </div>
 
-          <div className="rounded-2xl bg-emerald-500 p-4 text-2xl text-white">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 text-emerald-600 dark:bg-emerald-900/40 dark:text-emerald-400">
             <FaHeart />
           </div>
 
         </div>
 
+        {/* Progress */}
+        <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
+
+          <div
+            className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-400"
+            style={{ width: "92%" }}
+          />
+
+        </div>
+
+        <p className="mt-2 text-[10px] text-gray-400">
+          You're doing well today ✨
+        </p>
+
       </div>
 
-      {/* Navigation */}
-      <nav className="mt-8 flex-1 space-y-2 px-5">
+      {/* =========================
+          NAVIGATION LABEL
+      ========================= */}
+      <div className="px-6">
+
+        <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.15em] text-gray-400">
+          Your space
+        </p>
+
+      </div>
+
+      {/* =========================
+          NAVIGATION
+      ========================= */}
+      <nav className="flex-1 space-y-1 px-3">
+
         {menuItems.map((item) => (
+
           <NavLink
             key={item.label}
             to={item.path}
             className={({ isActive }) =>
-              `group relative flex items-center justify-between overflow-hidden rounded-2xl px-4 py-4 transition-all duration-300 ${
+              `group relative flex items-center gap-3 rounded-xl px-3 py-3 transition-all duration-200 ${
                 isActive
-                  ? "bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 text-white shadow-xl"
-                  : "text-gray-700 hover:bg-emerald-50 hover:shadow-md dark:text-gray-300 dark:hover:bg-gray-800"
+                  ? "bg-emerald-50 text-emerald-700 shadow-sm dark:bg-emerald-900/30 dark:text-emerald-400"
+                  : "text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-900 dark:hover:text-white"
               }`
             }
           >
+
             {({ isActive }) => (
               <>
+
+                {/* Active indicator */}
                 {isActive && (
-                  <div className="absolute bottom-2 left-0 top-2 w-1 rounded-r-full bg-white"></div>
+                  <span className="absolute left-0 h-6 w-1 rounded-r-full bg-emerald-500" />
                 )}
 
-                <div className="flex items-center gap-4">
-                  <div
-                    className={`flex h-11 w-11 items-center justify-center rounded-xl text-lg transition-all duration-300 ${
-                      isActive
-                        ? "bg-white/20 text-white"
-                        : "bg-gray-100 text-emerald-600 group-hover:scale-110 dark:bg-gray-700 dark:text-emerald-400"
+                {/* Icon */}
+                <div
+                  className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl text-sm transition-all ${
+                    isActive
+                      ? "bg-emerald-500 text-white shadow-md shadow-emerald-500/20"
+                      : "bg-gray-100 text-gray-500 group-hover:bg-emerald-50 group-hover:text-emerald-600 dark:bg-gray-800 dark:text-gray-400 dark:group-hover:bg-emerald-900/30 dark:group-hover:text-emerald-400"
+                  }`}
+                >
+                  {item.icon}
+                </div>
+
+                {/* Label */}
+                <span className="flex-1 text-sm font-semibold">
+                  {item.label}
+                </span>
+
+                {/* Badge */}
+                {item.badge && (
+                  <span
+                    className={`rounded-full px-2 py-0.5 text-[9px] font-bold ${
+                      item.badge === "AI"
+                        ? "bg-purple-100 text-purple-600 dark:bg-purple-900/40 dark:text-purple-300"
+                        : "bg-emerald-100 text-emerald-600 dark:bg-emerald-900/40 dark:text-emerald-300"
                     }`}
                   >
-                    {item.icon}
-                  </div>
+                    {item.badge}
+                  </span>
+                )}
 
-                  <div>
-                    <p className="font-semibold">{item.label}</p>
+                {/* Active dot */}
+                {isActive && (
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                )}
 
-                    <p
-                      className={`text-xs ${
-                        isActive
-                          ? "text-emerald-100"
-                          : "text-gray-400"
-                      }`}
-                    >
-                      Open
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2">
-
-                  {item.label === "Analytics" && (
-                    <span className="rounded-full bg-emerald-100 px-2 py-1 text-xs font-semibold text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300">
-                      New
-                    </span>
-                  )}
-
-                  {item.label === "AI Companion" && (
-                    <span className="rounded-full bg-purple-100 px-2 py-1 text-xs font-semibold text-purple-700 dark:bg-purple-900 dark:text-purple-300">
-                      AI
-                    </span>
-                  )}
-
-                  {isActive && (
-                    <div className="h-2 w-2 rounded-full bg-white"></div>
-                  )}
-
-                </div>
               </>
             )}
+
           </NavLink>
+
         ))}
+
       </nav>
 
-      {/* Bottom */}
-      <div className="border-t border-gray-200 p-5 dark:border-gray-700">
+      {/* =========================
+          BOTTOM SECTION
+      ========================= */}
+      <div className="mt-5 border-t border-gray-100 px-3 py-4 dark:border-gray-800">
 
-        <div className="rounded-3xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-5 text-white shadow-xl">
+        {/* Settings */}
+        <NavLink
+          to="/settings"
+          className={({ isActive }) =>
+            `mb-2 flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold transition ${
+              isActive
+                ? "bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-white"
+                : "text-gray-500 hover:bg-gray-50 hover:text-gray-900 dark:hover:bg-gray-900 dark:hover:text-white"
+            }`
+          }
+        >
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gray-100 text-gray-500 dark:bg-gray-800">
+            <FaCog />
+          </div>
 
-          <p className="text-lg font-bold">
-            🤖 Mana AI
-          </p>
+          Settings
+        </NavLink>
 
-          <p className="mt-1 text-sm text-purple-100">
-            Your Wellness Companion
-          </p>
+        {/* AI Status */}
+        <div className="mb-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 p-3 text-white">
 
-          <div className="mt-5 flex items-center gap-2">
-            <div className="h-3 w-3 animate-pulse rounded-full bg-green-300"></div>
+          <div className="flex items-center gap-2">
 
-            <span className="text-sm">
-              Online & Ready to Help
-            </span>
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/15">
+              🤖
+            </div>
+
+            <div>
+              <p className="text-xs font-bold">
+                Mana AI
+              </p>
+
+              <div className="mt-0.5 flex items-center gap-1.5">
+
+                <span className="h-1.5 w-1.5 rounded-full bg-green-200" />
+
+                <span className="text-[10px] text-emerald-50">
+                  Online & ready
+                </span>
+
+              </div>
+
+            </div>
+
           </div>
 
         </div>
 
-        <div className="mt-5 rounded-3xl bg-gray-50 p-5 shadow-sm dark:bg-gray-800">
-
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            Today's Mood
-          </p>
-
-          <h3 className="mt-2 text-2xl font-bold text-gray-900 dark:text-white">
-            😊 Happy
-          </h3>
-
-        </div>
-
+        {/* Logout */}
         <button
           onClick={handleLogout}
-          className="mt-6 flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-red-500 to-red-600 py-4 font-semibold text-white shadow-xl transition-all duration-300 hover:-translate-y-1"
+          className="flex w-full items-center justify-center gap-2 rounded-xl border border-red-100 px-3 py-2.5 text-sm font-semibold text-red-500 transition-all hover:bg-red-50 dark:border-red-900/30 dark:hover:bg-red-950/30"
         >
           <FaSignOutAlt />
-          Logout
+          Sign out
         </button>
 
-        <p className="mt-6 text-center text-xs text-gray-400">
-          ManaSetu v2.0.0
+        <p className="mt-3 text-center text-[9px] text-gray-400">
+          ManaSetu • Your space to breathe 🌿
         </p>
 
       </div>

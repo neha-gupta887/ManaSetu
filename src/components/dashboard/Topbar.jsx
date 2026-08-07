@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { auth } from "../../services/firebase";
 
 import {
@@ -13,59 +13,36 @@ import {
   FaChartLine,
   FaRobot,
   FaMoon,
+  FaSun,
 } from "react-icons/fa";
 
 function Topbar() {
   const [showNotifications, setShowNotifications] = useState(false);
   const [userName, setUserName] = useState("Student");
-
-  const [notifications, setNotifications] = useState([
-    {
-      id: 1,
-      icon: <FaSmile className="text-yellow-500 text-lg" />,
-      title: "Daily Mood Check",
-      message:
-        "Take a minute to record your mood today and build self-awareness.",
-      time: "5 min ago",
-    },
-    {
-      id: 2,
-      icon: <FaBook className="text-blue-500 text-lg" />,
-      title: "Journal Reminder",
-      message: "Reflect on your day by writing a short journal entry.",
-      time: "20 min ago",
-    },
-    {
-      id: 3,
-      icon: <FaLeaf className="text-emerald-500 text-lg" />,
-      title: "Mindfulness Exercise",
-      message: "Complete today's 5-minute breathing exercise for relaxation.",
-      time: "Today",
-    },
-    {
-      id: 4,
-      icon: <FaChartLine className="text-purple-500 text-lg" />,
-      title: "Weekly Mood Insights",
-      message: "Your emotional trends for this week are now available.",
-      time: "Yesterday",
-    },
-    {
-      id: 5,
-      icon: <FaRobot className="text-pink-500 text-lg" />,
-      title: "AI Wellness Companion",
-      message:
-        "Your AI companion has a personalized wellness suggestion waiting.",
-      time: "Yesterday",
-    },
-  ]);
+  const [isDark, setIsDark] = useState(false);
 
   const notificationRef = useRef(null);
+
+  /* =========================
+     GREETING
+  ========================= */
 
   const hour = new Date().getHours();
 
   let greeting = "Good Evening";
-  if (hour < 12) greeting = "Good Morning";
-  else if (hour < 17) greeting = "Good Afternoon";
+  let greetingIcon = "🌙";
+
+  if (hour < 12) {
+    greeting = "Good Morning";
+    greetingIcon = "☀️";
+  } else if (hour < 17) {
+    greeting = "Good Afternoon";
+    greetingIcon = "🌤️";
+  }
+
+  /* =========================
+     DATE
+  ========================= */
 
   const today = new Date().toLocaleDateString("en-IN", {
     weekday: "long",
@@ -73,16 +50,74 @@ function Topbar() {
     month: "short",
   });
 
+  /* =========================
+     NOTIFICATIONS
+  ========================= */
+
+  const [notifications, setNotifications] = useState([
+    {
+      id: 1,
+      icon: <FaSmile className="text-amber-500" />,
+      title: "Daily Mood Check",
+      message:
+        "Take a moment to record how you're feeling today.",
+      time: "5 min ago",
+    },
+
+    {
+      id: 2,
+      icon: <FaBook className="text-blue-500" />,
+      title: "Journal Reminder",
+      message:
+        "A few words about your day can help clear your mind.",
+      time: "20 min ago",
+    },
+
+    {
+      id: 3,
+      icon: <FaLeaf className="text-emerald-500" />,
+      title: "Mindfulness Exercise",
+      message:
+        "Try today's short breathing exercise.",
+      time: "Today",
+    },
+
+    {
+      id: 4,
+      icon: <FaChartLine className="text-violet-500" />,
+      title: "Weekly Insights",
+      message:
+        "Your emotional trends are ready to explore.",
+      time: "Yesterday",
+    },
+
+    {
+      id: 5,
+      icon: <FaRobot className="text-pink-500" />,
+      title: "Mana AI",
+      message:
+        "Your AI companion has a wellness suggestion for you.",
+      time: "Yesterday",
+    },
+  ]);
+
+  /* =========================
+     USER
+  ========================= */
+
   useEffect(() => {
-    if (auth.currentUser) {
+    const user = auth.currentUser;
+
+    if (user) {
       const name =
-        auth.currentUser.displayName ||
-        auth.currentUser.email?.split("@")[0] ||
+        user.displayName ||
+        user.email?.split("@")[0] ||
         "Student";
 
       setUserName(name);
     }
 
+    /* Close notifications when clicking outside */
     const handleClickOutside = (event) => {
       if (
         notificationRef.current &&
@@ -92,157 +127,291 @@ function Topbar() {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener(
+      "mousedown",
+      handleClickOutside
+    );
 
-    return () =>
-      document.removeEventListener("mousedown", handleClickOutside);
+    /* Check dark mode */
+    setIsDark(
+      document.documentElement.classList.contains("dark")
+    );
+
+    return () => {
+      document.removeEventListener(
+        "mousedown",
+        handleClickOutside
+      );
+    };
   }, []);
+
+  /* =========================
+     DARK MODE
+  ========================= */
+
+  const toggleTheme = () => {
+    const html = document.documentElement;
+
+    html.classList.toggle("dark");
+
+    const dark =
+      html.classList.contains("dark");
+
+    setIsDark(dark);
+
+    localStorage.setItem(
+      "manasetu-theme",
+      dark ? "dark" : "light"
+    );
+  };
+
+  /* =========================
+     MARK READ
+  ========================= */
 
   const markAllRead = () => {
     setNotifications([]);
   };
 
   return (
-    <header className="relative z-50 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md shadow-lg rounded-3xl px-4 sm:px-6 lg:px-8 py-5 transition-colors duration-300">
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+    <header className="sticky top-0 z-40 px-4 pt-4 sm:px-6 lg:px-8">
 
-        {/* Left */}
-        <div className="flex items-center gap-4">
-          <button className="lg:hidden text-2xl text-gray-700 dark:text-gray-300 hover:text-emerald-600 transition">
+      <div className="flex min-h-[76px] items-center justify-between gap-4 rounded-3xl border border-gray-200/70 bg-white/85 px-4 py-3 shadow-sm backdrop-blur-xl transition-colors dark:border-gray-800 dark:bg-gray-900/85 sm:px-6">
+
+        {/* =========================
+            LEFT
+        ========================= */}
+
+        <div className="flex min-w-0 items-center gap-3">
+
+          {/* Mobile menu */}
+          <button
+            className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-gray-100 text-gray-600 transition hover:bg-emerald-50 hover:text-emerald-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-emerald-900/30"
+          >
             <FaBars />
           </button>
 
-          <div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white">
-              {greeting},{" "}
-              <span className="text-emerald-600 dark:text-emerald-400">
-                {userName}
-              </span>{" "}
-              👋
-            </h2>
+          <div className="min-w-0">
 
-            <p className="text-gray-500 dark:text-gray-400 mt-1">
-{today} • One small act of self-care today can make a big difference. 🌿            </p>
+            <div className="flex items-center gap-2">
+
+              <h2 className="truncate text-lg font-bold tracking-tight text-gray-900 dark:text-white sm:text-xl lg:text-2xl">
+                {greeting},{" "}
+                <span className="text-emerald-600 dark:text-emerald-400">
+                  {userName}
+                </span>
+              </h2>
+
+              <span className="hidden text-xl sm:inline">
+                {greetingIcon}
+              </span>
+
+            </div>
+
+            <p className="mt-0.5 hidden text-xs text-gray-400 sm:block sm:text-sm">
+              {today}
+              <span className="mx-2">•</span>
+              One small act of self-care can make a difference.
+            </p>
+
           </div>
+
         </div>
 
-        {/* Right */}
-        <div className="flex flex-wrap items-center justify-between lg:justify-end gap-4">
+        {/* =========================
+            RIGHT
+        ========================= */}
 
-          {/* Search */}
-          <div className="hidden md:flex items-center bg-gray-100 dark:bg-gray-700 rounded-xl px-4 py-2 w-72">
-            <FaSearch className="text-gray-400 mr-3" />
+        <div className="flex flex-shrink-0 items-center gap-2 sm:gap-3">
+
+          {/* =========================
+              SEARCH
+          ========================= */}
+
+          <div className="hidden lg:flex h-11 w-64 items-center rounded-2xl border border-gray-200 bg-gray-50 px-4 transition focus-within:border-emerald-300 focus-within:bg-white focus-within:ring-4 focus-within:ring-emerald-500/5 dark:border-gray-700 dark:bg-gray-800 dark:focus-within:bg-gray-800 xl:w-72">
+
+            <FaSearch className="mr-3 text-sm text-gray-400" />
 
             <input
               type="text"
-placeholder="Search your wellness journey..."              className="bg-transparent outline-none w-full text-gray-700 dark:text-white placeholder-gray-400"
+              placeholder="Search your wellness journey..."
+              className="w-full bg-transparent text-sm text-gray-700 outline-none placeholder:text-gray-400 dark:text-white"
             />
+
           </div>
 
-          {/* Notifications */}
-          <div className="relative" ref={notificationRef}>
-                        <button
-              onClick={() => setShowNotifications(!showNotifications)}
-              className="relative w-12 h-12 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-emerald-900 transition duration-300"
+          {/* =========================
+              NOTIFICATIONS
+          ========================= */}
+
+          <div
+            className="relative"
+            ref={notificationRef}
+          >
+
+            <button
+              onClick={() =>
+                setShowNotifications(
+                  !showNotifications
+                )
+              }
+              className="relative flex h-11 w-11 items-center justify-center rounded-2xl border border-gray-200 bg-gray-50 text-gray-600 transition-all hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-emerald-900/30"
+              aria-label="Notifications"
             >
-              <FaBell className="text-xl text-gray-700 dark:text-gray-200" />
+
+              <FaBell />
 
               {notifications.length > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-semibold w-5 h-5 rounded-full flex items-center justify-center">
+                <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full border-2 border-white bg-rose-500 px-1 text-[9px] font-bold text-white dark:border-gray-900">
                   {notifications.length}
                 </span>
               )}
+
             </button>
 
+            {/* Notification Dropdown */}
+
             {showNotifications && (
-              <div className="absolute right-0 top-14 right-0 w-96 max-w-[90vw] bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 z-[9999] overflow-hidden">
+              <div className="absolute right-0 top-14 w-[360px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-2xl shadow-gray-900/10 dark:border-gray-700 dark:bg-gray-900">
+
                 {/* Header */}
-                <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200 dark:border-gray-700">
+
+                <div className="flex items-center justify-between border-b border-gray-100 px-5 py-4 dark:border-gray-800">
+
                   <div>
-                    <h3 className="font-bold text-lg text-gray-800 dark:text-white">
-                      🔔 Notifications
+
+                    <h3 className="font-bold text-gray-900 dark:text-white">
+                      Notifications
                     </h3>
-                    <p className="text-xs text-gray-500 mt-1">
-                      {notifications.length} unread notification
-                      {notifications.length !== 1 ? "s" : ""}
+
+                    <p className="mt-0.5 text-xs text-gray-400">
+                      {notifications.length > 0
+                        ? `${notifications.length} things waiting for you`
+                        : "You're all caught up"}
                     </p>
+
                   </div>
 
                   {notifications.length > 0 && (
                     <button
                       onClick={markAllRead}
-                      className="flex items-center gap-2 text-sm font-medium text-emerald-600 hover:text-emerald-700 transition"
+                      className="flex items-center gap-1.5 text-xs font-semibold text-emerald-600 hover:text-emerald-700"
                     >
                       <FaCheckDouble />
-                      Mark all read
+                      Mark read
                     </button>
                   )}
+
                 </div>
 
                 {/* List */}
-                <div className="max-h-96 overflow-y-auto">
-                  {notifications.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center py-10 px-6">
-                      <FaLeaf className="text-5xl text-emerald-500 mb-4" />
 
-                      <h4 className="font-semibold text-gray-700 dark:text-white">
-                        You're all caught up!
+                <div className="max-h-[380px] overflow-y-auto">
+
+                  {notifications.length === 0 ? (
+
+                    <div className="flex flex-col items-center px-6 py-12 text-center">
+
+                      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-50 text-2xl dark:bg-emerald-900/30">
+                        🌿
+                      </div>
+
+                      <h4 className="mt-4 font-semibold text-gray-800 dark:text-white">
+                        You're all caught up
                       </h4>
 
-                      <p className="text-sm text-gray-500 dark:text-gray-400 text-center mt-2">
-                        No new notifications. Keep taking care of your mental
-                        well-being 💚
+                      <p className="mt-1 text-sm text-gray-400">
+                        Keep taking care of yourself.
                       </p>
+
                     </div>
+
                   ) : (
+
                     notifications.map((item) => (
+
                       <div
                         key={item.id}
-                        className="flex items-start gap-4 px-5 py-4 hover:bg-emerald-50 dark:hover:bg-gray-700 transition cursor-pointer border-b border-gray-100 dark:border-gray-700 last:border-b-0"
+                        className="flex gap-3 border-b border-gray-100 px-5 py-4 transition hover:bg-emerald-50/60 dark:border-gray-800 dark:hover:bg-gray-800"
                       >
-                        <div className="mt-1 flex-shrink-0">{item.icon}</div>
 
-                        <div className="flex-1">
-                          <h4 className="font-semibold text-gray-800 dark:text-white">
-                            {item.title}
-                          </h4>
+                        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-gray-50 text-sm dark:bg-gray-800">
+                          {item.icon}
+                        </div>
 
-                          <p className="text-sm text-gray-600 dark:text-gray-300 mt-1 leading-relaxed">
+                        <div className="min-w-0 flex-1">
+
+                          <div className="flex items-start justify-between gap-2">
+
+                            <h4 className="text-sm font-semibold text-gray-800 dark:text-white">
+                              {item.title}
+                            </h4>
+
+                            <span className="flex-shrink-0 text-[10px] text-gray-400">
+                              {item.time}
+                            </span>
+
+                          </div>
+
+                          <p className="mt-1 text-xs leading-5 text-gray-500 dark:text-gray-400">
                             {item.message}
                           </p>
 
-                          <span className="text-xs text-gray-400 mt-2 block">
-                            {item.time}
-                          </span>
                         </div>
+
                       </div>
+
                     ))
+
                   )}
+
                 </div>
+
               </div>
             )}
+
           </div>
+
+          {/* =========================
+              THEME
+          ========================= */}
+
           <button
-  className="w-12 h-12 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-emerald-900 transition duration-300"
->
-  <FaMoon className="text-gray-700 dark:text-yellow-300" />
-</button>
+            onClick={toggleTheme}
+            className="hidden h-11 w-11 items-center justify-center rounded-2xl border border-gray-200 bg-gray-50 text-gray-600 transition-all hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-600 dark:flex dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300"
+            aria-label="Toggle theme"
+          >
+            {isDark ? <FaSun /> : <FaMoon />}
+          </button>
 
-          {/* Profile */}
-          <div className="flex items-center gap-3 bg-gray-100 dark:bg-gray-700 rounded-2xl px-4 py-2 hover:shadow-lg transition duration-300 cursor-pointer">
-            <FaUserCircle className="text-4xl text-emerald-600 dark:text-emerald-400" />
+          {/* =========================
+              PROFILE
+          ========================= */}
 
-            <div className="hidden sm:block">
-              <h3 className="font-semibold text-gray-800 dark:text-white">
-                {userName}
-              </h3>
+          <div className="hidden items-center gap-3 rounded-2xl border border-gray-200 bg-gray-50 px-3 py-2 dark:border-gray-700 dark:bg-gray-800 sm:flex">
 
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-Wellness Explorer 🌿              </p>
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500 text-lg text-white">
+              <FaUserCircle />
             </div>
+
+            <div className="hidden xl:block">
+
+              <p className="max-w-[110px] truncate text-xs font-bold text-gray-800 dark:text-white">
+                {userName}
+              </p>
+
+              <p className="text-[10px] text-gray-400">
+                Wellness Explorer 🌱
+              </p>
+
+            </div>
+
           </div>
+
         </div>
+
       </div>
+
     </header>
   );
 }
