@@ -4,7 +4,7 @@ function DashboardOverview({ stats }) {
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
       <AnimatedStatCard
         title="Wellness Score"
-        value={`${stats.wellnessScore}%`}
+        value={`${stats?.wellnessScore ?? 0}%`}
         icon="🌿"
         color="emerald"
       />

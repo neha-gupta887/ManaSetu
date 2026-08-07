@@ -193,7 +193,7 @@ function DashboardHero({
 
           <StatCard
             title="Today's Wellness"
-            value={`${stats.wellnessScore}%`}
+            value={`${stats?.wellnessScore ?? 0}%`}
             icon="💚"
           />
 

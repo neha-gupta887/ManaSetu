@@ -12,6 +12,7 @@ import {
   FaCheckDouble,
   FaChartLine,
   FaRobot,
+  FaMoon,
 } from "react-icons/fa";
 
 function Topbar() {

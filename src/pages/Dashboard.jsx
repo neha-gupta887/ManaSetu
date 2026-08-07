@@ -18,14 +18,14 @@ import WellnessGarden from "../components/dashboard/WellnessGarden";
 import WeeklyProgress from "../components/dashboard/WeeklyProgress";
 import DailyGoals from "../components/dashboard/DailyGoals";
 
-import AIRecommendation from "../components/dashboard/AIRecommendation";
+import AIRecommendations from "../components/dashboard/AIRecommendations";
 import AIQuickChat from "../components/dashboard/AIQuickChat";
 
 import RecentJournal from "../components/dashboard/RecentJournal";
 import RecentActivity from "../components/dashboard/RecentActivity";
 
 import WellnessTips from "../components/dashboard/WellnessTips";
-import UpcomingSession from "../components/dashboard/UpcomingSession";
+import UpcomingSessions from "../components/dashboard/UpcomingSessions";
 import QuoteCard from "../components/dashboard/QuoteCard";
 
 import NotificationPreview from "../components/dashboard/NotificationPreview";
@@ -111,7 +111,7 @@ function Dashboard() {
 
         <Topbar />
 
-        <WelcomeCard />
+        <WelcomeCard stats={stats} />
 
         <DashboardHero
           stats={stats}
@@ -249,7 +249,7 @@ function Dashboard() {
 
               <StatBox
                 title="Wellness Score"
-                value={`${stats.wellnessScore}%`}
+                value={`${stats?.wellnessScore ?? 0}%`}
               />
 
               <StatBox
@@ -497,8 +497,7 @@ function Dashboard() {
 
             <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
 
-              <AIRecommendation />
-
+            <AIRecommendations />
             </div>
 
             <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
@@ -625,3 +624,371 @@ function Dashboard() {
           </div>
 
         </section>
+                {/* =======================================================
+                        WELLNESS CENTER
+        ======================================================== */}
+
+        <section className="space-y-8">
+
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+
+            <div>
+
+              <span className="rounded-full bg-pink-100 px-4 py-2 text-sm font-semibold text-pink-700">
+
+                🌸 Wellness Center
+
+              </span>
+
+              <h2 className="mt-4 text-4xl font-bold text-gray-900 dark:text-white">
+
+                Build Healthy Daily Habits
+
+              </h2>
+
+              <p className="mt-3 max-w-2xl text-gray-600 dark:text-gray-400">
+
+                Stay consistent with wellness tips,
+                upcoming mindfulness sessions,
+                and daily inspiration.
+
+              </p>
+
+            </div>
+
+          </div>
+
+          <div className="grid gap-8 xl:grid-cols-3">
+
+            {/* Wellness Tips */}
+
+            <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
+
+              <WellnessTips />
+
+            </div>
+
+            {/* Upcoming Session */}
+
+            <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
+
+              <UpcomingSessions />
+
+            </div>
+
+            {/* Daily Quote */}
+
+            <div className="rounded-3xl bg-gradient-to-br from-violet-500 to-fuchsia-600 p-6 text-white shadow-xl">
+
+              <QuoteCard />
+
+            </div>
+
+          </div>
+
+        </section>
+
+        {/* =======================================================
+                        DASHBOARD SETTINGS
+        ======================================================== */}
+
+        <section className="grid gap-8 xl:grid-cols-2">
+
+          <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
+
+            <WidgetToggle />
+
+          </div>
+
+          <div className="rounded-[32px] bg-gradient-to-r from-emerald-500 via-green-500 to-teal-500 p-8 text-white shadow-xl">
+
+            <h2 className="text-3xl font-bold">
+
+              💚 Today's Wellness Reminder
+
+            </h2>
+
+            <p className="mt-5 leading-8 text-emerald-100">
+
+              Take a few moments today to check in with yourself.
+
+              Your emotional wellbeing grows with every small habit you
+              practice.
+
+            </p>
+
+            <div className="mt-8 grid grid-cols-2 gap-4">
+
+              <ReminderCard
+                emoji="😊"
+                title="Mood Check"
+              />
+
+              <ReminderCard
+                emoji="📖"
+                title="Journal"
+              />
+
+              <ReminderCard
+                emoji="🌬"
+                title="Breathing"
+              />
+
+              <ReminderCard
+                emoji="🤖"
+                title="Talk to Mana"
+              />
+
+            </div>
+
+          </div>
+
+        </section>
+
+        {/* =======================================================
+                        MOTIVATION SECTION
+        ======================================================== */}
+
+        <section>
+
+          <div className="rounded-[40px] bg-gradient-to-r from-amber-400 via-orange-400 to-rose-500 p-10 text-white shadow-2xl">
+
+            <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+
+              <div>
+
+                <span className="rounded-full bg-white/20 px-4 py-2 text-sm font-semibold backdrop-blur">
+
+                  🌟 Daily Motivation
+
+                </span>
+
+                <h2 className="mt-5 text-5xl font-extrabold">
+
+                  You Are Doing Better Than You Think
+
+                </h2>
+
+                <p className="mt-5 max-w-2xl text-lg leading-8 text-orange-100">
+
+                  Healing isn't about perfection.
+
+                  It's about showing up every day,
+                  learning,
+                  growing,
+                  and believing in yourself.
+
+                </p>
+
+              </div>
+
+              <Link to="/journal">
+
+                <button className="rounded-2xl bg-white px-8 py-4 font-bold text-orange-600 transition duration-300 hover:scale-105">
+
+                  🌿 Continue Your Journey
+
+                </button>
+
+              </Link>
+
+            </div>
+
+          </div>
+
+        </section>
+                {/* =======================================================
+                        FINAL CALL TO ACTION
+        ======================================================== */}
+
+        <section>
+
+          <div className="overflow-hidden rounded-[40px] bg-gradient-to-r from-emerald-600 via-teal-500 to-cyan-500 p-12 text-white shadow-2xl">
+
+            <div className="flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between">
+
+              <div className="max-w-2xl">
+
+                <span className="rounded-full bg-white/20 px-5 py-2 text-sm font-semibold backdrop-blur">
+
+                  💚 One Small Step Today
+
+                </span>
+
+                <h2 className="mt-6 text-5xl font-extrabold">
+
+                  Your Mental Health Matters.
+
+                </h2>
+
+                <p className="mt-6 text-lg leading-8 text-emerald-100">
+
+                  Every mood check, journal entry, breathing session and
+                  conversation with Mana brings you one step closer to a
+                  healthier mind.
+
+                  Keep going. You're doing great.
+
+                </p>
+
+              </div>
+
+              <div className="flex flex-wrap gap-4">
+
+                <Link to="/journal">
+
+                  <button className="rounded-2xl bg-white px-8 py-4 font-bold text-emerald-700 transition hover:scale-105">
+
+                    📝 Write Journal
+
+                  </button>
+
+                </Link>
+
+                <Link to="/chat">
+
+                  <button className="rounded-2xl border border-white px-8 py-4 font-bold text-white transition hover:bg-white hover:text-emerald-700">
+
+                    🤖 Talk to Mana
+
+                  </button>
+
+                </Link>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+        {/* =======================================================
+                              FOOTER
+        ======================================================== */}
+
+        <footer className="border-t border-gray-200 pt-10 dark:border-gray-700">
+
+          <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+
+            <div>
+
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+
+                🌿 ManaSetu
+
+              </h2>
+
+              <p className="mt-4 max-w-md leading-7 text-gray-600 dark:text-gray-400">
+
+                Empowering students through AI-driven mental wellness,
+                mindfulness and emotional growth.
+
+              </p>
+
+            </div>
+
+            <div className="flex flex-wrap gap-6">
+
+              <Link
+                to="/dashboard"
+                className="font-medium text-gray-600 hover:text-emerald-600 dark:text-gray-400"
+              >
+                Dashboard
+              </Link>
+
+              <Link
+                to="/journal"
+                className="font-medium text-gray-600 hover:text-emerald-600 dark:text-gray-400"
+              >
+                Journal
+              </Link>
+
+              <Link
+                to="/analytics"
+                className="font-medium text-gray-600 hover:text-emerald-600 dark:text-gray-400"
+              >
+                Analytics
+              </Link>
+
+              <Link
+                to="/chat"
+                className="font-medium text-gray-600 hover:text-emerald-600 dark:text-gray-400"
+              >
+                Mana AI
+              </Link>
+
+            </div>
+
+          </div>
+
+          <div className="mt-10 border-t border-gray-200 py-6 text-center dark:border-gray-700">
+
+            <p className="text-gray-500">
+
+              © {new Date().getFullYear()} ManaSetu
+
+            </p>
+
+            <p className="mt-2 text-sm text-gray-400">
+
+              Helping students build healthier minds, one day at a time 💚
+
+            </p>
+
+          </div>
+
+        </footer>
+
+      </main>
+
+    </div>
+
+  );
+}
+
+/* ======================================================
+                    Helper Components
+====================================================== */
+
+function StatBox({ title, value }) {
+  return (
+    <div className="rounded-2xl bg-white/15 p-5 text-center backdrop-blur">
+
+      <p className="text-sm text-emerald-100">
+
+        {title}
+
+      </p>
+
+      <h3 className="mt-2 text-3xl font-bold">
+
+        {value}
+
+      </h3>
+
+    </div>
+  );
+}
+
+function ReminderCard({ emoji, title }) {
+  return (
+    <div className="rounded-2xl bg-white/15 p-4 text-center backdrop-blur">
+
+      <div className="text-4xl">
+
+        {emoji}
+
+      </div>
+
+      <p className="mt-3 font-semibold">
+
+        {title}
+
+      </p>
+
+    </div>
+  );
+}
+
+export default Dashboard;

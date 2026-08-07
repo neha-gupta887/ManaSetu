@@ -31,10 +31,10 @@ function AIRecommendations() {
   ];
 
   return (
-    <div className="rounded-3xl bg-white dark:bg-gray-900 p-8 shadow-xl">
+    <div>
+      {/* Header */}
 
-      <div className="flex items-center justify-between">
-
+      <div className="flex items-center justify-between gap-4">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
           🤖 AI Recommendations
         </h2>
@@ -42,44 +42,34 @@ function AIRecommendations() {
         <span className="rounded-full bg-emerald-100 px-3 py-1 text-sm font-semibold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
           Personalized
         </span>
-
       </div>
 
+      {/* Recommendations */}
+
       <div className="mt-8 space-y-5">
-
         {recommendations.map((item) => (
-
           <div
             key={item.id}
-            className="rounded-2xl border border-gray-200 dark:border-gray-700 p-5 transition hover:shadow-lg hover:-translate-y-1"
+            className="rounded-2xl border border-gray-200 p-5 transition duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-gray-700"
           >
-
             <div className="flex gap-4">
-
-              <div className="text-3xl">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-3xl dark:bg-emerald-900/30">
                 {item.icon}
               </div>
 
               <div>
-
                 <h3 className="font-semibold text-gray-900 dark:text-white">
                   {item.title}
                 </h3>
 
-                <p className="mt-2 text-gray-600 dark:text-gray-400">
+                <p className="mt-2 leading-6 text-gray-600 dark:text-gray-400">
                   {item.description}
                 </p>
-
               </div>
-
             </div>
-
           </div>
-
         ))}
-
       </div>
-
     </div>
   );
 }
