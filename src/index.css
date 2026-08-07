@@ -1,116 +1,142 @@
 @import "tailwindcss";
 
 /* =========================================================
-   MANASETU — PREMIUM WELLNESS DESIGN SYSTEM
-   ========================================================= */
+   MANASETU — PREMIUM DESIGN SYSTEM
+   Calm • Human • Intelligent • Trustworthy
+========================================================= */
 
-/* Enable class-based dark mode */
+/* ---------------------------------------------------------
+   DARK MODE
+--------------------------------------------------------- */
+
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* =========================================================
-   ROOT DESIGN TOKENS
-   ========================================================= */
+
+/* ---------------------------------------------------------
+   ROOT VARIABLES
+--------------------------------------------------------- */
 
 :root {
   /* Brand */
-  --mana-forest: #123c35;
-  --mana-forest-deep: #0c2b26;
-  --mana-sage: #6f8f7a;
-  --mana-sage-light: #a8c4b2;
-  --mana-mint: #dcece4;
+  --mana-forest: #145c4a;
+  --mana-forest-dark: #0d4638;
+  --mana-emerald: #1f8a70;
+  --mana-sage: #8fb9a8;
 
-  /* Backgrounds */
-  --mana-ivory: #f8f7f2;
+  /* Soft accents */
+  --mana-mint: #e8f4ef;
+  --mana-mint-strong: #d8ece4;
+  --mana-sage-light: #c9dfd6;
+
+  /* Supporting colors */
+  --mana-lavender: #eeeafa;
+  --mana-peach: #fdf0e7;
+  --mana-sky: #eaf3f8;
+  --mana-gold: #f6ead1;
+
+  /* Surfaces */
+  --mana-bg: #f7f9f7;
   --mana-surface: #ffffff;
-  --mana-surface-soft: #f3f5f1;
-
-  /* Accent */
-  --mana-lavender: #e9e5f3;
-  --mana-blue: #e4eef1;
-  --mana-sand: #eee6d8;
-  --mana-rose: #f3e4e2;
+  --mana-surface-soft: #f3f7f5;
+  --mana-surface-elevated: #ffffff;
 
   /* Text */
-  --mana-text: #18302b;
-  --mana-text-soft: #64736d;
-  --mana-text-muted: #89958f;
+  --mana-text: #18332c;
+  --mana-text-soft: #52665f;
+  --mana-text-muted: #82928c;
 
   /* Borders */
-  --mana-border: rgba(18, 60, 53, 0.09);
-  --mana-border-strong: rgba(18, 60, 53, 0.15);
+  --mana-border: #e3ebe7;
+  --mana-border-strong: #d3e1db;
+
+  /* Status */
+  --mana-success: #268a67;
+  --mana-warning: #c58b32;
+  --mana-danger: #c75b5b;
+  --mana-info: #4e7ca5;
 
   /* Shadows */
-  --mana-shadow-sm: 0 2px 10px rgba(18, 60, 53, 0.04);
-  --mana-shadow-md: 0 10px 30px rgba(18, 60, 53, 0.07);
-  --mana-shadow-lg: 0 20px 50px rgba(18, 60, 53, 0.10);
+  --mana-shadow-sm:
+    0 2px 8px rgba(20, 55, 45, 0.04);
+
+  --mana-shadow:
+    0 8px 30px rgba(20, 55, 45, 0.06);
+
+  --mana-shadow-lg:
+    0 18px 50px rgba(20, 55, 45, 0.09);
 
   /* Radius */
-  --mana-radius-sm: 12px;
-  --mana-radius-md: 18px;
-  --mana-radius-lg: 24px;
-  --mana-radius-xl: 32px;
+  --mana-radius-sm: 10px;
+  --mana-radius-md: 16px;
+  --mana-radius-lg: 22px;
+  --mana-radius-xl: 28px;
+
+  /* Layout */
+  --mana-sidebar-width: 270px;
 }
 
-/* =========================================================
-   DARK MODE TOKENS
-   ========================================================= */
+
+/* ---------------------------------------------------------
+   DARK THEME
+--------------------------------------------------------- */
 
 .dark {
-  --mana-forest: #a5c8b5;
-  --mana-forest-deep: #d1e3d9;
-  --mana-sage: #8fb7a0;
-  --mana-sage-light: #b3d0bf;
-  --mana-mint: #1b332c;
+  --mana-bg: #0e1916;
 
-  --mana-ivory: #0b1513;
-  --mana-surface: #111f1b;
-  --mana-surface-soft: #162722;
+  --mana-surface: #14231f;
+  --mana-surface-soft: #182a25;
+  --mana-surface-elevated: #1a2d27;
 
-  --mana-lavender: #24212e;
-  --mana-blue: #1c292d;
-  --mana-sand: #2b271f;
-  --mana-rose: #2b2222;
+  --mana-text: #edf7f3;
+  --mana-text-soft: #b7c9c2;
+  --mana-text-muted: #829891;
 
-  --mana-text: #edf5f0;
-  --mana-text-soft: #b4c3bc;
-  --mana-text-muted: #7f9189;
+  --mana-border: #263b35;
+  --mana-border-strong: #345048;
 
-  --mana-border: rgba(220, 240, 230, 0.08);
-  --mana-border-strong: rgba(220, 240, 230, 0.14);
+  --mana-mint: #18382f;
+  --mana-mint-strong: #20483b;
 
-  --mana-shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.15);
-  --mana-shadow-md: 0 10px 30px rgba(0, 0, 0, 0.22);
-  --mana-shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.30);
+  --mana-lavender: #29263b;
+  --mana-peach: #392b24;
+  --mana-sky: #202f38;
+  --mana-gold: #3a3325;
+
+  --mana-shadow-sm:
+    0 2px 8px rgba(0, 0, 0, 0.18);
+
+  --mana-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.22);
+
+  --mana-shadow-lg:
+    0 18px 50px rgba(0, 0, 0, 0.28);
 }
 
-/* =========================================================
-   GLOBAL RESET
-   ========================================================= */
+
+/* ---------------------------------------------------------
+   BASE
+--------------------------------------------------------- */
 
 html {
   scroll-behavior: smooth;
 }
 
-* {
-  box-sizing: border-box;
+html,
+body,
+#root {
+  min-height: 100%;
 }
 
 body {
   margin: 0;
-  min-width: 320px;
 
   background:
     radial-gradient(
       circle at 10% 0%,
-      rgba(168, 196, 178, 0.10),
-      transparent 28%
+      rgba(143, 185, 168, 0.08),
+      transparent 30%
     ),
-    radial-gradient(
-      circle at 90% 10%,
-      rgba(228, 238, 241, 0.12),
-      transparent 25%
-    ),
-    var(--mana-ivory);
+    var(--mana-bg);
 
   color: var(--mana-text);
 
@@ -124,411 +150,206 @@ body {
     sans-serif;
 
   -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
 
   transition:
     background-color 300ms ease,
     color 300ms ease;
 }
 
-/* =========================================================
+
+/* ---------------------------------------------------------
    SELECTION
-   ========================================================= */
+--------------------------------------------------------- */
 
 ::selection {
-  background: rgba(111, 143, 122, 0.25);
-  color: var(--mana-text);
+  background: var(--mana-mint-strong);
+  color: var(--mana-forest-dark);
 }
 
-/* =========================================================
+
+/* ---------------------------------------------------------
    SCROLLBAR
-   ========================================================= */
+--------------------------------------------------------- */
 
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--mana-border-strong) transparent;
 }
 
-::-webkit-scrollbar-track {
+*::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+*::-webkit-scrollbar-track {
   background: transparent;
 }
 
-::-webkit-scrollbar-thumb {
-  background: rgba(111, 143, 122, 0.28);
+*::-webkit-scrollbar-thumb {
+  background: var(--mana-border-strong);
   border-radius: 999px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(111, 143, 122, 0.48);
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--mana-sage);
 }
 
-/* =========================================================
-   LINKS
-   ========================================================= */
+
+/* ---------------------------------------------------------
+   BUTTONS / LINKS
+--------------------------------------------------------- */
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  font-family: inherit;
+}
 
 a {
   color: inherit;
   text-decoration: none;
 }
 
-/* =========================================================
-   BUTTONS & INPUTS
-   ========================================================= */
 
-button,
+/* ---------------------------------------------------------
+   INPUTS
+--------------------------------------------------------- */
+
 input,
 textarea,
 select {
-  font: inherit;
+  font-family: inherit;
 }
 
-button {
-  -webkit-tap-highlight-color: transparent;
+input::placeholder,
+textarea::placeholder {
+  color: var(--mana-text-muted);
 }
 
-button:focus-visible,
-a:focus-visible,
-input:focus-visible,
-textarea:focus-visible,
-select:focus-visible {
-  outline: 2px solid var(--mana-sage);
-  outline-offset: 3px;
-}
 
-/* =========================================================
+/* ---------------------------------------------------------
    PREMIUM SURFACE
-   ========================================================= */
+--------------------------------------------------------- */
 
 .mana-surface {
   background: var(--mana-surface);
   border: 1px solid var(--mana-border);
+  border-radius: var(--mana-radius-lg);
   box-shadow: var(--mana-shadow-sm);
-  border-radius: var(--mana-radius-lg);
-}
-
-.mana-surface-elevated {
-  background: var(--mana-surface);
-  border: 1px solid var(--mana-border);
-  box-shadow: var(--mana-shadow-md);
-  border-radius: var(--mana-radius-lg);
-
-  transition:
-    transform 250ms ease,
-    box-shadow 250ms ease,
-    border-color 250ms ease;
-}
-
-.mana-surface-elevated:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--mana-shadow-lg);
-  border-color: var(--mana-border-strong);
-}
-
-/* =========================================================
-   GLASS EFFECT
-   ========================================================= */
-
-.mana-glass {
-  background: rgba(255, 255, 255, 0.60);
-  border: 1px solid rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  box-shadow: var(--mana-shadow-md);
-}
-
-.dark .mana-glass {
-  background: rgba(17, 31, 27, 0.68);
-  border-color: rgba(255, 255, 255, 0.07);
-}
-
-/* =========================================================
-   BOTANICAL BACKGROUND
-   ========================================================= */
-
-.mana-botanical-bg {
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
-}
-
-.mana-botanical-bg::before {
-  content: "";
-  position: absolute;
-  width: 380px;
-  height: 380px;
-  top: -180px;
-  left: -120px;
-
-  background: rgba(168, 196, 178, 0.20);
-  filter: blur(80px);
-  border-radius: 50%;
-
-  pointer-events: none;
-  z-index: -1;
-}
-
-.mana-botanical-bg::after {
-  content: "";
-  position: absolute;
-  width: 320px;
-  height: 320px;
-  right: -140px;
-  bottom: -160px;
-
-  background: rgba(228, 238, 241, 0.25);
-  filter: blur(80px);
-  border-radius: 50%;
-
-  pointer-events: none;
-  z-index: -1;
-}
-
-/* =========================================================
-   PREMIUM GRADIENT
-   ========================================================= */
-
-.mana-gradient {
-  background:
-    radial-gradient(
-      circle at 15% 20%,
-      rgba(220, 236, 228, 0.9),
-      transparent 35%
-    ),
-    radial-gradient(
-      circle at 85% 80%,
-      rgba(228, 238, 241, 0.8),
-      transparent 35%
-    ),
-    linear-gradient(
-      135deg,
-      #f8f7f2 0%,
-      #eef4ef 50%,
-      #f4f6f3 100%
-    );
-}
-
-.dark .mana-gradient {
-  background:
-    radial-gradient(
-      circle at 15% 20%,
-      rgba(55, 91, 76, 0.30),
-      transparent 35%
-    ),
-    radial-gradient(
-      circle at 85% 80%,
-      rgba(42, 67, 73, 0.25),
-      transparent 35%
-    ),
-    linear-gradient(
-      135deg,
-      #0b1513 0%,
-      #10201b 50%,
-      #0d1916 100%
-    );
-}
-
-/* =========================================================
-   SOFT TEXT
-   ========================================================= */
-
-.mana-heading {
-  color: var(--mana-text);
-  letter-spacing: -0.035em;
-  font-weight: 750;
-}
-
-.mana-muted {
-  color: var(--mana-text-soft);
-}
-
-/* =========================================================
-   PREMIUM BUTTON
-   ========================================================= */
-
-.mana-primary-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-
-  min-height: 46px;
-  padding: 0 20px;
-
-  border: 0;
-  border-radius: 14px;
-
-  background: var(--mana-forest);
-  color: #ffffff;
-
-  font-weight: 650;
-
-  cursor: pointer;
-
-  box-shadow:
-    0 8px 20px rgba(18, 60, 53, 0.14);
-
-  transition:
-    transform 200ms ease,
-    box-shadow 200ms ease,
-    opacity 200ms ease;
-}
-
-.mana-primary-btn:hover {
-  transform: translateY(-1px);
-  box-shadow:
-    0 12px 26px rgba(18, 60, 53, 0.18);
-}
-
-.mana-primary-btn:active {
-  transform: translateY(0);
-}
-
-.mana-primary-btn:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-  transform: none;
-}
-
-/* =========================================================
-   SOFT BUTTON
-   ========================================================= */
-
-.mana-soft-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-
-  min-height: 44px;
-  padding: 0 18px;
-
-  border: 1px solid var(--mana-border-strong);
-  border-radius: 14px;
-
-  background: var(--mana-surface-soft);
-  color: var(--mana-text);
-
-  font-weight: 600;
-
-  cursor: pointer;
-
-  transition:
-    background 200ms ease,
-    transform 200ms ease,
-    border-color 200ms ease;
-}
-
-.mana-soft-btn:hover {
-  background: var(--mana-mint);
-  border-color: rgba(111, 143, 122, 0.25);
-  transform: translateY(-1px);
-}
-
-/* =========================================================
-   INPUT
-   ========================================================= */
-
-.mana-input {
-  width: 100%;
-  min-height: 46px;
-
-  padding: 0 15px;
-
-  border: 1px solid var(--mana-border-strong);
-  border-radius: 14px;
-
-  background: var(--mana-surface);
-  color: var(--mana-text);
-
-  outline: none;
 
   transition:
     border-color 200ms ease,
-    box-shadow 200ms ease;
+    box-shadow 200ms ease,
+    transform 200ms ease;
 }
 
-.mana-input::placeholder {
-  color: var(--mana-text-muted);
+.mana-surface:hover {
+  border-color: var(--mana-border-strong);
+  box-shadow: var(--mana-shadow);
 }
 
-.mana-input:focus {
-  border-color: var(--mana-sage);
-  box-shadow:
-    0 0 0 4px rgba(111, 143, 122, 0.10);
+
+/* ---------------------------------------------------------
+   ELEVATED SURFACE
+--------------------------------------------------------- */
+
+.mana-surface-elevated {
+  background: var(--mana-surface-elevated);
+  border: 1px solid var(--mana-border);
+  border-radius: var(--mana-radius-lg);
+  box-shadow: var(--mana-shadow);
 }
 
-/* =========================================================
+
+/* ---------------------------------------------------------
+   SOFT SURFACE
+--------------------------------------------------------- */
+
+.mana-surface-soft {
+  background: var(--mana-surface-soft);
+  border: 1px solid var(--mana-border);
+  border-radius: var(--mana-radius-lg);
+}
+
+
+/* ---------------------------------------------------------
    STATUS DOT
-   ========================================================= */
+--------------------------------------------------------- */
 
 .mana-status-dot {
+  display: inline-block;
+
   width: 8px;
   height: 8px;
 
-  border-radius: 999px;
+  border-radius: 50%;
 
-  background: #77a989;
+  background: #56b88b;
 
   box-shadow:
-    0 0 0 4px rgba(119, 169, 137, 0.12);
+    0 0 0 4px rgba(86, 184, 139, 0.10);
 
-  animation: mana-pulse 2.5s ease-in-out infinite;
+  animation: mana-pulse 2.4s ease-in-out infinite;
 }
 
-@keyframes mana-pulse {
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
 
-  50% {
-    opacity: 0.65;
-    transform: scale(0.9);
-  }
+/* ---------------------------------------------------------
+   SOFT GLOW
+--------------------------------------------------------- */
+
+.mana-glow {
+  position: relative;
 }
 
-/* =========================================================
-   FLOATING ORB
-   ========================================================= */
+.mana-glow::after {
+  content: "";
 
-.mana-orb {
-  border-radius: 999px;
+  position: absolute;
+  inset: -20px;
+
+  z-index: -1;
 
   background:
     radial-gradient(
-      circle at 35% 30%,
-      rgba(255, 255, 255, 0.9),
-      rgba(168, 196, 178, 0.45) 35%,
-      rgba(111, 143, 122, 0.12) 70%,
-      transparent 100%
+      circle,
+      rgba(143, 185, 168, 0.13),
+      transparent 65%
     );
 
-  filter: blur(0.2px);
-
-  animation: mana-float 7s ease-in-out infinite;
+  pointer-events: none;
 }
 
-@keyframes mana-float {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
 
-  50% {
-    transform: translate3d(0, -10px, 0);
-  }
+/* ---------------------------------------------------------
+   SUBTLE HOVER
+--------------------------------------------------------- */
+
+.mana-hover {
+  transition:
+    transform 200ms ease,
+    box-shadow 200ms ease,
+    border-color 200ms ease;
 }
 
-/* =========================================================
-   PAGE ENTRANCE
-   ========================================================= */
-
-.mana-page-enter {
-  animation: mana-page-enter 450ms ease both;
+.mana-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--mana-shadow);
 }
 
-@keyframes mana-page-enter {
+
+/* ---------------------------------------------------------
+   FADE UP ANIMATION
+--------------------------------------------------------- */
+
+.mana-fade-up {
+  animation: mana-fade-up 500ms ease both;
+}
+
+@keyframes mana-fade-up {
   from {
     opacity: 0;
     transform: translateY(8px);
@@ -540,56 +361,52 @@ select:focus-visible {
   }
 }
 
-/* =========================================================
-   FADE UP
-   ========================================================= */
 
-.mana-fade-up {
-  animation: mana-fade-up 550ms ease both;
-}
+/* ---------------------------------------------------------
+   SOFT PULSE
+--------------------------------------------------------- */
 
-@keyframes mana-fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
+@keyframes mana-pulse {
+  0%,
+  100% {
+    opacity: 0.65;
+    transform: scale(0.95);
   }
 
-  to {
+  50% {
     opacity: 1;
-    transform: translateY(0);
+    transform: scale(1);
   }
 }
 
-/* =========================================================
-   REDUCED MOTION
-   ========================================================= */
+
+/* ---------------------------------------------------------
+   REDUCE MOTION
+--------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
   *,
   *::before,
   *::after {
+    scroll-behavior: auto !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
 }
 
-/* =========================================================
-   MOBILE
-   ========================================================= */
 
-@media (max-width: 640px) {
-  .mana-surface,
-  .mana-surface-elevated {
-    border-radius: 20px;
+/* ---------------------------------------------------------
+   MOBILE
+--------------------------------------------------------- */
+
+@media (max-width: 768px) {
+  :root {
+    --mana-radius-lg: 18px;
+    --mana-radius-xl: 22px;
   }
 
-  .mana-primary-btn,
-  .mana-soft-btn {
-    min-height: 44px;
+  body {
+    background: var(--mana-bg);
   }
 }
