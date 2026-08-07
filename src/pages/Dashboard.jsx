@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import Sidebar from "../components/dashboard/Sidebar";
 import Topbar from "../components/dashboard/Topbar";
-import DashboardHero from "../components/dashboard/DashboardHero";
+
 import DashboardOverview from "../components/dashboard/DashboardOverview";
 import QuickActions from "../components/dashboard/QuickActions";
 
@@ -36,7 +36,6 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import { getDashboardStats } from "../services/dashboardStatsService";
 
 function Dashboard() {
-
   const [stats, setStats] = useState({
     wellnessScore: 0,
     streak: 0,
@@ -51,944 +50,1100 @@ function Dashboard() {
 
   const greeting =
     hour < 12
-      ? "Good Morning ☀️"
+      ? "Good morning"
       : hour < 17
-      ? "Good Afternoon 🌤️"
-      : "Good Evening 🌙";
+      ? "Good afternoon"
+      : "Good evening";
 
   const messages = [
-    "🌿 Small steps every day create lasting change.",
-    "💚 Your wellbeing deserves your attention today.",
-    "🌸 Be gentle with yourself.",
-    "🍃 Take one deep breath before you continue.",
-    "✨ Progress is more important than perfection.",
-    "🌈 Healing is a journey, not a destination.",
-    "🌞 Celebrate every little victory.",
+    "Small steps every day create lasting change.",
+    "Your wellbeing deserves your attention today.",
+    "Be gentle with yourself.",
+    "Take one deep breath before you continue.",
+    "Progress is more important than perfection.",
+    "Healing is a journey, not a destination.",
+    "Celebrate every little victory.",
   ];
 
   const dailyMessage =
     messages[new Date().getDate() % messages.length];
 
   useEffect(() => {
-
     const loadDashboard = async () => {
-
       try {
-
         const data = await getDashboardStats();
 
-        setStats(data);
-
+        if (data) {
+          setStats({
+            wellnessScore: data.wellnessScore ?? 0,
+            streak: data.streak ?? 0,
+            journalEntries: data.journalEntries ?? 0,
+            totalMoodEntries: data.totalMoodEntries ?? 0,
+            currentMood: data.currentMood || "Calm",
+          });
+        }
       } catch (error) {
-
-        console.error(error);
-
+        console.error("Dashboard loading error:", error);
       } finally {
-
         setLoading(false);
-
       }
-
     };
 
     loadDashboard();
-
   }, []);
 
   if (loading) {
-
     return <LoadingSpinner />;
-
   }
 
-  return (
+  const wellnessScore = stats?.wellnessScore ?? 0;
+  const streak = stats?.streak ?? 0;
+  const journalEntries = stats?.journalEntries ?? 0;
+  const totalMoodEntries = stats?.totalMoodEntries ?? 0;
+  const currentMood = stats?.currentMood || "Calm";
 
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50 dark:from-gray-950 dark:via-gray-900 dark:to-black transition-all duration-500">
+  return (
+    <div className="min-h-screen bg-[#F5F8F5] text-slate-800 transition-colors duration-500 dark:bg-[#09100E] dark:text-white">
 
       <Sidebar />
 
-      <main className="lg:ml-72 px-6 py-8 space-y-10">
-
-        <Topbar />
-
-        <WelcomeCard stats={stats} />
-
-        <DashboardHero
-          stats={stats}
-          greeting={greeting}
-          dailyMessage={dailyMessage}
-        />
-
-        {/* Dashboard Overview */}
-
-        <section className="grid gap-8 xl:grid-cols-3">
-
-          <div className="xl:col-span-2">
-
-            <DashboardOverview stats={stats} />
-
-          </div>
-
-          <div>
-
-            <QuickActions />
-
-          </div>
-
-        </section>
-                {/* =======================================================
-                            ANALYTICS SECTION
-        ======================================================== */}
-
-        <section className="space-y-8">
-
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-
-            <div>
-
-              <span className="rounded-full bg-emerald-100 px-4 py-2 text-sm font-semibold text-emerald-700">
-
-                📊 Wellness Analytics
-
-              </span>
-
-              <h2 className="mt-4 text-4xl font-bold text-gray-900 dark:text-white">
-
-                Track Your Emotional Journey
-
-              </h2>
-
-              <p className="mt-3 max-w-2xl text-gray-600 dark:text-gray-400">
-
-                Understand your emotional wellbeing through AI-powered
-                insights, mood trends and wellness reports.
-
-              </p>
-
-            </div>
-
-            <Link
-              to="/analytics"
-              className="rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 px-6 py-4 font-semibold text-white shadow-lg transition hover:-translate-y-1 hover:shadow-xl"
-            >
-              View Full Analytics →
-            </Link>
-
-          </div>
-
-          {/* Charts */}
-
-          <div className="grid gap-8 xl:grid-cols-2">
-
-            <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
-
-              <MoodAnalyticsChart />
-
-            </div>
-
-            <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
-
-              <MoodDistributionChart />
-
-            </div>
-
-          </div>
-
-          {/* Calendar + Heatmap */}
-
-          <div className="grid gap-8 xl:grid-cols-2">
-
-            <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
-
-              <MoodCalendar />
-
-            </div>
-
-            <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
-
-              <WellnessHeatmap />
-
-            </div>
-
-          </div>
-
-        </section>
-
-        {/* =======================================================
-                        WEEKLY PROGRESS
-        ======================================================== */}
-
-        <section className="rounded-[36px] bg-gradient-to-r from-indigo-500 via-violet-500 to-fuchsia-500 p-10 text-white shadow-2xl">
-
-          <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
-
-            <div>
-
-              <span className="rounded-full bg-white/20 px-4 py-2 text-sm font-semibold backdrop-blur">
-
-                📈 Weekly Summary
-
-              </span>
-
-              <h2 className="mt-5 text-4xl font-extrabold">
-
-                You're Making Progress 💚
-
-              </h2>
-
-              <p className="mt-5 max-w-2xl text-lg leading-8 text-violet-100">
-
-                Every journal entry, breathing exercise and mood check
-                brings you closer to a healthier and happier mind.
-
-              </p>
-
-            </div>
-
-            <div className="grid grid-cols-2 gap-5">
-
-              <StatBox
-                title="Wellness Score"
-                value={`${stats?.wellnessScore ?? 0}%`}
-              />
-
-              <StatBox
-                title="Current Streak"
-                value={`${stats.streak} Days`}
-              />
-
-              <StatBox
-                title="Journal Entries"
-                value={stats.journalEntries}
-              />
-
-              <StatBox
-                title="Mood Check-ins"
-                value={stats.totalMoodEntries}
-              />
-
-            </div>
-
-          </div>
-
-        </section>
-
-        <section>
-
-          <WeeklyProgress />
-
-        </section>
-                {/* =======================================================
-                            WELLNESS SECTION
-        ======================================================== */}
-
-        <section className="space-y-8">
-
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-
-            <div>
-
-              <span className="rounded-full bg-green-100 px-4 py-2 text-sm font-semibold text-green-700">
-
-                🌱 Wellness Journey
-
-              </span>
-
-              <h2 className="mt-4 text-4xl font-bold text-gray-900 dark:text-white">
-
-                Grow Your Wellness Garden
-
-              </h2>
-
-              <p className="mt-3 max-w-2xl text-gray-600 dark:text-gray-400">
-
-                Every healthy habit helps your digital garden bloom.
-                Journal regularly, track your mood and complete wellness
-                activities to unlock new milestones.
-
-              </p>
-
-            </div>
-
-          </div>
-
-          {/* Garden + Goals */}
-
-          <div className="grid gap-8 xl:grid-cols-3">
-
-            <div className="xl:col-span-2">
-
-              <WellnessGarden />
-
-            </div>
-
-            <div className="space-y-8">
-
-              <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
-
-                <DailyGoals />
-
-              </div>
-
-              <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
-
-                <NotificationPreview />
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </section>
-
-        {/* =======================================================
-                          QUICK WELLNESS ACTIONS
-        ======================================================== */}
-
-        <section>
-
-          <div className="grid gap-8 lg:grid-cols-3">
-
-            <div className="rounded-3xl bg-gradient-to-br from-emerald-500 to-teal-500 p-8 text-white shadow-xl transition duration-300 hover:-translate-y-2">
-
-              <div className="text-5xl">
-
-                🌿
-
-              </div>
-
-              <h3 className="mt-5 text-2xl font-bold">
-
-                Daily Reflection
-
-              </h3>
-
-              <p className="mt-3 leading-7 text-emerald-100">
-
-                Spend just five minutes writing your thoughts and improve
-                your emotional awareness.
-
-              </p>
-
-              <Link
-                to="/journal"
-                className="mt-6 inline-flex rounded-xl bg-white px-5 py-3 font-semibold text-emerald-700 transition hover:scale-105"
-              >
-
-                Open Journal →
-
-              </Link>
-
-            </div>
-
-            <div className="rounded-3xl bg-gradient-to-br from-sky-500 to-cyan-500 p-8 text-white shadow-xl transition duration-300 hover:-translate-y-2">
-
-              <div className="text-5xl">
-
-                🌬
-
-              </div>
-
-              <h3 className="mt-5 text-2xl font-bold">
-
-                Breathing Exercise
-
-              </h3>
-
-              <p className="mt-3 leading-7 text-cyan-100">
-
-                Relax your body and mind with a guided breathing session.
-
-              </p>
-
-              <Link
-                to="/breathing"
-                className="mt-6 inline-flex rounded-xl bg-white px-5 py-3 font-semibold text-cyan-700 transition hover:scale-105"
-              >
-
-                Start Session →
-
-              </Link>
-
-            </div>
-
-            <div className="rounded-3xl bg-gradient-to-br from-violet-500 to-fuchsia-500 p-8 text-white shadow-xl transition duration-300 hover:-translate-y-2">
-
-              <div className="text-5xl">
-
-                🤖
-
-              </div>
-
-              <h3 className="mt-5 text-2xl font-bold">
-
-                Talk to Mana
-
-              </h3>
-
-              <p className="mt-3 leading-7 text-violet-100">
-
-                Receive personalized support and wellness guidance from
-                your AI companion.
-
-              </p>
-
-              <Link
-                to="/chat"
-                className="mt-6 inline-flex rounded-xl bg-white px-5 py-3 font-semibold text-violet-700 transition hover:scale-105"
-              >
-
-                Chat Now →
-
-              </Link>
-
-            </div>
-
-          </div>
-
-        </section>
-                {/* =======================================================
-                            AI WELLNESS CENTER
-        ======================================================== */}
-
-        <section className="space-y-8">
-
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-
-            <div>
-
-              <span className="rounded-full bg-sky-100 px-4 py-2 text-sm font-semibold text-sky-700">
-
-                🤖 AI Wellness Coach
-
-              </span>
-
-              <h2 className="mt-4 text-4xl font-bold text-gray-900 dark:text-white">
-
-                Your Personal Mental Wellness Companion
-
-              </h2>
-
-              <p className="mt-3 max-w-2xl text-gray-600 dark:text-gray-400">
-
-                Mana AI understands your emotional journey and provides
-                personalized wellness suggestions, encouragement and
-                intelligent support whenever you need it.
-
-              </p>
-
-            </div>
-
-            <Link
-              to="/chat"
-              className="rounded-2xl bg-gradient-to-r from-sky-500 to-cyan-500 px-6 py-4 font-semibold text-white shadow-lg transition hover:-translate-y-1 hover:shadow-xl"
-            >
-
-              Open Mana AI →
-
-            </Link>
-
-          </div>
-
-          {/* AI Cards */}
-
-          <div className="grid gap-8 xl:grid-cols-2">
-
-            <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
-
-            <AIRecommendations />
-            </div>
-
-            <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
-
-              <AIQuickChat />
-
-            </div>
-
-          </div>
-
-        </section>
-
-        {/* =======================================================
-                        JOURNAL & ACTIVITY
-        ======================================================== */}
-
-        <section className="space-y-8">
-
-          <div>
-
-            <span className="rounded-full bg-orange-100 px-4 py-2 text-sm font-semibold text-orange-700">
-
-              📖 Reflection Space
-
+      <main className="relative min-h-screen lg:ml-72">
+
+        {/* Ambient background */}
+        <div className="pointer-events-none fixed inset-0 overflow-hidden">
+          <div className="absolute -left-40 top-20 h-96 w-96 rounded-full bg-emerald-200/20 blur-3xl dark:bg-emerald-900/10" />
+
+          <div className="absolute right-0 top-40 h-96 w-96 rounded-full bg-teal-200/15 blur-3xl dark:bg-teal-900/10" />
+
+          <div className="absolute bottom-0 left-1/2 h-80 w-80 rounded-full bg-lime-100/20 blur-3xl dark:bg-lime-900/5" />
+        </div>
+
+        <div className="relative z-10">
+
+          <Topbar />
+
+          {/* Main content */}
+          <div className="mx-auto max-w-[1500px] space-y-8 px-4 pb-16 pt-6 sm:px-6 lg:px-8">
+
+            {/* =========================================
+                WELCOME
+            ========================================== */}
+
+         <section className="group relative overflow-hidden rounded-[32px] border border-emerald-100/80 bg-white shadow-[0_24px_80px_-45px_rgba(16,185,129,0.38)] transition-all duration-500 hover:shadow-[0_30px_90px_-45px_rgba(16,185,129,0.48)] dark:border-white/[0.07] dark:bg-[#101815]">
+  {/* Ambient background */}
+  <div className="pointer-events-none absolute inset-0 overflow-hidden">
+    <div className="absolute -right-28 -top-32 h-[420px] w-[420px] rounded-full bg-emerald-200/35 blur-3xl transition-transform duration-700 group-hover:scale-110 dark:bg-emerald-900/15" />
+
+    <div className="absolute -bottom-40 left-1/3 h-[320px] w-[320px] rounded-full bg-teal-100/35 blur-3xl dark:bg-teal-950/15" />
+
+    <div className="absolute right-[28%] top-1/2 h-32 w-32 rounded-full bg-lime-100/30 blur-3xl dark:bg-lime-900/10" />
+  </div>
+
+  {/* Decorative grid */}
+  <div
+    className="pointer-events-none absolute inset-0 opacity-[0.035] dark:opacity-[0.025]"
+    style={{
+      backgroundImage:
+        "linear-gradient(rgba(16,185,129,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(16,185,129,0.8) 1px, transparent 1px)",
+      backgroundSize: "36px 36px",
+    }}
+  />
+
+  <div className="relative p-6 sm:p-8 lg:p-10">
+    <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+      {/* Left content */}
+      <div className="max-w-3xl">
+        {/* Private space badge */}
+        <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200/80 bg-emerald-50/80 px-3.5 py-2 text-xs font-semibold text-emerald-700 shadow-sm backdrop-blur dark:border-emerald-900/50 dark:bg-emerald-950/30 dark:text-emerald-300">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+          </span>
+
+          Your private wellness space
+        </div>
+
+        {/* Date */}
+        <p className="mt-6 text-xs font-medium uppercase tracking-[0.16em] text-slate-400 dark:text-slate-500">
+          {formatToday()}
+        </p>
+
+        {/* Greeting */}
+        <h1 className="mt-2 text-3xl font-bold tracking-[-0.035em] text-slate-900 sm:text-4xl lg:text-[46px] lg:leading-[1.08] dark:text-white">
+          {greeting},{" "}
+          <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent dark:from-emerald-400 dark:to-teal-300">
+            {getFirstName()}
+          </span>
+          <span className="text-slate-900 dark:text-white">.</span>
+        </h1>
+
+        {/* Message */}
+        <p className="mt-5 max-w-2xl text-sm leading-7 text-slate-500 sm:text-base dark:text-slate-400">
+          {dailyMessage}
+        </p>
+
+        {/* Mini reassurance */}
+        <div className="mt-6 flex items-center gap-3">
+          <div className="flex -space-x-1.5">
+            <span className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-emerald-100 text-xs dark:border-[#101815]">
+              🌿
             </span>
 
-            <h2 className="mt-4 text-4xl font-bold text-gray-900 dark:text-white">
+            <span className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-teal-100 text-xs dark:border-[#101815]">
+              💚
+            </span>
 
-              Continue Your Wellness Journey
-
-            </h2>
-
-            <p className="mt-3 max-w-2xl text-gray-600 dark:text-gray-400">
-
-              Review your latest journal entries, revisit important
-              reflections and stay connected with your emotional growth.
-
-            </p>
-
+            <span className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-lime-100 text-xs dark:border-[#101815]">
+              ✨
+            </span>
           </div>
 
-          <div className="grid gap-8 xl:grid-cols-2">
+          <p className="text-xs text-slate-400 dark:text-slate-500">
+            A little care for yourself goes a long way.
+          </p>
+        </div>
+      </div>
 
-            <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
+      {/* Right action area */}
+      <div className="relative shrink-0">
+        <div className="absolute -inset-4 rounded-[32px] bg-emerald-400/10 blur-2xl" />
 
-              <RecentJournal />
+        <div className="relative rounded-[26px] border border-slate-200/80 bg-white/80 p-3 shadow-[0_20px_50px_-30px_rgba(15,23,42,0.35)] backdrop-blur-xl dark:border-white/[0.07] dark:bg-white/[0.035]">
+          {/* Check in */}
+          <Link
+            to="/journal"
+            className="group/action flex min-w-[210px] items-center gap-3 rounded-[20px] bg-slate-900 px-4 py-3.5 text-white shadow-lg shadow-slate-900/10 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl dark:bg-white dark:text-slate-900"
+          >
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-lg dark:bg-slate-900/10">
+              ✍️
+            </span>
 
-            </div>
-
-            <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
-
-              <RecentActivity />
-
-            </div>
-
-          </div>
-
-        </section>
-
-        {/* =======================================================
-                        AI QUICK HELP
-        ======================================================== */}
-
-        <section>
-
-          <div className="rounded-[36px] bg-gradient-to-r from-sky-500 via-cyan-500 to-blue-600 p-10 text-white shadow-2xl">
-
-            <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
-
-              <div>
-
-                <span className="rounded-full bg-white/20 px-4 py-2 text-sm font-semibold backdrop-blur">
-
-                  💚 AI Wellness Tip
-
-                </span>
-
-                <h2 className="mt-5 text-4xl font-extrabold">
-
-                  Feeling Overwhelmed?
-
-                </h2>
-
-                <p className="mt-5 max-w-2xl text-lg leading-8 text-cyan-100">
-
-                  Take one deep breath.
-
-                  Write one thought.
-
-                  Talk to Mana.
-
-                  Small actions today create meaningful emotional growth.
-
-                </p>
-
-              </div>
-
-              <div className="flex flex-wrap gap-4">
-
-                <Link to="/journal">
-
-                  <button className="rounded-2xl bg-white px-6 py-4 font-semibold text-sky-700 transition hover:scale-105">
-
-                    📝 Journal
-
-                  </button>
-
-                </Link>
-
-                <Link to="/chat">
-
-                  <button className="rounded-2xl border border-white px-6 py-4 font-semibold text-white transition hover:bg-white hover:text-sky-700">
-
-                    🤖 Chat with Mana
-
-                  </button>
-
-                </Link>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </section>
-                {/* =======================================================
-                        WELLNESS CENTER
-        ======================================================== */}
-
-        <section className="space-y-8">
-
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-
-            <div>
-
-              <span className="rounded-full bg-pink-100 px-4 py-2 text-sm font-semibold text-pink-700">
-
-                🌸 Wellness Center
-
+            <span className="flex-1 text-left">
+              <span className="block text-sm font-semibold">
+                Check in
               </span>
 
-              <h2 className="mt-4 text-4xl font-bold text-gray-900 dark:text-white">
-
-                Build Healthy Daily Habits
-
-              </h2>
-
-              <p className="mt-3 max-w-2xl text-gray-600 dark:text-gray-400">
-
-                Stay consistent with wellness tips,
-                upcoming mindfulness sessions,
-                and daily inspiration.
-
-              </p>
-
-            </div>
-
-          </div>
-
-          <div className="grid gap-8 xl:grid-cols-3">
-
-            {/* Wellness Tips */}
-
-            <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
-
-              <WellnessTips />
-
-            </div>
-
-            {/* Upcoming Session */}
-
-            <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
-
-              <UpcomingSessions />
-
-            </div>
-
-            {/* Daily Quote */}
-
-            <div className="rounded-3xl bg-gradient-to-br from-violet-500 to-fuchsia-600 p-6 text-white shadow-xl">
-
-              <QuoteCard />
-
-            </div>
-
-          </div>
-
-        </section>
-
-        {/* =======================================================
-                        DASHBOARD SETTINGS
-        ======================================================== */}
-
-        <section className="grid gap-8 xl:grid-cols-2">
-
-          <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900">
-
-            <WidgetToggle />
-
-          </div>
-
-          <div className="rounded-[32px] bg-gradient-to-r from-emerald-500 via-green-500 to-teal-500 p-8 text-white shadow-xl">
-
-            <h2 className="text-3xl font-bold">
-
-              💚 Today's Wellness Reminder
-
-            </h2>
-
-            <p className="mt-5 leading-8 text-emerald-100">
-
-              Take a few moments today to check in with yourself.
-
-              Your emotional wellbeing grows with every small habit you
-              practice.
-
-            </p>
-
-            <div className="mt-8 grid grid-cols-2 gap-4">
-
-              <ReminderCard
-                emoji="😊"
-                title="Mood Check"
-              />
-
-              <ReminderCard
-                emoji="📖"
-                title="Journal"
-              />
-
-              <ReminderCard
-                emoji="🌬"
-                title="Breathing"
-              />
-
-              <ReminderCard
-                emoji="🤖"
-                title="Talk to Mana"
-              />
-
-            </div>
-
-          </div>
-
-        </section>
-
-        {/* =======================================================
-                        MOTIVATION SECTION
-        ======================================================== */}
-
-        <section>
-
-          <div className="rounded-[40px] bg-gradient-to-r from-amber-400 via-orange-400 to-rose-500 p-10 text-white shadow-2xl">
-
-            <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
-
-              <div>
-
-                <span className="rounded-full bg-white/20 px-4 py-2 text-sm font-semibold backdrop-blur">
-
-                  🌟 Daily Motivation
-
-                </span>
-
-                <h2 className="mt-5 text-5xl font-extrabold">
-
-                  You Are Doing Better Than You Think
-
-                </h2>
-
-                <p className="mt-5 max-w-2xl text-lg leading-8 text-orange-100">
-
-                  Healing isn't about perfection.
-
-                  It's about showing up every day,
-                  learning,
-                  growing,
-                  and believing in yourself.
-
-                </p>
-
-              </div>
-
-              <Link to="/journal">
-
-                <button className="rounded-2xl bg-white px-8 py-4 font-bold text-orange-600 transition duration-300 hover:scale-105">
-
-                  🌿 Continue Your Journey
-
-                </button>
-
-              </Link>
-
-            </div>
-
-          </div>
-
-        </section>
-                {/* =======================================================
-                        FINAL CALL TO ACTION
-        ======================================================== */}
-
-        <section>
-
-          <div className="overflow-hidden rounded-[40px] bg-gradient-to-r from-emerald-600 via-teal-500 to-cyan-500 p-12 text-white shadow-2xl">
-
-            <div className="flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between">
-
-              <div className="max-w-2xl">
-
-                <span className="rounded-full bg-white/20 px-5 py-2 text-sm font-semibold backdrop-blur">
-
-                  💚 One Small Step Today
-
-                </span>
-
-                <h2 className="mt-6 text-5xl font-extrabold">
-
-                  Your Mental Health Matters.
-
-                </h2>
-
-                <p className="mt-6 text-lg leading-8 text-emerald-100">
-
-                  Every mood check, journal entry, breathing session and
-                  conversation with Mana brings you one step closer to a
-                  healthier mind.
-
-                  Keep going. You're doing great.
-
-                </p>
-
-              </div>
-
-              <div className="flex flex-wrap gap-4">
-
-                <Link to="/journal">
-
-                  <button className="rounded-2xl bg-white px-8 py-4 font-bold text-emerald-700 transition hover:scale-105">
-
-                    📝 Write Journal
-
-                  </button>
-
-                </Link>
-
-                <Link to="/chat">
-
-                  <button className="rounded-2xl border border-white px-8 py-4 font-bold text-white transition hover:bg-white hover:text-emerald-700">
-
-                    🤖 Talk to Mana
-
-                  </button>
-
+              <span className="mt-0.5 block text-[10px] text-white/60 dark:text-slate-500">
+                How are you feeling?
+              </span>
+            </span>
+
+            <span className="text-sm transition-transform duration-300 group-hover/action:translate-x-1">
+              →
+            </span>
+          </Link>
+
+          {/* Talk to Mana */}
+          <Link
+            to="/chat"
+            className="group/action mt-2 flex min-w-[210px] items-center gap-3 rounded-[20px] border border-slate-200/80 bg-white px-4 py-3.5 text-slate-700 transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald-200 hover:bg-emerald-50/70 hover:text-emerald-700 dark:border-white/[0.08] dark:bg-white/[0.035] dark:text-slate-200 dark:hover:border-emerald-900/50 dark:hover:bg-emerald-950/20 dark:hover:text-emerald-300"
+          >
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-50 text-base dark:bg-violet-950/30">
+              ✦
+            </span>
+
+            <span className="flex-1 text-left">
+              <span className="block text-sm font-semibold">
+                Talk to Mana
+              </span>
+
+              <span className="mt-0.5 block text-[10px] text-slate-400">
+                Your AI wellness companion
+              </span>
+            </span>
+
+            <span className="text-sm text-slate-300 transition-transform duration-300 group-hover/action:translate-x-1 dark:text-slate-600">
+              →
+            </span>
+          </Link>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+            {/* =========================================
+                WELLNESS SNAPSHOT
+            ========================================== */}
+
+            <section>
+
+              <div className="mb-4 flex items-end justify-between">
+
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-400">
+                    Your wellbeing
+                  </p>
+
+                  <h2 className="mt-1 text-xl font-semibold text-slate-900 dark:text-white">
+                    Today's snapshot
+                  </h2>
+                </div>
+
+                <Link
+                  to="/analytics"
+                  className="hidden text-sm font-medium text-slate-500 transition hover:text-emerald-600 sm:block dark:text-slate-400"
+                >
+                  View insights →
                 </Link>
 
               </div>
 
-            </div>
+
+              <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+
+                <MetricCard
+                  icon="♡"
+                  label="Wellness score"
+                  value={`${wellnessScore}%`}
+                  description="Overall wellbeing"
+                  accent="emerald"
+                />
+
+                <MetricCard
+                  icon="↗"
+                  label="Current streak"
+                  value={`${streak}`}
+                  suffix=" days"
+                  description="Keep your rhythm"
+                  accent="amber"
+                />
+
+                <MetricCard
+                  icon="◌"
+                  label="Journal entries"
+                  value={journalEntries}
+                  description="Moments reflected"
+                  accent="violet"
+                />
+
+                <MetricCard
+                  icon="☻"
+                  label="Today's mood"
+                  value={currentMood}
+                  description={`${totalMoodEntries} check-ins recorded`}
+                  accent="sky"
+                />
+
+              </div>
+
+            </section>
+
+
+            {/* =========================================
+                MAIN OVERVIEW
+            ========================================== */}
+
+            <section className="grid gap-6 xl:grid-cols-[1.55fr_0.85fr]">
+
+              <div className="premium-card p-6 sm:p-7">
+                <DashboardOverview stats={stats} />
+              </div>
+
+              <div className="premium-card p-6 sm:p-7">
+                <QuickActions />
+              </div>
+
+            </section>
+                        {/* =========================================
+                EMOTIONAL INSIGHTS
+            ========================================== */}
+
+            <section className="space-y-5">
+
+              <SectionHeading
+                eyebrow="Emotional insights"
+                title="Understand your patterns"
+                description="A gentle view of how your emotional wellbeing has been changing over time."
+                action={
+                  <Link
+                    to="/analytics"
+                    className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-600 transition hover:border-emerald-200 hover:text-emerald-600 dark:border-white/10 dark:bg-white/5 dark:text-slate-300"
+                  >
+                    Full analytics →
+                  </Link>
+                }
+              />
+
+              <div className="grid gap-5 xl:grid-cols-2">
+
+                <div className="premium-card p-5 sm:p-6">
+                  <div className="mb-5 flex items-center justify-between">
+                    <div>
+                      <h3 className="font-semibold text-slate-900 dark:text-white">
+                        Mood trend
+                      </h3>
+                      <p className="mt-1 text-xs text-slate-400">
+                        Your emotional rhythm
+                      </p>
+                    </div>
+
+                    <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-600 dark:bg-emerald-950/30 dark:text-emerald-400">
+                      Live
+                    </span>
+                  </div>
+
+                  <MoodAnalyticsChart />
+                </div>
+
+
+                <div className="premium-card p-5 sm:p-6">
+                  <div className="mb-5">
+                    <h3 className="font-semibold text-slate-900 dark:text-white">
+                      Mood distribution
+                    </h3>
+
+                    <p className="mt-1 text-xs text-slate-400">
+                      A wider view of your check-ins
+                    </p>
+                  </div>
+
+                  <MoodDistributionChart />
+                </div>
+
+              </div>
+
+
+              <div className="grid gap-5 xl:grid-cols-2">
+
+                <div className="premium-card p-5 sm:p-6">
+                  <MoodCalendar />
+                </div>
+
+                <div className="premium-card p-5 sm:p-6">
+                  <WellnessHeatmap />
+                </div>
+
+              </div>
+
+            </section>
+
+
+            {/* =========================================
+                WELLNESS GARDEN
+            ========================================== */}
+
+            <section className="space-y-5">
+
+              <SectionHeading
+                eyebrow="Your wellness journey"
+                title="Small habits, visible growth"
+                description="Every check-in, reflection and mindful moment helps your garden grow."
+              />
+
+              <div className="grid gap-6 xl:grid-cols-[1.45fr_0.8fr]">
+
+                <div className="overflow-hidden rounded-[28px] border border-emerald-100 bg-gradient-to-br from-emerald-50 via-white to-teal-50 p-2 shadow-[0_20px_60px_-35px_rgba(16,185,129,0.35)] dark:border-emerald-900/30 dark:from-emerald-950/20 dark:via-white/[0.03] dark:to-teal-950/20">
+
+                  <div className="rounded-[22px] bg-white/60 p-2 backdrop-blur dark:bg-black/10">
+                    <WellnessGarden />
+                  </div>
+
+                </div>
+
+
+                <div className="space-y-5">
+
+                  <div className="premium-card p-6">
+                    <div className="mb-5 flex items-center gap-3">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-lg dark:bg-emerald-950/40">
+                        ✓
+                      </div>
+
+                      <div>
+                        <h3 className="font-semibold text-slate-900 dark:text-white">
+                          Today's intentions
+                        </h3>
+
+                        <p className="text-xs text-slate-400">
+                          A few gentle wins
+                        </p>
+                      </div>
+                    </div>
+
+                    <DailyGoals />
+                  </div>
+
+
+                  <div className="premium-card p-6">
+                    <NotificationPreview />
+                  </div>
+
+                </div>
+
+              </div>
+
+            </section>
+
+
+            {/* =========================================
+                WEEKLY PROGRESS
+            ========================================== */}
+
+            <section className="premium-card overflow-hidden">
+
+              <div className="border-b border-slate-100 px-6 py-5 dark:border-white/5">
+
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-400">
+                      Weekly rhythm
+                    </p>
+
+                    <h2 className="mt-1 text-xl font-semibold text-slate-900 dark:text-white">
+                      Your progress this week
+                    </h2>
+                  </div>
+
+                  <div className="text-sm text-slate-400">
+                    Consistency over perfection
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div className="p-5 sm:p-6">
+                <WeeklyProgress />
+              </div>
+
+            </section>
+
+
+            {/* =========================================
+                DAILY WELLNESS ACTIONS
+            ========================================== */}
+
+            <section className="space-y-5">
+
+              <SectionHeading
+                eyebrow="Take a moment"
+                title="Choose what you need right now"
+                description="No pressure. Just one small action can change how the next few minutes feel."
+              />
+
+              <div className="grid gap-4 md:grid-cols-3">
+
+                <ActionCard
+                  icon="◌"
+                  title="Reflect"
+                  description="Put your thoughts somewhere safe."
+                  link="/journal"
+                  action="Open journal"
+                  tone="emerald"
+                />
+
+                <ActionCard
+                  icon="≈"
+                  title="Breathe"
+                  description="Slow down with a guided breathing session."
+                  link="/breathing"
+                  action="Start breathing"
+                  tone="sky"
+                />
+
+                <ActionCard
+                  icon="✦"
+                  title="Talk to Mana"
+                  description="A private space to talk, reflect and feel heard."
+                  link="/chat"
+                  action="Start conversation"
+                  tone="violet"
+                />
+
+              </div>
+
+            </section>
+                        {/* =========================================
+                MANA AI
+            ========================================== */}
+
+            <section className="space-y-5">
+
+              <SectionHeading
+                eyebrow="Mana AI"
+                title="Support when you need it"
+                description="Your AI wellness companion is here to help you reflect, understand patterns and take your next small step."
+                action={
+                  <Link
+                    to="/chat"
+                    className="rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:-translate-y-0.5 dark:bg-white dark:text-slate-900"
+                  >
+                    Open Mana →
+                  </Link>
+                }
+              />
+
+              <div className="grid gap-5 xl:grid-cols-2">
+
+                <div className="overflow-hidden rounded-[28px] border border-violet-100 bg-gradient-to-br from-violet-50 via-white to-white p-1 shadow-[0_20px_60px_-40px_rgba(139,92,246,0.35)] dark:border-violet-900/20 dark:from-violet-950/20 dark:via-white/[0.03] dark:to-white/[0.02]">
+
+                  <div className="rounded-[24px] bg-white/70 p-5 backdrop-blur sm:p-6 dark:bg-black/10">
+                    <AIRecommendations />
+                  </div>
+
+                </div>
+
+
+                <div className="premium-card overflow-hidden p-5 sm:p-6">
+                  <AIQuickChat />
+                </div>
+
+              </div>
+
+            </section>
+
+
+            {/* =========================================
+                JOURNAL & ACTIVITY
+            ========================================== */}
+
+            <section className="space-y-5">
+
+              <SectionHeading
+                eyebrow="Your reflections"
+                title="Stay connected with your journey"
+                description="Your recent thoughts and wellness activity, all in one quiet place."
+              />
+
+              <div className="grid gap-5 xl:grid-cols-2">
+
+                <div className="premium-card p-5 sm:p-6">
+                  <div className="mb-5 flex items-center justify-between">
+                    <div>
+                      <h3 className="font-semibold text-slate-900 dark:text-white">
+                        Recent journal
+                      </h3>
+
+                      <p className="mt-1 text-xs text-slate-400">
+                        Your latest reflections
+                      </p>
+                    </div>
+
+                    <Link
+                      to="/journal"
+                      className="text-sm font-medium text-emerald-600 hover:text-emerald-700"
+                    >
+                      View all →
+                    </Link>
+                  </div>
+
+                  <RecentJournal />
+                </div>
+
+
+                <div className="premium-card p-5 sm:p-6">
+                  <div className="mb-5">
+                    <h3 className="font-semibold text-slate-900 dark:text-white">
+                      Recent activity
+                    </h3>
+
+                    <p className="mt-1 text-xs text-slate-400">
+                      Your wellness journey in motion
+                    </p>
+                  </div>
+
+                  <RecentActivity />
+                </div>
+
+              </div>
+
+            </section>
+
+
+            {/* =========================================
+                WELLNESS CENTER
+            ========================================== */}
+
+            <section className="space-y-5">
+
+              <SectionHeading
+                eyebrow="Wellness center"
+                title="Build a calmer daily rhythm"
+                description="Simple resources designed to fit naturally into student life."
+              />
+
+              <div className="grid gap-5 xl:grid-cols-3">
+
+                <div className="premium-card p-6">
+                  <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-50 text-xl dark:bg-emerald-950/30">
+                    🌿
+                  </div>
+
+                  <WellnessTips />
+                </div>
+
+
+                <div className="premium-card p-6">
+                  <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-2xl bg-sky-50 text-xl dark:bg-sky-950/30">
+                    ◷
+                  </div>
+
+                  <UpcomingSessions />
+                </div>
+
+
+                <div className="overflow-hidden rounded-[28px] border border-violet-100 bg-gradient-to-br from-violet-50 to-fuchsia-50 p-6 dark:border-violet-900/20 dark:from-violet-950/20 dark:to-fuchsia-950/10">
+                  <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-2xl bg-white/80 text-xl shadow-sm dark:bg-white/10">
+                    ✨
+                  </div>
+
+                  <QuoteCard />
+                </div>
+
+              </div>
+
+            </section>
+
+
+            {/* =========================================
+                PERSONALIZATION
+            ========================================== */}
+
+            <section className="grid gap-5 xl:grid-cols-2">
+
+              <div className="premium-card p-6 sm:p-7">
+                <div className="mb-5">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
+                    Personalize
+                  </p>
+
+                  <h2 className="mt-1 text-xl font-semibold text-slate-900 dark:text-white">
+                    Make ManaSetu yours
+                  </h2>
+                </div>
+
+                <WidgetToggle />
+              </div>
+
+
+              <div className="overflow-hidden rounded-[28px] border border-emerald-100 bg-gradient-to-br from-emerald-50 via-white to-teal-50 p-6 dark:border-emerald-900/20 dark:from-emerald-950/20 dark:via-white/[0.03] dark:to-teal-950/10 sm:p-7">
+
+                <div className="flex items-start gap-4">
+
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-xl shadow-sm dark:bg-white/10">
+                    🌱
+                  </div>
+
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-400">
+                      A gentle reminder
+                    </p>
+
+                    <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-900 dark:text-white">
+                      You don't have to do everything today.
+                    </h2>
+
+                    <p className="mt-3 leading-7 text-slate-500 dark:text-slate-400">
+                      Take one moment to check in with yourself.
+                      Your mental wellbeing deserves space too.
+                    </p>
+                  </div>
+
+                </div>
+
+
+                <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+
+                  <ReminderCard
+                    emoji="😊"
+                    title="Mood"
+                  />
+
+                  <ReminderCard
+                    emoji="📖"
+                    title="Journal"
+                  />
+
+                  <ReminderCard
+                    emoji="🌬"
+                    title="Breathe"
+                  />
+
+                  <ReminderCard
+                    emoji="✦"
+                    title="Mana"
+                  />
+
+                </div>
+
+              </div>
+
+            </section>
+
+
+            {/* =========================================
+                FINAL QUIET CTA
+            ========================================== */}
+
+            <section className="relative overflow-hidden rounded-[32px] bg-slate-900 px-6 py-10 text-white shadow-[0_25px_70px_-35px_rgba(15,23,42,0.6)] sm:px-10">
+
+              <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-emerald-400/10 blur-3xl" />
+
+              <div className="pointer-events-none absolute -bottom-32 left-1/3 h-72 w-72 rounded-full bg-teal-400/10 blur-3xl" />
+
+              <div className="relative flex flex-col gap-7 lg:flex-row lg:items-center lg:justify-between">
+
+                <div className="max-w-2xl">
+
+                  <p className="text-sm font-medium text-emerald-300">
+                    One small step
+                  </p>
+
+                  <h2 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">
+                    How would you like to care for yourself today?
+                  </h2>
+
+                  <p className="mt-4 leading-7 text-slate-400">
+                    There is no perfect way to feel better.
+                    Start with whatever feels easiest right now.
+                  </p>
+
+                </div>
+
+
+                <div className="flex flex-wrap gap-3">
+
+                  <Link
+                    to="/journal"
+                    className="rounded-2xl bg-white px-5 py-3 font-semibold text-slate-900 transition hover:-translate-y-0.5"
+                  >
+                    Write
+                  </Link>
+
+                  <Link
+                    to="/chat"
+                    className="rounded-2xl border border-white/15 bg-white/5 px-5 py-3 font-semibold text-white transition hover:bg-white/10"
+                  >
+                    Talk to Mana
+                  </Link>
+
+                </div>
+
+              </div>
+
+            </section>
+
+
+            {/* =========================================
+                FOOTER
+            ========================================== */}
+
+            <footer className="border-t border-slate-200/80 pt-8 dark:border-white/5">
+
+              <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xl">🌿</span>
+
+                    <span className="font-semibold text-slate-800 dark:text-white">
+                      ManaSetu
+                    </span>
+                  </div>
+
+                  <p className="mt-1 text-xs text-slate-400">
+                    A calmer space for your mind.
+                  </p>
+                </div>
+
+
+                <div className="flex flex-wrap gap-5 text-sm text-slate-400">
+
+                  <Link
+                    to="/dashboard"
+                    className="transition hover:text-emerald-600"
+                  >
+                    Dashboard
+                  </Link>
+
+                  <Link
+                    to="/journal"
+                    className="transition hover:text-emerald-600"
+                  >
+                    Journal
+                  </Link>
+
+                  <Link
+                    to="/analytics"
+                    className="transition hover:text-emerald-600"
+                  >
+                    Analytics
+                  </Link>
+
+                  <Link
+                    to="/chat"
+                    className="transition hover:text-emerald-600"
+                  >
+                    Mana AI
+                  </Link>
+
+                </div>
+
+              </div>
+
+
+              <div className="mt-6 border-t border-slate-200/70 py-5 text-center dark:border-white/5">
+
+                <p className="text-xs text-slate-400">
+                  © {new Date().getFullYear()} ManaSetu · Your wellbeing matters.
+                </p>
+
+              </div>
+
+            </footer>
 
           </div>
 
-        </section>
-
-        {/* =======================================================
-                              FOOTER
-        ======================================================== */}
-
-        <footer className="border-t border-gray-200 pt-10 dark:border-gray-700">
-
-          <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
-
-            <div>
-
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
-
-                🌿 ManaSetu
-
-              </h2>
-
-              <p className="mt-4 max-w-md leading-7 text-gray-600 dark:text-gray-400">
-
-                Empowering students through AI-driven mental wellness,
-                mindfulness and emotional growth.
-
-              </p>
-
-            </div>
-
-            <div className="flex flex-wrap gap-6">
-
-              <Link
-                to="/dashboard"
-                className="font-medium text-gray-600 hover:text-emerald-600 dark:text-gray-400"
-              >
-                Dashboard
-              </Link>
-
-              <Link
-                to="/journal"
-                className="font-medium text-gray-600 hover:text-emerald-600 dark:text-gray-400"
-              >
-                Journal
-              </Link>
-
-              <Link
-                to="/analytics"
-                className="font-medium text-gray-600 hover:text-emerald-600 dark:text-gray-400"
-              >
-                Analytics
-              </Link>
-
-              <Link
-                to="/chat"
-                className="font-medium text-gray-600 hover:text-emerald-600 dark:text-gray-400"
-              >
-                Mana AI
-              </Link>
-
-            </div>
-
-          </div>
-
-          <div className="mt-10 border-t border-gray-200 py-6 text-center dark:border-gray-700">
-
-            <p className="text-gray-500">
-
-              © {new Date().getFullYear()} ManaSetu
-
-            </p>
-
-            <p className="mt-2 text-sm text-gray-400">
-
-              Helping students build healthier minds, one day at a time 💚
-
-            </p>
-
-          </div>
-
-        </footer>
+        </div>
 
       </main>
 
     </div>
-
   );
 }
+/* =========================================================
+   HELPER COMPONENTS
+========================================================= */
 
-/* ======================================================
-                    Helper Components
-====================================================== */
-
-function StatBox({ title, value }) {
-  return (
-    <div className="rounded-2xl bg-white/15 p-5 text-center backdrop-blur">
-
-      <p className="text-sm text-emerald-100">
-
-        {title}
-
-      </p>
-
-      <h3 className="mt-2 text-3xl font-bold">
-
-        {value}
-
-      </h3>
-
-    </div>
-  );
+function formatToday() {
+  return new Date().toLocaleDateString("en-IN", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
 }
 
-function ReminderCard({ emoji, title }) {
+
+function getFirstName() {
+  const storedName =
+    localStorage.getItem("userName") ||
+    localStorage.getItem("name");
+
+  if (storedName) {
+    return storedName.split(" ")[0];
+  }
+
+  return "there";
+}
+
+
+/* =========================================================
+   METRIC CARD
+========================================================= */
+
+function MetricCard({
+  icon,
+  label,
+  value,
+  suffix = "",
+  description,
+  accent = "emerald",
+}) {
+  const accents = {
+    emerald:
+      "bg-emerald-50 text-emerald-600 dark:bg-emerald-950/30 dark:text-emerald-400",
+
+    amber:
+      "bg-amber-50 text-amber-600 dark:bg-amber-950/30 dark:text-amber-400",
+
+    violet:
+      "bg-violet-50 text-violet-600 dark:bg-violet-950/30 dark:text-violet-400",
+
+    sky:
+      "bg-sky-50 text-sky-600 dark:bg-sky-950/30 dark:text-sky-400",
+  };
+
   return (
-    <div className="rounded-2xl bg-white/15 p-4 text-center backdrop-blur">
+    <div className="group rounded-[24px] border border-slate-200/80 bg-white/80 p-5 shadow-[0_12px_40px_-30px_rgba(15,23,42,0.35)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-[0_20px_50px_-30px_rgba(16,185,129,0.35)] dark:border-white/5 dark:bg-white/[0.035] dark:hover:border-emerald-900/50">
 
-      <div className="text-4xl">
+      <div className="flex items-start justify-between gap-4">
 
-        {emoji}
+        <div>
+
+          <p className="text-xs font-medium text-slate-400 dark:text-slate-500">
+            {label}
+          </p>
+
+          <div className="mt-2 flex items-baseline">
+
+            <span className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white">
+              {value}
+            </span>
+
+            {suffix && (
+              <span className="text-sm font-medium text-slate-400">
+                {suffix}
+              </span>
+            )}
+
+          </div>
+
+          <p className="mt-1 text-xs text-slate-400">
+            {description}
+          </p>
+
+        </div>
+
+
+        <div
+          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-lg transition-transform duration-300 group-hover:scale-105 ${accents[accent]}`}
+        >
+          {icon}
+        </div>
 
       </div>
 
-      <p className="mt-3 font-semibold">
+    </div>
+  );
+}
 
+
+/* =========================================================
+   SECTION HEADING
+========================================================= */
+
+function SectionHeading({
+  eyebrow,
+  title,
+  description,
+  action,
+}) {
+  return (
+    <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+
+      <div className="max-w-2xl">
+
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-400">
+          {eyebrow}
+        </p>
+
+        <h2 className="mt-1.5 text-2xl font-semibold tracking-tight text-slate-900 dark:text-white">
+          {title}
+        </h2>
+
+        {description && (
+          <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">
+            {description}
+          </p>
+        )}
+
+      </div>
+
+      {action && (
+        <div className="shrink-0">
+          {action}
+        </div>
+      )}
+
+    </div>
+  );
+}
+
+
+/* =========================================================
+   ACTION CARD
+========================================================= */
+
+function ActionCard({
+  icon,
+  title,
+  description,
+  link,
+  action,
+  tone = "emerald",
+}) {
+  const tones = {
+    emerald:
+      "bg-emerald-50 text-emerald-600 dark:bg-emerald-950/30 dark:text-emerald-400",
+
+    sky:
+      "bg-sky-50 text-sky-600 dark:bg-sky-950/30 dark:text-sky-400",
+
+    violet:
+      "bg-violet-50 text-violet-600 dark:bg-violet-950/30 dark:text-violet-400",
+  };
+
+  return (
+    <div className="group rounded-[26px] border border-slate-200/80 bg-white/80 p-6 shadow-[0_15px_45px_-35px_rgba(15,23,42,0.4)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_55px_-35px_rgba(16,185,129,0.3)] dark:border-white/5 dark:bg-white/[0.035]">
+
+      <div className="flex items-start justify-between">
+
+        <div
+          className={`flex h-11 w-11 items-center justify-center rounded-2xl text-xl ${tones[tone]}`}
+        >
+          {icon}
+        </div>
+
+        <span className="text-slate-300 transition-transform duration-300 group-hover:translate-x-1 dark:text-slate-600">
+          →
+        </span>
+
+      </div>
+
+      <h3 className="mt-5 font-semibold text-slate-900 dark:text-white">
         {title}
+      </h3>
 
+      <p className="mt-2 min-h-[48px] text-sm leading-6 text-slate-500 dark:text-slate-400">
+        {description}
+      </p>
+
+      <Link
+        to={link}
+        className="mt-5 inline-flex text-sm font-semibold text-slate-700 transition hover:text-emerald-600 dark:text-slate-300 dark:hover:text-emerald-400"
+      >
+        {action}
+        <span className="ml-1">→</span>
+      </Link>
+
+    </div>
+  );
+}
+
+
+/* =========================================================
+   REMINDER CARD
+========================================================= */
+
+function ReminderCard({ emoji, title }) {
+  return (
+    <div className="rounded-2xl border border-slate-200/70 bg-white/70 p-3 text-center transition duration-300 hover:-translate-y-0.5 hover:bg-white dark:border-white/5 dark:bg-white/[0.035] dark:hover:bg-white/[0.06]">
+
+      <div className="text-xl">
+        {emoji}
+      </div>
+
+      <p className="mt-1.5 text-xs font-medium text-slate-600 dark:text-slate-300">
+        {title}
       </p>
 
     </div>
   );
 }
+
+
+/* =========================================================
+   PREMIUM CARD GLOBAL CLASS
+========================================================= */
+
+const premiumCardStyles = `
+  rounded-[28px]
+  border
+  border-slate-200/80
+  bg-white/85
+  shadow-[0_15px_50px_-35px_rgba(15,23,42,0.35)]
+  backdrop-blur-xl
+  dark:border-white/5
+  dark:bg-white/[0.035]
+`;
+
+
+/* =========================================================
+   EXPORT
+========================================================= */
 
 export default Dashboard;
