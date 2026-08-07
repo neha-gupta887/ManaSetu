@@ -1,7 +1,6 @@
 import {
   saveChatMessage,
   getChatHistory,
-  clearChatHistory,
 } from "../services/chatService";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -12,6 +11,9 @@ import {
   FaBookOpen,
   FaHeartbeat,
   FaCircle,
+  FaWind,
+  FaSmile,
+  FaLeaf,
 } from "react-icons/fa";
 
 import { motion } from "framer-motion";
@@ -48,60 +50,91 @@ function AICompanion() {
 
   const { setAgentResult } = useAgent();
 
+  // New UI state — existing AI/agent logic is preserved
+  const [selectedEmotion, setSelectedEmotion] = useState("");
+
   const chatRef = useRef(null);
   useEffect(() => {
-  async function loadChats() {
-    const history = await getChatHistory();
+    async function loadChats() {
+      try {
+        const history = await getChatHistory();
 
-    if (history.length > 0) {
-      setMessages(
-        history.map((chat) => ({
-          sender: chat.sender,
-          text: chat.text,
-          time: chat.createdAt?.toDate
-            ? chat.createdAt.toDate().toLocaleTimeString([], {
-                hour: "2-digit",
-                minute: "2-digit",
-              })
-            : "",
-        }))
-      );
+        if (history?.length > 0) {
+          setMessages(
+            history.map((chat) => ({
+              sender: chat.sender,
+              text: chat.text,
+              time: chat.createdAt?.toDate
+                ? chat.createdAt.toDate().toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })
+                : "",
+            }))
+          );
+        }
+      } catch (error) {
+        console.error("Unable to load Mana AI chat history:", error);
+      }
     }
-  }
 
-  loadChats();
-}, []);
+    loadChats();
+  }, []);
+  // ===========================
+  // Emotion Check-in
+  // ===========================
+
+  const emotions = [
+    { label: "Happy", emoji: "😊" },
+    { label: "Calm", emoji: "😌" },
+    { label: "Stressed", emoji: "😰" },
+    { label: "Sad", emoji: "😔" },
+    { label: "Anxious", emoji: "😟" },
+    { label: "Overwhelmed", emoji: "😭" },
+  ];
+
+  const quickActions = [
+    {
+      title: "Calm me down",
+      text: "I feel stressed and need a quick calming activity.",
+      icon: <FaWind />,
+    },
+    {
+      title: "Help me focus",
+      text: "I'm having trouble focusing on my studies.",
+      icon: <FaBrain />,
+    },
+    {
+      title: "Improve my sleep",
+      text: "I'm not sleeping well. Help me build a better sleep routine.",
+      icon: <FaMoon />,
+    },
+    {
+      title: "Reflect with me",
+      text: "I want to reflect on what I'm feeling right now.",
+      icon: <FaBookOpen />,
+    },
+  ];
+
+  const handleSuggestion = (text) => {
+    setInput(text);
+    setTimeout(() => {
+      document.getElementById("mana-chat-input")?.focus();
+    }, 0);
+  };
+
+  const handleEmotion = (emotion) => {
+    setSelectedEmotion(emotion.label);
+    handleSuggestion(
+      `${emotion.emoji} I'm feeling ${emotion.label.toLowerCase()} today. Can you help me understand and manage how I feel?`
+    );
+  };
+
   // ===========================
   // Suggested Prompts
   // ===========================
-const handleClearChat = async () => {
-  const confirmed = window.confirm(
-    "Are you sure you want to clear all chat history?"
-  );
 
-  if (!confirmed) return;
-
-  const success = await clearChatHistory();
-
-  if (success) {
-    setMessages([
-      {
-        sender: "ai",
-        text:
-          "👋 Hello! I'm Mana AI.\n\nI'm your Agentic Wellness Companion.\n\nTell me how you're feeling today and I'll analyze your wellbeing using multiple AI agents.",
-        time: new Date().toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-      },
-    ]);
-
-    setLatestResult(null);
-    setActiveAgents([]);
-  }
-};
   const suggestions = [
-
     "😔 I'm feeling stressed about exams",
     "😴 I'm not sleeping well",
     "😕 I feel anxious lately",
@@ -127,7 +160,7 @@ const handleClearChat = async () => {
   // ===========================
 const handleSend = async () => {
 
-  if (!input.trim()) return;
+  if (!input.trim() || loading) return;
 
   const userMessage = input.trim();
 
@@ -144,7 +177,11 @@ const handleSend = async () => {
       }),
     },
   ]);
-  await saveChatMessage("user", userMessage);
+  try {
+    await saveChatMessage("user", userMessage);
+  } catch (chatError) {
+    console.error("Unable to save user chat:", chatError);
+  }
 
   setInput("");
 
@@ -178,7 +215,11 @@ const handleSend = async () => {
 
     // Save Memory
 
-    await saveWellnessRecord(result);
+    try {
+      await saveWellnessRecord(result);
+    } catch (memoryError) {
+      console.error("Unable to save wellness memory:", memoryError);
+    }
 
     // ===========================
     // Build AI Report
@@ -333,7 +374,7 @@ const handleSend = async () => {
         aiReply += `${result.support.title}\n\n`;
         aiReply += `${result.support.message}\n\n`;
 
-        result.support.actions.forEach((action) => {
+        result.support.actions?.forEach((action) => {
           aiReply += `• ${action}\n`;
         });
 
@@ -349,7 +390,7 @@ const handleSend = async () => {
 
         aiReply += `Confidence: ${result.explanation.confidence}%\n\n`;
 
-        result.explanation.reasons.forEach((reason) => {
+        result.explanation.reasons?.forEach((reason) => {
           aiReply += `• ${reason}\n`;
         });
 
@@ -364,38 +405,49 @@ const handleSend = async () => {
   ...prev,
   {
     sender: "ai",
-    text: "❌ Sorry, something went wrong. Please try again.",
+    text: aiReply,
     time: new Date().toLocaleTimeString([], {
       hour: "2-digit",
       minute: "2-digit",
     }),
   },
 ]);
-await saveChatMessage(
-  "ai",
-  aiReply
-);
+
+      try {
+        await saveChatMessage("ai", aiReply);
+      } catch (chatError) {
+        console.error("Unable to save AI chat:", chatError);
+      }
 
     } catch (error) {
       console.error(error);
+
+      const errorMessage =
+        "I’m sorry, I couldn’t complete your wellness analysis right now. Please try again in a moment. 💚";
 
       setMessages((prev) => [
         ...prev,
         {
           sender: "ai",
-          
+          text: errorMessage,
           time: new Date().toLocaleTimeString([], {
-  hour: "2-digit",
-  minute: "2-digit",
-}),
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
         },
       ]);
+
+      try {
+        await saveChatMessage("ai", errorMessage);
+      } catch (chatError) {
+        console.error("Unable to save error message:", chatError);
+      }
     }
 
     setLoading(false);
   };
     return (
-  <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-cyan-50 dark:from-gray-950 dark:via-gray-900 dark:to-black p-6">
+  <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-cyan-50 dark:from-gray-950 dark:via-gray-900 dark:to-black p-4 sm:p-6">
 
     <div className="max-w-7xl mx-auto">
 
@@ -574,38 +626,9 @@ await saveChatMessage(
 
           <div>
 
-            <div className="border-b border-gray-200 dark:border-gray-700 p-5 flex items-center justify-between">
-
-  <div>
-    <h2 className="text-2xl font-bold dark:text-white">
-      💬 Conversation
-    </h2>
-
-    <p className="text-gray-500 dark:text-gray-400">
-      Chat naturally with Mana AI
-    </p>
-  </div>
-
-  <div className="flex items-center gap-3">
-
-    <button
-      onClick={handleClearChat}
-      className="rounded-xl bg-red-600 px-4 py-2 text-white hover:bg-red-700 transition"
-    >
-      🗑️ Clear Chat
-    </button>
-
-    <div className="hidden md:flex items-center gap-2 rounded-full bg-emerald-100 dark:bg-emerald-900 px-4 py-2">
-      <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-
-      <span className="text-sm font-medium text-emerald-700 dark:text-emerald-300">
-        Online
-      </span>
-    </div>
-
-  </div>
-
-</div>
+            <h2 className="text-2xl font-bold dark:text-white">
+              💬 Conversation
+            </h2>
 
             <p className="text-gray-500 dark:text-gray-400">
               Chat naturally with Mana AI
@@ -645,7 +668,7 @@ await saveChatMessage(
 
                 <button
                   key={prompt}
-                  onClick={() => setInput(prompt)}
+                  onClick={() => handleSuggestion(prompt)}
                   className="rounded-full border border-emerald-200 dark:border-gray-700 bg-emerald-50 dark:bg-gray-800 px-4 py-2 text-sm hover:bg-emerald-100 dark:hover:bg-gray-700 transition"
                 >
 
@@ -1079,6 +1102,7 @@ await saveChatMessage(
             {/* Input */}
 
             <textarea
+              id="mana-chat-input"
               rows={1}
               value={input}
               placeholder="Ask Mana AI anything about your wellbeing..."
