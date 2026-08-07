@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
+import {
+  FaHeart,
+  FaFire,
+  FaBookOpen,
+  FaSmile,
+} from "react-icons/fa";
 import Sidebar from "../components/dashboard/Sidebar";
 import Topbar from "../components/dashboard/Topbar";
 
@@ -267,69 +272,186 @@ function Dashboard() {
                 WELLNESS SNAPSHOT
             ========================================== */}
 
-            <section>
+            {/* =========================================
+    WELLNESS SNAPSHOT
+========================================== */}
+<section className="mt-6">
+  <div className="mb-4 flex items-end justify-between">
+    <div>
+      <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-400">
+        Your progress
+      </p>
 
-              <div className="mb-4 flex items-end justify-between">
+      <h2 className="mt-1 text-lg font-semibold tracking-tight text-slate-900 dark:text-white">
+        Wellness snapshot
+      </h2>
+    </div>
 
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-400">
-                    Your wellbeing
-                  </p>
+    <p className="hidden text-xs text-slate-400 sm:block">
+      Small steps count.
+    </p>
+  </div>
 
-                  <h2 className="mt-1 text-xl font-semibold text-slate-900 dark:text-white">
-                    Today's snapshot
-                  </h2>
-                </div>
+  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    {/* Wellness Score */}
+    <div className="group relative overflow-hidden rounded-[24px] border border-emerald-100 bg-white p-5 shadow-[0_15px_45px_-35px_rgba(16,185,129,0.5)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_22px_55px_-35px_rgba(16,185,129,0.55)] dark:border-emerald-900/30 dark:bg-[#101815]">
+      <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-emerald-100/60 blur-2xl transition-transform duration-500 group-hover:scale-125 dark:bg-emerald-900/20" />
 
-                <Link
-                  to="/analytics"
-                  className="hidden text-sm font-medium text-slate-500 transition hover:text-emerald-600 sm:block dark:text-slate-400"
-                >
-                  View insights →
-                </Link>
+      <div className="relative flex items-start justify-between">
+        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
+          <FaHeart />
+        </div>
 
-              </div>
+        <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-semibold text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
+          Overall
+        </span>
+      </div>
 
+      <div className="relative mt-6">
+        <p className="text-xs font-medium text-slate-400">
+          Wellness Score
+        </p>
 
-              <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="mt-1 flex items-end gap-1.5">
+          <span className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
+            {stats.wellnessScore}
+          </span>
 
-                <MetricCard
-                  icon="♡"
-                  label="Wellness score"
-                  value={`${wellnessScore}%`}
-                  description="Overall wellbeing"
-                  accent="emerald"
-                />
+          <span className="mb-1 text-xs text-slate-400">
+            / 100
+          </span>
+        </div>
 
-                <MetricCard
-                  icon="↗"
-                  label="Current streak"
-                  value={`${streak}`}
-                  suffix=" days"
-                  description="Keep your rhythm"
-                  accent="amber"
-                />
+        <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-emerald-100 dark:bg-emerald-950/50">
+          <div
+            className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 transition-all duration-700"
+            style={{
+              width: `${Math.min(
+                Math.max(Number(stats.wellnessScore) || 0, 0),
+                100
+              )}%`,
+            }}
+          />
+        </div>
+      </div>
+    </div>
 
-                <MetricCard
-                  icon="◌"
-                  label="Journal entries"
-                  value={journalEntries}
-                  description="Moments reflected"
-                  accent="violet"
-                />
+    {/* Streak */}
+    <div className="group relative overflow-hidden rounded-[24px] border border-amber-100 bg-white p-5 shadow-[0_15px_45px_-35px_rgba(245,158,11,0.45)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_22px_55px_-35px_rgba(245,158,11,0.5)] dark:border-amber-900/30 dark:bg-[#101815]">
+      <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-amber-100/60 blur-2xl transition-transform duration-500 group-hover:scale-125 dark:bg-amber-900/20" />
 
-                <MetricCard
-                  icon="☻"
-                  label="Today's mood"
-                  value={currentMood}
-                  description={`${totalMoodEntries} check-ins recorded`}
-                  accent="sky"
-                />
+      <div className="relative flex items-start justify-between">
+        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-50 text-amber-500 dark:bg-amber-950/40 dark:text-amber-400">
+          <FaFire />
+        </div>
 
-              </div>
+        <span className="rounded-full bg-amber-50 px-2.5 py-1 text-[10px] font-semibold text-amber-600 dark:bg-amber-950/40 dark:text-amber-400">
+          Consistency
+        </span>
+      </div>
 
-            </section>
+      <div className="relative mt-6">
+        <p className="text-xs font-medium text-slate-400">
+          Day Streak
+        </p>
 
+        <div className="mt-1 flex items-end gap-1.5">
+          <span className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
+            {stats.streak}
+          </span>
+
+          <span className="mb-1 text-xs text-slate-400">
+            days
+          </span>
+        </div>
+
+        <p className="mt-3 text-[11px] text-slate-400">
+          Keep your gentle rhythm going.
+        </p>
+      </div>
+    </div>
+
+    {/* Journal */}
+    <div className="group relative overflow-hidden rounded-[24px] border border-violet-100 bg-white p-5 shadow-[0_15px_45px_-35px_rgba(139,92,246,0.45)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_22px_55px_-35px_rgba(139,92,246,0.5)] dark:border-violet-900/30 dark:bg-[#101815]">
+      <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-violet-100/60 blur-2xl transition-transform duration-500 group-hover:scale-125 dark:bg-violet-900/20" />
+
+      <div className="relative flex items-start justify-between">
+        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-violet-50 text-violet-600 dark:bg-violet-950/40 dark:text-violet-400">
+          <FaBookOpen />
+        </div>
+
+        <span className="rounded-full bg-violet-50 px-2.5 py-1 text-[10px] font-semibold text-violet-600 dark:bg-violet-950/40 dark:text-violet-400">
+          Reflection
+        </span>
+      </div>
+
+      <div className="relative mt-6">
+        <p className="text-xs font-medium text-slate-400">
+          Journal Entries
+        </p>
+
+        <div className="mt-1 flex items-end gap-1.5">
+          <span className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
+            {stats.journalEntries}
+          </span>
+
+          <span className="mb-1 text-xs text-slate-400">
+            entries
+          </span>
+        </div>
+
+        <p className="mt-3 text-[11px] text-slate-400">
+          Your thoughts deserve a safe space.
+        </p>
+      </div>
+    </div>
+
+    {/* Mood */}
+    <div className="group relative overflow-hidden rounded-[24px] border border-sky-100 bg-white p-5 shadow-[0_15px_45px_-35px_rgba(14,165,233,0.45)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_22px_55px_-35px_rgba(14,165,233,0.5)] dark:border-sky-900/30 dark:bg-[#101815]">
+      <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-sky-100/60 blur-2xl transition-transform duration-500 group-hover:scale-125 dark:bg-sky-900/20" />
+
+      <div className="relative flex items-start justify-between">
+        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-sky-50 text-sky-500 dark:bg-sky-950/40 dark:text-sky-400">
+          <FaSmile />
+        </div>
+
+        <span className="rounded-full bg-sky-50 px-2.5 py-1 text-[10px] font-semibold text-sky-600 dark:bg-sky-950/40 dark:text-sky-400">
+          Today
+        </span>
+      </div>
+
+      <div className="relative mt-6">
+        <p className="text-xs font-medium text-slate-400">
+          Today's Mood
+        </p>
+
+        <div className="mt-1 flex items-center gap-2">
+          <span className="text-2xl">
+            {stats.currentMood === "Happy"
+              ? "😊"
+              : stats.currentMood === "Calm"
+              ? "😌"
+              : stats.currentMood === "Sad"
+              ? "😔"
+              : stats.currentMood === "Anxious"
+              ? "😟"
+              : stats.currentMood === "Angry"
+              ? "😤"
+              : "🌱"}
+          </span>
+
+          <span className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
+            {stats.currentMood}
+          </span>
+        </div>
+
+        <p className="mt-3 text-[11px] text-slate-400">
+          Notice it. Name it. Be kind to it.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
 
             {/* =========================================
                 MAIN OVERVIEW
