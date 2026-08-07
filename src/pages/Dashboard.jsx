@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  FaHeart,
-  FaFire,
-  FaBookOpen,
-  FaSmile,
-} from "react-icons/fa";
+
 import Sidebar from "../components/dashboard/Sidebar";
 import Topbar from "../components/dashboard/Topbar";
 
@@ -463,9 +458,40 @@ function Dashboard() {
                 <DashboardOverview stats={stats} />
               </div>
 
-              <div className="premium-card p-6 sm:p-7">
-                <QuickActions />
-              </div>
+              <div className="group relative overflow-hidden rounded-[28px] border border-slate-200/80 bg-white p-5 shadow-[0_18px_55px_-42px_rgba(15,23,42,0.35)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_25px_65px_-40px_rgba(16,185,129,0.25)] sm:p-6 dark:border-white/[0.07] dark:bg-[#101815]">
+
+  {/* Premium glow */}
+  <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-emerald-100/50 blur-3xl transition-transform duration-500 group-hover:scale-125 dark:bg-emerald-950/20" />
+
+  {/* Header */}
+  <div className="relative mb-5 flex items-center justify-between">
+
+    <div>
+      <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-400">
+        One tap away
+      </p>
+
+      <h3 className="mt-1 text-lg font-semibold tracking-tight text-slate-900 dark:text-white">
+        Quick actions
+      </h3>
+
+      <p className="mt-1 text-xs text-slate-400">
+        Choose what you need right now.
+      </p>
+    </div>
+
+    <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/35 dark:text-emerald-400">
+      ✨
+    </div>
+
+  </div>
+
+  {/* Existing QuickActions component */}
+  <div className="relative">
+    <QuickActions />
+  </div>
+
+</div>
 
             </section>
                         {/* =========================================
@@ -756,59 +782,20 @@ function Dashboard() {
                 </div>
 
 
-                <div className="group relative overflow-hidden rounded-[28px] border border-slate-200/80 bg-white p-5 shadow-[0_18px_55px_-42px_rgba(15,23,42,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_24px_65px_-42px_rgba(16,185,129,0.28)] sm:p-6 dark:border-white/[0.07] dark:bg-[#101815]">
+                <div className="premium-card p-5 sm:p-6">
+                  <div className="mb-5">
+                    <h3 className="font-semibold text-slate-900 dark:text-white">
+                      Recent activity
+                    </h3>
 
-  {/* Soft premium glow */}
-  <div className="pointer-events-none absolute -right-20 -top-20 h-48 w-48 rounded-full bg-emerald-100/50 blur-3xl transition-transform duration-500 group-hover:scale-110 dark:bg-emerald-950/20" />
+                    <p className="mt-1 text-xs text-slate-400">
+                      Your wellness journey in motion
+                    </p>
+                  </div>
 
-  {/* Header */}
-  <div className="relative mb-6 flex items-start justify-between gap-4">
+                  <RecentActivity />
+                </div>
 
-    <div className="flex items-center gap-3">
-
-      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/35 dark:text-emerald-400">
-        <span className="text-lg">◷</span>
-      </div>
-
-      <div>
-        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-400">
-          Your journey
-        </p>
-
-        <h3 className="mt-1 font-semibold tracking-tight text-slate-900 dark:text-white">
-          Recent activity
-        </h3>
-
-        <p className="mt-1 text-xs text-slate-400 dark:text-slate-500">
-          Your wellness journey in motion
-        </p>
-      </div>
-
-    </div>
-
-    <Link
-      to="/analytics"
-      className="hidden shrink-0 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-500 transition hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700 sm:block dark:border-white/[0.07] dark:bg-white/[0.03] dark:text-slate-400 dark:hover:border-emerald-900/50 dark:hover:bg-emerald-950/20 dark:hover:text-emerald-300"
-    >
-      View insights →
-    </Link>
-
-  </div>
-
-  {/* Existing activity component — functionality unchanged */}
-  <div className="relative">
-    <RecentActivity />
-  </div>
-
-  {/* Mobile action */}
-  <Link
-    to="/analytics"
-    className="relative mt-5 flex items-center justify-center rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-xs font-semibold text-slate-600 transition hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700 sm:hidden dark:border-white/[0.07] dark:bg-white/[0.03] dark:text-slate-400 dark:hover:bg-emerald-950/20 dark:hover:text-emerald-300"
-  >
-    View wellness insights →
-  </Link>
-
-</div>
               </div>
 
             </section>
