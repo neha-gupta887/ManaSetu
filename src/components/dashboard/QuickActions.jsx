@@ -1,143 +1,135 @@
-import {
-  FaRobot,
-  FaBookOpen,
-  FaLeaf,
-  FaChartBar,
-  FaArrowRight,
-} from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { FaArrowRight, FaMagic } from "react-icons/fa";import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const actions = [
   {
-    title: "AI Companion",
-    description: "Talk with Mana AI and receive personalized wellness guidance.",
+    title: "Talk to Mana",
+    description: "A private space to talk, reflect, and receive personalized wellness guidance.",
     path: "/ai-companion",
-    icon: "🤖",
-    color: "from-emerald-500 to-green-600",
+    icon: "✦",
+    label: "AI Companion",
   },
   {
-    title: "Smart Journal",
-    description: "Write your thoughts and let AI understand your emotions.",
+    title: "Write it down",
+    description: "Put your thoughts into words and give yourself space to understand how you feel.",
     path: "/journal",
-    icon: "📖",
-    color: "from-blue-500 to-cyan-600",
+    icon: "◌",
+    label: "Smart Journal",
   },
   {
-    title: "Meditation",
-    description: "Relax your mind with breathing and mindfulness exercises.",
+    title: "Find your calm",
+    description: "Slow down with guided breathing and simple mindfulness exercises.",
     path: "/breathing",
-    icon: "🧘",
-    color: "from-teal-500 to-emerald-600",
+    icon: "〰",
+    label: "Meditation",
   },
   {
-    title: "Analytics",
-    description: "View mood trends, wellness insights and AI reports.",
+    title: "See your journey",
+    description: "Explore your mood patterns, wellness trends, and personal insights.",
     path: "/analytics",
-    icon: "📊",
-    color: "from-purple-500 to-pink-600",
+    icon: "↗",
+    label: "Analytics",
   },
 ];
 
 function QuickActions() {
   return (
-    <div className="mt-10">
-
-      {/* Heading */}
-
-      <div className="flex items-center justify-between mb-6">
+    <section>
+      {/* Header */}
+      <div className="mb-7 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
 
         <div>
+          <div className="flex items-center gap-2">
+            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-50 text-sm text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
+            <FaMagic />   
+             </span>
 
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
-            🚀 Quick Actions
+            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-400">
+              Your space
+            </p>
+          </div>
+
+          <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl dark:text-white">
+            What do you need right now?
           </h2>
 
-          <p className="text-gray-500 dark:text-gray-400 mt-2">
-            Access your most-used wellness tools instantly.
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500 dark:text-slate-400">
+            Choose a space that feels right for you. No pressure, just one
+            small step at a time.
           </p>
-
         </div>
 
       </div>
 
-      {/* Cards */}
-
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+      {/* Action Cards */}
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
 
         {actions.map((action, index) => (
-
           <motion.div
             key={action.title}
-            initial={{ opacity: 0, y: 25 }}
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
-            whileHover={{
-              y: -8,
-              scale: 1.03,
-            }}
+            whileHover={{ y: -4 }}
             transition={{
-              duration: 0.3,
-              delay: index * 0.1,
+              duration: 0.35,
+              delay: index * 0.06,
             }}
             viewport={{ once: true }}
+            className="h-full"
           >
-
             <Link
               to={action.path}
-              className="relative overflow-hidden block rounded-3xl border border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 h-full"
+              className="group relative flex h-full min-h-[250px] flex-col overflow-hidden rounded-[26px] border border-slate-200/80 bg-white p-6 shadow-[0_8px_30px_rgba(15,23,42,0.035)] transition-all duration-300 hover:border-emerald-200 hover:shadow-[0_18px_45px_rgba(16,185,129,0.10)] dark:border-white/[0.06] dark:bg-white/[0.025] dark:hover:border-emerald-900/50"
             >
 
-              {/* Glow */}
+              {/* Very subtle background glow */}
+              <div className="pointer-events-none absolute -right-16 -top-16 h-32 w-32 rounded-full bg-emerald-100/50 blur-3xl transition-all duration-500 group-hover:bg-emerald-200/60 dark:bg-emerald-500/5 dark:group-hover:bg-emerald-500/10" />
 
-              <div
-                className={`absolute -top-12 -right-12 w-36 h-36 rounded-full bg-gradient-to-r ${action.color} opacity-20 blur-3xl`}
-              ></div>
+              {/* Icon */}
+              <div className="relative flex items-center justify-between">
 
-              <div className="relative z-10">
-
-                {/* Icon */}
-
-                <div
-                  className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${action.color} flex items-center justify-center text-3xl shadow-lg`}
-                >
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-emerald-100 bg-emerald-50 text-xl font-semibold text-emerald-600 transition-all duration-300 group-hover:scale-105 group-hover:bg-emerald-100 dark:border-emerald-900/40 dark:bg-emerald-950/30 dark:text-emerald-400 dark:group-hover:bg-emerald-950/50">
                   {action.icon}
                 </div>
 
-                {/* Title */}
+                <span className="rounded-full border border-slate-100 bg-slate-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-slate-400 dark:border-white/[0.05] dark:bg-white/[0.03] dark:text-slate-500">
+                  {action.label}
+                </span>
 
-                <h3 className="mt-6 text-xl font-bold text-gray-900 dark:text-white">
+              </div>
+
+              {/* Content */}
+              <div className="relative mt-7">
+
+                <h3 className="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">
                   {action.title}
                 </h3>
 
-                {/* Description */}
-
-                <p className="mt-3 text-sm leading-6 text-gray-500 dark:text-gray-400">
+                <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">
                   {action.description}
                 </p>
 
-                {/* Footer */}
+              </div>
 
-                <div className="mt-8 flex items-center justify-between">
+              {/* Footer */}
+              <div className="relative mt-auto flex items-center justify-between pt-7">
 
-                  <span className="text-sm font-semibold text-emerald-600">
-                    Open
-                  </span>
+                <span className="text-xs font-semibold text-slate-400 transition-colors group-hover:text-emerald-600 dark:group-hover:text-emerald-400">
+                  Explore
+                </span>
 
-                  <FaArrowRight className="text-emerald-600 group-hover:translate-x-1 transition-transform" />
-
-                </div>
+                <span className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 text-slate-400 transition-all duration-300 group-hover:border-emerald-200 group-hover:bg-emerald-50 group-hover:text-emerald-600 dark:border-white/[0.08] dark:group-hover:border-emerald-900/50 dark:group-hover:bg-emerald-950/30 dark:group-hover:text-emerald-400">
+                  <FaArrowRight className="text-[10px] transition-transform duration-300 group-hover:translate-x-0.5" />
+                </span>
 
               </div>
 
             </Link>
-
           </motion.div>
-
         ))}
 
       </div>
-
-    </div>
+    </section>
   );
 }
 
