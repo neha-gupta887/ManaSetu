@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { auth } from "../../services/firebase";
+import useAuth from "../../hooks/useAuth";
 
 function WelcomeCard({ stats = {} }) {
-  const [userName, setUserName] = useState("there");
+  const user = useAuth();
+  const userName = user?.displayName || user?.email?.split("@")[0] || "there";
 
   const hour = new Date().getHours();
 
@@ -24,19 +24,6 @@ function WelcomeCard({ stats = {} }) {
     day: "numeric",
     month: "long",
   });
-
-  useEffect(() => {
-    const user = auth.currentUser;
-
-    if (user) {
-      const name =
-        user.displayName ||
-        user.email?.split("@")[0] ||
-        "there";
-
-      setUserName(name);
-    }
-  }, []);
 
   const wellnessScore = stats?.wellnessScore ?? 0;
   const streak = stats?.streak ?? 0;

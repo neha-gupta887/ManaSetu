@@ -6,7 +6,7 @@ const actions = [
   {
     title: "Talk to Mana",
     description: "A private space to talk, reflect, and receive personalized wellness guidance.",
-    path: "/ai-companion",
+    path: "/chat",
     icon: "✦",
     label: "AI Companion",
   },
