@@ -6,7 +6,7 @@ import { getMoodHistory } from "../../services/moodService";
 import useAuth from "../../hooks/useAuth";
 
 function MoodHistory() {
-  const user = useAuth();
+    const { user } = useAuth();
 
   const [moods, setMoods] = useState([]);
   const [loading, setLoading] = useState(true);

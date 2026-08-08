@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 
 function WelcomeCard({ stats = {} }) {
-  const user = useAuth();
+    const { user } = useAuth();
   const userName = user?.displayName || user?.email?.split("@")[0] || "there";
 
   const hour = new Date().getHours();
