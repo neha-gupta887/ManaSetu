@@ -202,8 +202,7 @@ function DashboardOverview({ stats }) {
 function MiniStat({ icon, value, label, tone }) {
   const tones = {
     amber:
-      "bg-amber-50 text-amber-600 dark:bg-amber-950/30 dark:text-amber-400",
-
+"bg-amber-50 text-amber-600 dark:bg-amber-950/30 dark:text-amber-400",
     violet:
       "bg-violet-50 text-violet-600 dark:bg-violet-950/30 dark:text-violet-400",
 
