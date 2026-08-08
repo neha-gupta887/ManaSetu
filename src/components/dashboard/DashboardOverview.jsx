@@ -4,13 +4,19 @@ import {
   FaBookOpen,
   FaSmile,
   FaArrowUp,
+  FaLeaf,
 } from "react-icons/fa";
 
-function DashboardOverview({ stats }) {
-  const wellnessScore = Number(stats?.wellnessScore ?? 0);
-  const streak = Number(stats?.streak ?? 0);
-  const journalEntries = Number(stats?.journalEntries ?? 0);
-  const totalMoodEntries = Number(stats?.totalMoodEntries ?? 0);
+function DashboardOverview({ stats = {} }) {
+  const toSafeNumber = (value) => {
+    const parsedValue = Number(value);
+    return Number.isFinite(parsedValue) ? parsedValue : 0;
+  };
+
+  const wellnessScore = toSafeNumber(stats.wellnessScore);
+  const streak = toSafeNumber(stats.streak);
+  const journalEntries = toSafeNumber(stats.journalEntries);
+  const totalMoodEntries = toSafeNumber(stats.totalMoodEntries);
   const currentMood = stats?.currentMood || "Calm";
 
   const score = Math.min(Math.max(wellnessScore, 0), 100);
@@ -176,7 +182,7 @@ function DashboardOverview({ stats }) {
       <div className="mt-5 flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50/70 p-4 dark:border-white/[0.05] dark:bg-white/[0.02]">
 
         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white text-sm shadow-sm dark:bg-white/[0.05]">
-          🌱
+          <FaLeaf className="text-sm text-emerald-600 dark:text-emerald-400" />
         </div>
 
         <div>
