@@ -42,7 +42,7 @@ function QuickActions() {
         <div>
           <div className="flex items-center gap-2">
             <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-50 text-sm text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
-            <FaMagic />   
+            <FaMagic />
              </span>
 
             <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-400">
@@ -63,7 +63,7 @@ function QuickActions() {
       </div>
 
       {/* Action Cards */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
 
         {actions.map((action, index) => (
           <motion.div
@@ -109,19 +109,6 @@ function QuickActions() {
                 <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">
                   {action.description}
                 </p>
-
-              </div>
-
-              {/* Footer */}
-              <div className="relative mt-auto flex items-center justify-between pt-7">
-
-                <span className="text-xs font-semibold text-slate-400 transition-colors group-hover:text-emerald-600 dark:group-hover:text-emerald-400">
-                  Explore
-                </span>
-
-                <span className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 text-slate-400 transition-all duration-300 group-hover:border-emerald-200 group-hover:bg-emerald-50 group-hover:text-emerald-600 dark:border-white/[0.08] dark:group-hover:border-emerald-900/50 dark:group-hover:bg-emerald-950/30 dark:group-hover:text-emerald-400">
-                  <FaArrowRight className="text-[10px] transition-transform duration-300 group-hover:translate-x-0.5" />
-                </span>
 
               </div>
 

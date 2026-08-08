@@ -117,32 +117,6 @@ function DashboardOverview({ stats = {} }) {
 
         </div>
 
-        {/* Progress */}
-        <div className="mt-7">
-
-          <div className="mb-2 flex items-center justify-between">
-
-            <span className="text-xs font-medium text-slate-400">
-              Wellness progress
-            </span>
-
-            <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">
-              {score}%
-            </span>
-
-          </div>
-
-          <div className="h-1.5 overflow-hidden rounded-full bg-emerald-100/80 dark:bg-emerald-950/50">
-
-            <div
-              className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 transition-all duration-700"
-              style={{ width: `${score}%` }}
-            />
-
-          </div>
-
-        </div>
-
       </div>
 
       {/* Mini Stats */}
@@ -177,30 +151,6 @@ function DashboardOverview({ stats = {} }) {
         />
 
       </div>
-
-      {/* Gentle insight */}
-      <div className="mt-4 flex items-start gap-3 rounded-2xl border border-emerald-100/70 bg-emerald-50/45 p-4 dark:border-emerald-900/30 dark:bg-emerald-950/10">
-
-        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white text-sm shadow-sm dark:bg-white/[0.05]">
-          <FaLeaf className="text-sm text-emerald-600 dark:text-emerald-400" />
-        </div>
-
-        <div>
-
-          <p className="text-xs font-semibold text-slate-700 dark:text-slate-200">
-            Remember
-          </p>
-
-          <p className="mt-1 text-xs leading-5 text-slate-500 dark:text-slate-400">
-            Your wellness score is not a judgment. It is simply a snapshot
-            of how you're doing right now. What matters is how you care for
-            yourself next.
-          </p>
-
-        </div>
-
-      </div>
-
     </section>
   );
 }

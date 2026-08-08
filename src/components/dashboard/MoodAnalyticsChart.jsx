@@ -16,6 +16,7 @@ const moodScore = {
   Calm: 4,
   Neutral: 3,
   Sad: 2,
+  Stressed: 1,
   Angry: 1,
 };
 
@@ -155,23 +156,6 @@ function MoodAnalyticsChart() {
                   boxShadow: "0 10px 30px rgba(15, 23, 42, 0.08)",
                   padding: "10px 12px",
                 }}
-                labelStyle={{
-                  color: "#475569",
-                  fontWeight: 600,
-                  fontSize: 12,
-                  marginBottom: 4,
-                }}
-                formatter={(value) => {
-                  const labels = {
-                    1: "Angry",
-                    2: "Sad",
-                    3: "Neutral",
-                    4: "Calm",
-                    5: "Happy",
-                  };
-
-                  return [labels[value] || "Neutral", "Mood"];
-                }}
               />
 
               <Line
@@ -191,8 +175,6 @@ function MoodAnalyticsChart() {
                   stroke: "#ffffff",
                   strokeWidth: 3,
                 }}
-                animationDuration={900}
-                animationEasing="ease-out"
               />
 
             </LineChart>
@@ -200,33 +182,7 @@ function MoodAnalyticsChart() {
         )}
 
       </div>
-
-      {/* Mood legend */}
-      <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-slate-100 pt-4 dark:border-white/[0.05]">
-
-        <MoodLegend label="Happy" />
-        <MoodLegend label="Calm" />
-        <MoodLegend label="Neutral" />
-        <MoodLegend label="Sad" />
-        <MoodLegend label="Angry" />
-
-      </div>
-
     </section>
-  );
-}
-
-function MoodLegend({ label }) {
-  return (
-    <div className="flex items-center gap-2">
-
-      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-
-      <span className="text-[11px] font-medium text-slate-400">
-        {label}
-      </span>
-
-    </div>
   );
 }
 

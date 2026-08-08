@@ -89,39 +89,6 @@ function DashboardHero({ stats, greeting, dailyMessage }) {
               </p>
             </div>
           </div>
-
-          {/* CTA Buttons */}
-          <div className="mt-8 flex flex-wrap gap-4">
-            <Link to="/journal">
-              <button
-                type="button"
-                className="flex items-center gap-2 rounded-2xl bg-white px-7 py-4 font-semibold text-emerald-700 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
-              >
-                <FaHeart />
-                Reflect Now
-              </button>
-            </Link>
-
-            <Link to="/chat">
-              <button
-                type="button"
-                className="flex items-center gap-2 rounded-2xl border border-white px-7 py-4 font-semibold text-white transition-all duration-300 hover:bg-white hover:text-emerald-700"
-              >
-                <FaLeaf />
-                Talk to Mana
-              </button>
-            </Link>
-
-            <Link to="/breathing">
-              <button
-                type="button"
-                className="flex items-center gap-2 rounded-2xl border border-white/60 px-7 py-4 font-semibold text-white transition-all duration-300 hover:bg-white hover:text-emerald-700"
-              >
-                <FaSpa />
-                Take a Breath
-              </button>
-            </Link>
-          </div>
         </div>
 
         {/* RIGHT SIDE */}

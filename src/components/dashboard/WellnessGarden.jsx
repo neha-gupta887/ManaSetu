@@ -1,7 +1,16 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { FaSeedling, FaLeaf, FaStar } from "react-icons/fa";
-import { getGardenData } from "../../services/gardenService";
+
+const getGardenData = () => {
+  // Placeholder data. In a real app, this would come from a service.
+  return {
+    xp: 75,
+    level: 2,
+    tree: "🌳",
+    treeTitle: "Young Tree",
+  };
+};
 
 function WellnessGarden() {
   const [xp, setXP] = useState(0);
@@ -104,12 +113,6 @@ function WellnessGarden() {
         {/* Garden */}
         <div className="relative mt-7 overflow-hidden rounded-[26px] border border-emerald-100 bg-gradient-to-b from-emerald-50/80 via-white to-teal-50/40 px-5 py-9 text-center dark:border-emerald-900/30 dark:from-emerald-950/25 dark:via-slate-900 dark:to-teal-950/20">
 
-          {/* Decorative elements */}
-          <div className="absolute left-8 top-8 h-2 w-2 rounded-full bg-emerald-300/60" />
-          <div className="absolute right-12 top-10 h-1.5 w-1.5 rounded-full bg-teal-300/70" />
-          <div className="absolute bottom-12 left-14 h-1.5 w-1.5 rounded-full bg-emerald-200/80" />
-          <div className="absolute bottom-8 right-10 h-2 w-2 rounded-full bg-teal-200/70" />
-
           <motion.div
             initial={{ scale: 0.75, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -166,107 +169,42 @@ function WellnessGarden() {
             />
 
           </div>
-
-          <p className="mt-3 text-xs leading-5 text-slate-400">
-            Every healthy habit adds a little more growth to your garden.
-          </p>
-
-        </div>
-
-        {/* Stats */}
-        <div className="mt-4 grid grid-cols-2 gap-3">
-
-          <StatCard
-            icon={<FaStar />}
-            label="Current XP"
-            value={xp}
-            iconStyle="bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400"
-          />
-
-          <StatCard
-            icon={<FaLeaf />}
-            label="Current Level"
-            value={level}
-            iconStyle="bg-teal-50 text-teal-600 dark:bg-teal-950/40 dark:text-teal-400"
-          />
-
         </div>
 
         {/* Rewards */}
         <div className="mt-6">
-
           <div className="flex items-center justify-between">
-
             <div>
               <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-emerald-600 dark:text-emerald-400">
                 Daily growth
               </p>
-
               <h3 className="mt-1 text-base font-semibold text-slate-900 dark:text-white">
                 Today's Rewards
               </h3>
             </div>
-
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50 text-sm dark:bg-emerald-950/30">
-              🌿
-            </div>
-
           </div>
 
           <div className="mt-4 space-y-2">
-
             <Reward title="😊 Mood Check-in" xp="+5 XP" />
             <Reward title="📖 Journal Entry" xp="+10 XP" />
             <Reward title="🌬 Breathing Exercise" xp="+8 XP" />
             <Reward title="🤖 Talk to Mana AI" xp="+5 XP" />
-
           </div>
-
         </div>
-
       </div>
     </section>
-  );
-}
-
-function StatCard({ icon, label, value, iconStyle }) {
-  return (
-    <div className="rounded-2xl border border-slate-100 bg-white p-4 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm dark:border-slate-800 dark:bg-slate-800/40">
-
-      <div className="flex items-center gap-2">
-
-        <div
-          className={`flex h-8 w-8 items-center justify-center rounded-xl text-sm ${iconStyle}`}
-        >
-          {icon}
-        </div>
-
-        <p className="text-xs font-medium text-slate-400">
-          {label}
-        </p>
-
-      </div>
-
-      <p className="mt-3 text-xl font-semibold text-slate-900 dark:text-white">
-        {value}
-      </p>
-
-    </div>
   );
 }
 
 function Reward({ title, xp }) {
   return (
     <div className="flex items-center justify-between rounded-2xl border border-slate-100 bg-slate-50/60 px-4 py-3 transition-all duration-200 hover:bg-white hover:shadow-sm dark:border-slate-800 dark:bg-white/[0.025] dark:hover:bg-white/[0.04]">
-
       <span className="text-xs font-medium text-slate-600 dark:text-slate-300">
         {title}
       </span>
-
       <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
         {xp}
       </span>
-
     </div>
   );
 }
