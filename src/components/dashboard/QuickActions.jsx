@@ -1,4 +1,5 @@
-import { FaArrowRight, FaMagic } from "react-icons/fa";import { Link } from "react-router-dom";
+import { FaArrowRight, FaMagic } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const actions = [
@@ -36,7 +37,7 @@ function QuickActions() {
   return (
     <section>
       {/* Header */}
-      <div className="mb-7 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
 
         <div>
           <div className="flex items-center gap-2">
@@ -62,7 +63,7 @@ function QuickActions() {
       </div>
 
       {/* Action Cards */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
 
         {actions.map((action, index) => (
           <motion.div
@@ -79,7 +80,7 @@ function QuickActions() {
           >
             <Link
               to={action.path}
-              className="group relative flex h-full min-h-[250px] flex-col overflow-hidden rounded-[26px] border border-slate-200/80 bg-white p-6 shadow-[0_8px_30px_rgba(15,23,42,0.035)] transition-all duration-300 hover:border-emerald-200 hover:shadow-[0_18px_45px_rgba(16,185,129,0.10)] dark:border-white/[0.06] dark:bg-white/[0.025] dark:hover:border-emerald-900/50"
+              className="group relative flex h-full min-h-[230px] flex-col overflow-hidden rounded-[24px] border border-slate-200/80 bg-white p-5 shadow-[0_8px_30px_rgba(15,23,42,0.035)] transition-all duration-300 hover:border-emerald-200 hover:shadow-[0_18px_45px_rgba(16,185,129,0.10)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 dark:border-white/[0.06] dark:bg-white/[0.025] dark:hover:border-emerald-900/50 dark:focus-visible:ring-offset-[#0b1110] sm:p-6"
             >
 
               {/* Very subtle background glow */}

@@ -1,5 +1,4 @@
 import WellnessGarden from "../components/dashboard/WellnessGarden";
-import DashboardHero from "../components/dashboard/DashboardHero";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -68,6 +67,9 @@ function Dashboard() {
   const dailyMessage =
     wellnessMessages[new Date().getDate() % wellnessMessages.length];
 
+  void greeting;
+  void dailyMessage;
+
   // ===============================
   // Load Dashboard
   // ===============================
@@ -130,7 +132,7 @@ function Dashboard() {
         <Topbar />
 
         {/* Dashboard Content */}
-<div className="relative z-10 mx-auto max-w-[1500px] space-y-12 pt-6">
+<div className="relative z-10 mx-auto max-w-[1500px] space-y-10 pt-6 sm:space-y-12">
           {/* =========================================
               Welcome Section
           ========================================= */}
@@ -140,19 +142,19 @@ function Dashboard() {
           </section>
 
           {/* =========================================
-              Dashboard Overview + Quick Actions
+              Dashboard Overview
           ========================================= */}
 
-          <section className="grid gap-8 xl:grid-cols-3">
+          <section>
+            <DashboardOverview stats={stats} />
+          </section>
 
-            <div className="xl:col-span-2">
-              <DashboardOverview stats={stats} />
-            </div>
+          {/* =========================================
+              Quick Actions
+          ========================================= */}
 
-            <div>
-              <QuickActions />
-            </div>
-
+          <section>
+            <QuickActions />
           </section>
 
           {/* =========================================

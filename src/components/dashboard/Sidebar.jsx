@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   FaHome,
   FaSmile,
@@ -9,6 +10,7 @@ import {
   FaSignOutAlt,
   FaLeaf,
   FaRobot,
+  FaTimes,
 } from "react-icons/fa";
 
 import { NavLink, useNavigate } from "react-router-dom";
@@ -17,6 +19,22 @@ import { signOut } from "firebase/auth";
 
 function Sidebar() {
   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const openSidebar = () => setIsOpen(true);
+    const closeOnDesktop = () => {
+      if (window.innerWidth >= 1024) setIsOpen(false);
+    };
+
+    window.addEventListener("open-sidebar", openSidebar);
+    window.addEventListener("resize", closeOnDesktop);
+
+    return () => {
+      window.removeEventListener("open-sidebar", openSidebar);
+      window.removeEventListener("resize", closeOnDesktop);
+    };
+  }, []);
 
   const menuSections = [
     {
@@ -76,7 +94,17 @@ function Sidebar() {
   };
 
   return (
-    <aside
+    <>
+      <button
+        type="button"
+        aria-label="Close navigation"
+        onClick={() => setIsOpen(false)}
+        className={`fixed inset-0 z-40 bg-slate-950/35 backdrop-blur-[1px] transition-opacity lg:hidden ${
+          isOpen ? "opacity-100" : "pointer-events-none opacity-0"
+        }`}
+      />
+
+      <aside
       className="
         fixed
         left-0
@@ -92,13 +120,19 @@ function Sidebar() {
         bg-white
         dark:border-white/[0.06]
         dark:bg-gray-950
+        transition-transform
+        duration-300
+        ease-out
+        -translate-x-full
+        lg:translate-x-0
       "
+      style={{ transform: isOpen ? "translateX(0)" : undefined }}
     >
       {/* =========================================
           LOGO
       ========================================= */}
 
-      <div className="px-6 pb-6 pt-7">
+      <div className="flex items-start justify-between px-6 pb-6 pt-7">
 
         <div className="flex items-center gap-3">
 
@@ -136,6 +170,15 @@ function Sidebar() {
           </div>
 
         </div>
+
+        <button
+          type="button"
+          onClick={() => setIsOpen(false)}
+          className="flex h-9 w-9 items-center justify-center rounded-xl text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-white/[0.06] dark:hover:text-white lg:hidden"
+          aria-label="Close navigation"
+        >
+          <FaTimes />
+        </button>
 
       </div>
 
@@ -210,6 +253,7 @@ function Sidebar() {
                 <NavLink
                   key={item.label}
                   to={item.path}
+                  onClick={() => setIsOpen(false)}
                   className={({ isActive }) =>
                     `
                     group
@@ -347,6 +391,7 @@ function Sidebar() {
 
         <NavLink
           to="/settings"
+          onClick={() => setIsOpen(false)}
           className={({ isActive }) =>
             `
             group
@@ -443,7 +488,8 @@ function Sidebar() {
 
       </div>
 
-    </aside>
+      </aside>
+    </>
   );
 }
 
