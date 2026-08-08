@@ -100,32 +100,37 @@ function Dashboard() {
   }
 
   return (
-    <div
-      className="
-        min-h-screen
-        bg-gradient-to-br
-        from-slate-50
-        via-white
-        to-emerald-50
-        dark:from-gray-950
-        dark:via-gray-900
-        dark:to-black
-        transition-all
-        duration-500
-      "
-    >
+  <div
+    className="
+      min-h-screen
+      bg-[#f7f9f7]
+      text-slate-900
+      transition-colors
+      duration-500
+      dark:bg-[#0b1110]
+      dark:text-white
+    "
+  >
       {/* Sidebar */}
       <Sidebar />
 
       {/* Main Content */}
-      <main className="min-h-screen px-4 pb-16 sm:px-6 lg:ml-72 lg:px-8">
-
+<main
+  className="
+    min-h-screen
+    px-4
+    pb-20
+    sm:px-6
+    lg:ml-72
+    lg:px-10
+    xl:px-12
+  "
+>
         {/* Topbar */}
         <Topbar />
 
         {/* Dashboard Content */}
-        <div className="relative z-10 space-y-10 pt-6">
-
+<div className="relative z-10 mx-auto max-w-[1500px] space-y-12 pt-6">
           {/* =========================================
               Welcome Section
           ========================================= */}
