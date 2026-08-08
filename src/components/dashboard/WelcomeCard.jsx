@@ -44,7 +44,7 @@ function WelcomeCard({ stats = {} }) {
   const currentMood = stats?.currentMood || "Not checked";
 
   return (
-    <section className="relative overflow-hidden rounded-[2rem] border border-emerald-100/80 bg-white/80 shadow-[0_25px_70px_-35px_rgba(16,185,129,0.4)] backdrop-blur-xl transition-all duration-500 dark:border-emerald-900/40 dark:bg-white/[0.04]">
+    <section className="relative overflow-hidden rounded-[32px] border border-emerald-100/80 bg-white/85 shadow-[0_28px_75px_-38px_rgba(16,185,129,0.5)] backdrop-blur-xl transition-all duration-500 dark:border-emerald-900/40 dark:bg-white/[0.04]">
 
       {/* Background decoration */}
       <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-emerald-200/40 blur-3xl dark:bg-emerald-500/10" />
@@ -54,7 +54,7 @@ function WelcomeCard({ stats = {} }) {
       <div className="pointer-events-none absolute right-10 top-1/2 hidden h-32 w-32 -translate-y-1/2 rounded-full border border-emerald-200/30 lg:block dark:border-emerald-400/10" />
 
       {/* Main content */}
-      <div className="relative z-10 p-6 sm:p-8 lg:p-10">
+      <div className="relative z-10 p-6 sm:p-8 lg:p-10 xl:p-11">
 
         {/* Top row */}
         <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
@@ -98,14 +98,14 @@ function WelcomeCard({ stats = {} }) {
             {greetingIcon} {greeting},
           </p>
 
-          <h1 className="mt-1 break-words text-4xl font-black tracking-tight text-slate-900 sm:text-5xl lg:text-6xl dark:text-white">
+          <h1 className="mt-1 break-words text-4xl font-black leading-[0.95] tracking-tight text-slate-900 sm:text-5xl lg:text-6xl dark:text-white">
             {userName}
             <span className="text-emerald-600 dark:text-emerald-400">
               .
             </span>
           </h1>
 
-          <h2 className="mt-5 text-2xl font-bold tracking-tight text-slate-800 sm:text-3xl dark:text-slate-100">
+          <h2 className="mt-5 text-xl font-bold tracking-tight text-slate-800 sm:text-3xl dark:text-slate-100">
             How are you feeling today?
           </h2>
 
@@ -121,7 +121,7 @@ function WelcomeCard({ stats = {} }) {
 
           <Link
             to="/mood-checkin"
-            className="group inline-flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-emerald-600/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-emerald-700 hover:shadow-xl"
+            className="group inline-flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-emerald-600/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-emerald-700 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-[#0b1110]"
           >
             Check in
             <span className="transition-transform duration-300 group-hover:translate-x-1">
@@ -131,7 +131,7 @@ function WelcomeCard({ stats = {} }) {
 
           <Link
             to="/chat"
-            className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white/80 px-6 py-3.5 text-sm font-bold text-slate-700 shadow-sm backdrop-blur transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald-200 hover:text-emerald-700 hover:shadow-md dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-slate-200 dark:hover:border-emerald-800 dark:hover:text-emerald-300"
+            className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white/80 px-6 py-3.5 text-sm font-bold text-slate-700 shadow-sm backdrop-blur transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald-200 hover:text-emerald-700 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-slate-200 dark:hover:border-emerald-800 dark:hover:text-emerald-300 dark:focus-visible:ring-offset-[#0b1110]"
           >
             <span className="text-base">✦</span>
             Talk to Mana

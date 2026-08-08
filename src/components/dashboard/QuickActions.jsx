@@ -37,7 +37,7 @@ function QuickActions() {
   return (
     <section>
       {/* Header */}
-      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+      <div className="mb-6 flex flex-col gap-3 border-l-4 border-emerald-500 pl-4 sm:flex-row sm:items-end sm:justify-between sm:pl-5">
 
         <div>
           <div className="flex items-center gap-2">
@@ -80,7 +80,7 @@ function QuickActions() {
           >
             <Link
               to={action.path}
-              className="group relative flex h-full min-h-[230px] flex-col overflow-hidden rounded-[24px] border border-slate-200/80 bg-white p-5 shadow-[0_8px_30px_rgba(15,23,42,0.035)] transition-all duration-300 hover:border-emerald-200 hover:shadow-[0_18px_45px_rgba(16,185,129,0.10)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 dark:border-white/[0.06] dark:bg-white/[0.025] dark:hover:border-emerald-900/50 dark:focus-visible:ring-offset-[#0b1110] sm:p-6"
+              className="group relative flex h-full min-h-[220px] flex-col overflow-hidden rounded-[24px] border border-slate-200/80 bg-white/90 p-5 shadow-[0_10px_32px_rgba(15,23,42,0.04)] transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-[0_20px_45px_rgba(16,185,129,0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 dark:border-white/[0.06] dark:bg-white/[0.025] dark:hover:border-emerald-900/50 dark:focus-visible:ring-offset-[#0b1110] sm:p-6"
             >
 
               {/* Very subtle background glow */}
@@ -89,7 +89,7 @@ function QuickActions() {
               {/* Icon */}
               <div className="relative flex items-center justify-between">
 
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-emerald-100 bg-emerald-50 text-xl font-semibold text-emerald-600 transition-all duration-300 group-hover:scale-105 group-hover:bg-emerald-100 dark:border-emerald-900/40 dark:bg-emerald-950/30 dark:text-emerald-400 dark:group-hover:bg-emerald-950/50">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-emerald-100 bg-gradient-to-br from-emerald-50 to-teal-50 text-xl font-semibold text-emerald-600 transition-all duration-300 group-hover:scale-105 group-hover:from-emerald-100 group-hover:to-teal-100 dark:border-emerald-900/40 dark:from-emerald-950/30 dark:to-teal-950/20 dark:text-emerald-400">
                   {action.icon}
                 </div>
 

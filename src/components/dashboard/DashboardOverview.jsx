@@ -29,7 +29,7 @@ function DashboardOverview({ stats = {} }) {
   };
 
   return (
-    <section className="rounded-[28px] border border-slate-200/80 bg-white/80 p-6 shadow-[0_12px_40px_rgba(15,23,42,0.04)] backdrop-blur-sm sm:p-7 dark:border-white/[0.06] dark:bg-white/[0.025]">
+    <section className="rounded-[30px] border border-slate-200/80 bg-white/90 p-5 shadow-[0_18px_55px_rgba(15,23,42,0.055)] backdrop-blur-sm sm:p-7 dark:border-white/[0.06] dark:bg-white/[0.025]">
 
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -52,7 +52,7 @@ function DashboardOverview({ stats = {} }) {
       </div>
 
       {/* Main wellness panel */}
-      <div className="mt-7 rounded-[24px] border border-emerald-100/70 bg-gradient-to-br from-[#f1faf5] via-white to-[#f7fbf9] p-6 dark:border-emerald-900/30 dark:from-emerald-950/20 dark:via-white/[0.025] dark:to-teal-950/10">
+      <div className="mt-6 rounded-[26px] border border-emerald-100/80 bg-gradient-to-br from-emerald-50 via-white to-teal-50/50 p-5 shadow-inner shadow-emerald-950/[0.015] sm:p-6 dark:border-emerald-900/30 dark:from-emerald-950/20 dark:via-white/[0.025] dark:to-teal-950/10">
 
         <div className="flex flex-col gap-7 lg:flex-row lg:items-center lg:justify-between">
 
@@ -60,7 +60,7 @@ function DashboardOverview({ stats = {} }) {
           <div className="flex items-center gap-5">
 
             <div
-              className="relative flex h-24 w-24 shrink-0 items-center justify-center rounded-full"
+              className="relative flex h-24 w-24 shrink-0 items-center justify-center rounded-full shadow-lg shadow-emerald-600/10"
               style={{
                 background: `conic-gradient(#10b981 ${score * 3.6}deg, rgba(148,163,184,0.15) 0deg)`,
               }}
@@ -146,7 +146,7 @@ function DashboardOverview({ stats = {} }) {
       </div>
 
       {/* Mini Stats */}
-      <div className="mt-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
 
         <MiniStat
           icon={<FaFire />}
@@ -179,7 +179,7 @@ function DashboardOverview({ stats = {} }) {
       </div>
 
       {/* Gentle insight */}
-      <div className="mt-5 flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50/70 p-4 dark:border-white/[0.05] dark:bg-white/[0.02]">
+      <div className="mt-4 flex items-start gap-3 rounded-2xl border border-emerald-100/70 bg-emerald-50/45 p-4 dark:border-emerald-900/30 dark:bg-emerald-950/10">
 
         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white text-sm shadow-sm dark:bg-white/[0.05]">
           <FaLeaf className="text-sm text-emerald-600 dark:text-emerald-400" />
@@ -220,7 +220,7 @@ function MiniStat({ icon, value, label, tone }) {
   };
 
   return (
-    <div className="group flex items-center gap-3 rounded-2xl border border-slate-100 bg-white/70 p-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md dark:border-white/[0.05] dark:bg-white/[0.025]">
+    <div className="group flex items-center gap-3 rounded-2xl border border-slate-100 bg-white/80 p-3.5 transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald-100 hover:shadow-md dark:border-white/[0.05] dark:bg-white/[0.025] sm:p-4">
 
       <div
         className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-sm ${tones[tone]}`}

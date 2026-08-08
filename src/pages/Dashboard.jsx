@@ -104,8 +104,10 @@ function Dashboard() {
   return (
   <div
     className="
+      relative
       min-h-screen
-      bg-[#f7f9f7]
+      overflow-x-hidden
+      bg-[#f6faf7]
       text-slate-900
       transition-colors
       duration-500
@@ -119,9 +121,10 @@ function Dashboard() {
       {/* Main Content */}
 <main
   className="
+    relative
     min-h-screen
     px-4
-    pb-20
+    pb-16
     sm:px-6
     lg:ml-72
     lg:px-10
@@ -132,7 +135,7 @@ function Dashboard() {
         <Topbar />
 
         {/* Dashboard Content */}
-<div className="relative z-10 mx-auto max-w-[1500px] space-y-10 pt-6 sm:space-y-12">
+<div className="relative z-10 mx-auto max-w-[1500px] space-y-12 pt-7 sm:space-y-16 sm:pt-9">
           {/* =========================================
               Welcome Section
           ========================================= */}
@@ -161,16 +164,16 @@ function Dashboard() {
               Analytics
           ========================================= */}
 
-          <section className="mt-12">
+          <section>
 
-            <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="mb-7 flex flex-col gap-4 border-l-4 border-emerald-500 pl-4 sm:flex-row sm:items-center sm:justify-between sm:pl-5">
 
               <div>
-                <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+                <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl dark:text-white">
                   📊 Wellness Analytics
                 </h2>
 
-                <p className="mt-2 text-gray-500 dark:text-gray-400">
+                <p className="mt-2 max-w-2xl text-sm leading-6 text-gray-500 sm:text-base dark:text-gray-400">
                   Track your emotional wellness and AI-powered insights.
                 </p>
               </div>
@@ -181,14 +184,22 @@ function Dashboard() {
                   inline-flex
                   w-fit
                   items-center
-                  rounded-xl
+                  rounded-2xl
                   bg-emerald-600
                   px-5
                   py-3
+                  text-sm
                   font-semibold
                   text-white
-                  transition
+                  shadow-lg
+                  shadow-emerald-600/15
+                  transition-all
+                  hover:-translate-y-0.5
                   hover:bg-emerald-700
+                  focus-visible:outline-none
+                  focus-visible:ring-2
+                  focus-visible:ring-emerald-500
+                  focus-visible:ring-offset-2
                 "
               >
                 View Full Analytics →
@@ -216,15 +227,15 @@ function Dashboard() {
               AI Wellness Assistant
           ========================================= */}
 
-          <section className="mt-12">
+          <section>
 
-            <div className="mb-8">
+            <div className="mb-7 border-l-4 border-violet-500 pl-4 sm:pl-5">
 
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+              <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl dark:text-white">
                 🤖 AI Wellness Assistant
               </h2>
 
-              <p className="mt-2 text-gray-500 dark:text-gray-400">
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-gray-500 sm:text-base dark:text-gray-400">
                 Personalized recommendations generated from your wellness
                 journey.
               </p>
@@ -245,15 +256,15 @@ function Dashboard() {
               Wellness Hub
           ========================================= */}
 
-          <section className="mt-12">
+          <section>
 
-            <div className="mb-8">
+            <div className="mb-7 border-l-4 border-teal-500 pl-4 sm:pl-5">
 
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+              <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl dark:text-white">
                 🌿 Wellness Hub
               </h2>
 
-              <p className="mt-2 text-gray-500 dark:text-gray-400">
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-gray-500 sm:text-base dark:text-gray-400">
                 Stay consistent with healthy habits, monitor your progress,
                 and keep your wellness journey on track.
               </p>
@@ -282,15 +293,15 @@ function Dashboard() {
               Your Journey
           ========================================= */}
 
-          <section className="mt-12">
+          <section>
 
-            <div className="mb-8">
+            <div className="mb-7 border-l-4 border-sky-500 pl-4 sm:pl-5">
 
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+              <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl dark:text-white">
                 📖 Your Journey
               </h2>
 
-              <p className="mt-2 text-gray-500 dark:text-gray-400">
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-gray-500 sm:text-base dark:text-gray-400">
                 Review your recent activities and stay motivated every day.
               </p>
 
@@ -310,7 +321,7 @@ function Dashboard() {
               Daily Reminder
           ========================================= */}
 
-          <section className="mt-12">
+          <section>
             <MoodReminder />
           </section>
 
@@ -323,14 +334,15 @@ function Dashboard() {
             <div
               className="
                 overflow-hidden
-                rounded-3xl
+                relative
+                rounded-[32px]
                 bg-gradient-to-r
                 from-emerald-600
                 via-green-600
                 to-teal-600
-                p-8
+                p-7
                 text-white
-                shadow-2xl
+                shadow-[0_28px_70px_-32px_rgba(5,150,105,0.75)]
                 sm:p-10
               "
             >
