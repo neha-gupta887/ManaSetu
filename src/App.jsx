@@ -15,7 +15,7 @@ import AICompanion from "./pages/AICompanion";
 import BreathingExercise from "./pages/BreathingExercise";
 import MoodAnalytics from "./pages/MoodAnalytics";
 import Support from "./pages/Support";
-import MoodSection from "./components/dashboard/MoodSection";
+import MoodCheckin from "./pages/MoodCheckin";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const privateRoute = (element) => <ProtectedRoute>{element}</ProtectedRoute>;
@@ -31,7 +31,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/dashboard" element={privateRoute(<Dashboard />)} />
-        <Route path="/mood-checkin" element={privateRoute(<MoodSection />)} />
+        <Route path="/mood-checkin" element={privateRoute(<MoodCheckin />)} />
         <Route path="/journal" element={privateRoute(<Journal />)} />
         <Route path="/ai-companion" element={privateRoute(<AICompanion />)} />
         <Route path="/breathing" element={privateRoute(<BreathingExercise />)} />
