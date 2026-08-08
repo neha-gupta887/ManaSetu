@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import {
   FaBrain,
-  FaRobot,
   FaHeartbeat,
   FaMoon,
   FaBookOpen,

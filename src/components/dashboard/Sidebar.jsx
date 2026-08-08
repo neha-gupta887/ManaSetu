@@ -78,7 +78,7 @@ function Sidebar() {
         {
           icon: <FaUsers />,
           label: "Senior Buddy",
-          path: "/senior-buddy",
+          path: "/support",
         },
       ],
     },

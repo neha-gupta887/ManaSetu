@@ -27,7 +27,7 @@ export async function generateWellnessPlan(userData) {
       selectedAgents = aiResult?.selectedAgents || ["mood"];
 
       console.log("🤖 Gemini Coordinator:", selectedAgents);
-    } catch (error) {
+    } catch {
       console.warn(
         "⚠ Gemini Coordinator failed. Switching to Keyword Coordinator."
       );

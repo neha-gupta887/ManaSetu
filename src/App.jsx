@@ -15,24 +15,29 @@ import AICompanion from "./pages/AICompanion";
 import BreathingExercise from "./pages/BreathingExercise";
 import MoodAnalytics from "./pages/MoodAnalytics";
 import Support from "./pages/Support";
+import MoodSection from "./components/dashboard/MoodSection";
+import ProtectedRoute from "./components/ProtectedRoute";
+
+const privateRoute = (element) => <ProtectedRoute>{element}</ProtectedRoute>;
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/chat" element={<AIChat />} />
-        <Route path="/notifications" element={<Notifications />} />
-        <Route path="/memory" element={<Memory />} />
-        <Route path="/command-center" element={<AICommandCenter />} />
+        <Route path="/chat" element={privateRoute(<AIChat />)} />
+        <Route path="/notifications" element={privateRoute(<Notifications />)} />
+        <Route path="/memory" element={privateRoute(<Memory />)} />
+        <Route path="/command-center" element={privateRoute(<AICommandCenter />)} />
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/journal" element={<Journal />} />
-        <Route path="/ai-companion" element={<AICompanion />} />
-        <Route path="/breathing" element={<BreathingExercise />} />
-        <Route path="/analytics" element={<MoodAnalytics />} />
-        <Route path="/support" element={<Support />} />
-        <Route path="/settings" element={<Settings />} />
+        <Route path="/dashboard" element={privateRoute(<Dashboard />)} />
+        <Route path="/mood-checkin" element={privateRoute(<MoodSection />)} />
+        <Route path="/journal" element={privateRoute(<Journal />)} />
+        <Route path="/ai-companion" element={privateRoute(<AICompanion />)} />
+        <Route path="/breathing" element={privateRoute(<BreathingExercise />)} />
+        <Route path="/analytics" element={privateRoute(<MoodAnalytics />)} />
+        <Route path="/support" element={privateRoute(<Support />)} />
+        <Route path="/settings" element={privateRoute(<Settings />)} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

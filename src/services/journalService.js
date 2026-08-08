@@ -1,4 +1,4 @@
-import { addXP } from "./gardenService";
+import { unlockAchievement } from "./achievementService";
 import { analyzeJournal } from "./journalAIService";
 
 import {

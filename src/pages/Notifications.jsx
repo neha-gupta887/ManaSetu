@@ -15,8 +15,6 @@ function Notifications() {
   const [notificationList, setNotificationList] = useState(notifications);
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [showWidgets, setShowWidgets] = useState(true);
-  const [loading, setLoading] = useState(true);
   const [selectedFilter, setSelectedFilter] = useState("All");
   const [sortBy, setSortBy] = useState("latest");
 

@@ -2,8 +2,6 @@ import {
   FaEdit,
   FaTrash,
   FaRobot,
-  FaBrain,
-  FaHeart,
 } from "react-icons/fa";
 
 function JournalHistory({

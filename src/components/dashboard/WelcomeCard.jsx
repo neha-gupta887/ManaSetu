@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { auth } from "../../services/firebase";

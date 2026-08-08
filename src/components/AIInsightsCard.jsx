@@ -13,8 +13,8 @@ function AIInsightsCard({ analytics }) {
     );
   }
 
-  let insight = "";
-  let recommendation = "";
+  let insight;
+  let recommendation;
   let risk = "🟢 Low";
 
   switch (analytics.currentMood) {

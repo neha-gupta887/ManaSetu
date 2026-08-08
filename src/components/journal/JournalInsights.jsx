@@ -24,7 +24,7 @@ function JournalInsights({ entries }) {
     moodCounts[a] > moodCounts[b] ? a : b
   );
 
-  let message = "";
+  let message;
 
   switch (dominantMood) {
     case "😊":

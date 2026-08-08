@@ -77,7 +77,7 @@ function RecentActivity() {
 
         <div className="space-y-3">
 
-          {activities.map((activity, index) => (
+          {activities.map((activity) => (
             <div
               key={activity.id}
               className="group relative flex items-start gap-4 rounded-2xl border border-transparent p-3 transition-all duration-300 hover:border-slate-100 hover:bg-slate-50/70 hover:shadow-sm dark:hover:border-white/[0.05] dark:hover:bg-white/[0.025]"
