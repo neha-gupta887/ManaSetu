@@ -1,22 +1,22 @@
 import { useState } from "react";
-import NewSidebar from "./NewSidebar";
-import NewTopbar from "./NewTopbar";
+import Sidebar from "../dashboard/Sidebar";
+import Topbar from "../dashboard/Topbar";
 
 function AuthenticatedLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="relative min-h-screen bg-[#f6faf7] text-slate-900 transition-colors duration-500 dark:bg-[#0b1110] dark:text-white">
-      <NewSidebar
+    <div className="relative min-h-screen bg-slate-50 text-slate-900 transition-colors duration-300 dark:bg-gray-900 dark:text-white">
+      <Sidebar
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
       />
 
       <div className="lg:pl-72">
-        <NewTopbar setSidebarOpen={setSidebarOpen} />
+        <Topbar setSidebarOpen={setSidebarOpen} />
 
-        <main className="py-10">
-          <div className="px-4 sm:px-6 lg:px-8">{children}</div>
+        <main className="p-4 sm:p-6 lg:p-8">
+          {children}
         </main>
       </div>
     </div>
@@ -24,5 +24,3 @@ function AuthenticatedLayout({ children }) {
 }
 
 export default AuthenticatedLayout;
-
-

@@ -1,46 +1,56 @@
+import { useState, useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   FaBell,
   FaSearch,
   FaSun,
   FaMoon,
-  FaUserCircle,
-  FaChevronDown,
+  FaCog,
+  FaSignOutAlt,
 } from "react-icons/fa";
+import { useTheme } from "../../context/ThemeContext";
+import useAuth from "../../hooks/useAuth";
+import { signOut } from "firebase/auth";
+import { auth } from "../../services/firebase";
 
-function Topbar() {
-  const isDark =
-    typeof document !== "undefined" &&
-    document.documentElement.classList.contains("dark");
+function Topbar({ setSidebarOpen }) {
+  const { darkMode, setDarkMode } = useTheme();
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
-  const toggleTheme = () => {
-    document.documentElement.classList.toggle("dark");
+  const [isProfileOpen, setProfileOpen] = useState(false);
+  const profileRef = useRef(null);
 
-    localStorage.setItem(
-      "theme",
-      document.documentElement.classList.contains("dark")
-        ? "dark"
-        : "light"
-    );
+  const userName = user?.displayName || "Student";
+  const userEmail = user?.email || "";
+  const userAvatar = user?.photoURL;
+  const userInitials = userName?.charAt(0).toUpperCase();
+
+  const handleLogout = async () => {
+    await signOut(auth);
+    navigate("/login");
   };
 
-  const userName =
-    localStorage.getItem("userName") ||
-    localStorage.getItem("name") ||
-    "User";
-
-  const firstName = userName.split(" ")[0];
+  // Close profile dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setProfileOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-30 border-b border-slate-200/70 bg-[#F5F8F5]/85 backdrop-blur-xl dark:border-white/5 dark:bg-[#09100E]/85">
-      <div className="mx-auto flex h-[78px] max-w-[1500px] items-center gap-4 px-4 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-30 border-b border-slate-200/70 bg-white/80 backdrop-blur-xl dark:border-white/5 dark:bg-gray-950/80">
+      <div className="mx-auto flex h-20 items-center gap-4 px-4 sm:px-6 lg:px-8">
         {/* Mobile menu trigger */}
         <button
           type="button"
           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 transition hover:border-emerald-200 hover:text-emerald-600 dark:border-white/10 dark:bg-white/[0.04] dark:text-slate-300 lg:hidden"
           aria-label="Open navigation"
-          onClick={() => {
-            window.dispatchEvent(new CustomEvent("open-sidebar"));
-          }}
+          onClick={() => setSidebarOpen(true)}
         >
           <span className="flex flex-col gap-1">
             <span className="h-0.5 w-4 rounded-full bg-current" />
@@ -50,12 +60,9 @@ function Topbar() {
         </button>
 
         {/* Mobile title */}
-        <div className="min-w-0 lg:hidden">
-          <p className="truncate text-sm font-semibold text-slate-900 dark:text-white">
+        <div className="min-w-0 lg:hidden text-sm font-semibold text-slate-900 dark:text-white">
+          <p className="truncate">
             ManaSetu
-          </p>
-          <p className="truncate text-[10px] text-slate-400">
-            Your wellness space
           </p>
         </div>
 
@@ -65,7 +72,7 @@ function Topbar() {
 
           <input
             type="search"
-            placeholder="Search your wellness space..."
+            placeholder="Search..."
             className="h-11 w-full rounded-2xl border border-slate-200/80 bg-white/80 pl-10 pr-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-emerald-300 focus:ring-4 focus:ring-emerald-500/5 dark:border-white/10 dark:bg-white/[0.035] dark:text-white dark:placeholder:text-slate-500 dark:focus:border-emerald-800"
           />
         </div>
@@ -76,19 +83,19 @@ function Topbar() {
           <div className="hidden text-right xl:block">
             <p className="text-xs text-slate-400">Welcome back</p>
             <p className="text-sm font-semibold text-slate-800 dark:text-white">
-              {firstName}
+              {userName}
             </p>
           </div>
 
           {/* Theme */}
           <button
             type="button"
-            onClick={toggleTheme}
+            onClick={() => setDarkMode(!darkMode)}
             className="group flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 transition-all duration-200 hover:border-emerald-200 hover:text-emerald-600 dark:border-white/10 dark:bg-white/[0.035] dark:text-slate-300 dark:hover:border-emerald-900 dark:hover:text-emerald-400"
             aria-label="Toggle theme"
             title="Toggle theme"
           >
-            {isDark ? (
+            {darkMode ? (
               <FaSun className="text-sm transition-transform duration-300 group-hover:rotate-45" />
             ) : (
               <FaMoon className="text-sm transition-transform duration-300 group-hover:-rotate-12" />
@@ -108,26 +115,59 @@ function Topbar() {
           </button>
 
           {/* Profile */}
-          <button
-            type="button"
-            className="group flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-2 py-1.5 transition-all duration-200 hover:border-emerald-200 dark:border-white/10 dark:bg-white/[0.035] dark:hover:border-emerald-900/60 sm:px-2.5"
-          >
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-sm">
-              <FaUserCircle className="text-base" />
-            </div>
+          <div className="relative" ref={profileRef}>
+            <button
+              type="button"
+              onClick={() => setProfileOpen(!isProfileOpen)}
+              className="group flex items-center gap-2 rounded-full border-2 border-transparent transition-all duration-200 hover:border-emerald-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-gray-950"
+            >
+              {userAvatar ? (
+                <img
+                  src={userAvatar}
+                  alt="Profile"
+                  className="h-10 w-10 rounded-full object-cover"
+                />
+              ) : (
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 text-lg font-bold text-white shadow-sm">
+                  {userInitials}
+                </div>
+              )}
+            </button>
 
-            <div className="hidden text-left sm:block">
-              <p className="max-w-[100px] truncate text-xs font-semibold text-slate-800 dark:text-white">
-                {firstName}
-              </p>
+            {/* Profile Dropdown */}
+            {isProfileOpen && (
+              <div className="absolute right-0 mt-2 w-64 origin-top-right rounded-2xl border border-slate-200 bg-white py-2 shadow-xl dark:border-slate-700 dark:bg-slate-800">
+                <div className="border-b border-slate-200 px-4 py-3 dark:border-slate-700">
+                  <p className="truncate text-sm font-semibold text-slate-800 dark:text-white">
+                    {userName}
+                  </p>
+                  <p className="truncate text-xs text-slate-500 dark:text-slate-400">
+                    {userEmail}
+                  </p>
+                </div>
+                <div className="p-2">
+                  <Link
+                    to="/settings"
+                    onClick={() => setProfileOpen(false)}
+                    className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white"
+                  >
+                    <FaCog />
+                    <span>Settings</span>
+                  </Link>
+                </div>
+                <div className="border-t border-slate-200 p-2 dark:border-slate-700">
+                  <button
+                    onClick={handleLogout}
+                    className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-red-600 transition-colors hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20"
+                  >
+                    <FaSignOutAlt />
+                    <span>Logout</span>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
 
-              <p className="text-[10px] text-slate-400">
-                Wellness journey
-              </p>
-            </div>
-
-            <FaChevronDown className="hidden text-[9px] text-slate-400 transition-transform duration-200 group-hover:translate-y-0.5 sm:block" />
-          </button>
         </div>
       </div>
     </header>
