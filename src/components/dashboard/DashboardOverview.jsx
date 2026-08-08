@@ -13,10 +13,10 @@ function DashboardOverview({ stats = {} }) {
     return Number.isFinite(parsedValue) ? parsedValue : 0;
   };
 
-  const wellnessScore = toSafeNumber(stats.wellnessScore);
-  const streak = toSafeNumber(stats.streak);
-  const journalEntries = toSafeNumber(stats.journalEntries);
-  const totalMoodEntries = toSafeNumber(stats.totalMoodEntries);
+  const wellnessScore = toSafeNumber(stats?.wellnessScore);
+  const streak = toSafeNumber(stats?.streak);
+  const journalEntries = toSafeNumber(stats?.journalEntries);
+  const totalMoodEntries = toSafeNumber(stats?.totalMoodEntries);
   const currentMood = stats?.currentMood || "Calm";
 
   const score = Math.min(Math.max(wellnessScore, 0), 100);
