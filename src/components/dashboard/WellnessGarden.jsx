@@ -1,6 +1,6 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { FaSeedling } from "react-icons/fa";
+import { FaSeedling, FaLeaf, FaStar } from "react-icons/fa";
 import { getGardenData } from "../../services/gardenService";
 
 function WellnessGarden() {
@@ -40,191 +40,195 @@ function WellnessGarden() {
 
   const nextLevelXP = level * 100;
 
-  const progress = Math.min(
-    (xp / nextLevelXP) * 100,
-    100
-  );
+  const progress = Math.min((xp / nextLevelXP) * 100, 100);
 
   if (loading) {
     return (
-      <div className="rounded-3xl bg-gradient-to-br from-emerald-500 via-green-500 to-teal-500 p-8 text-white shadow-xl">
-        <h2 className="text-2xl font-bold">
-          🌿 Loading Garden...
-        </h2>
+      <div className="flex min-h-[420px] items-center justify-center rounded-[28px] border border-slate-200/80 bg-white p-8 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+        <div className="text-center">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-50 text-2xl text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
+            🌿
+          </div>
+
+          <p className="mt-4 text-sm font-medium text-slate-500 dark:text-slate-400">
+            Growing your wellness garden...
+          </p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="rounded-3xl bg-gradient-to-br from-emerald-500 via-green-500 to-teal-500 p-8 text-white shadow-xl">
+    <div className="relative overflow-hidden rounded-[28px] border border-slate-200/80 bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md dark:border-slate-800 dark:bg-slate-900 sm:p-7">
+      
+      {/* Soft background decoration */}
+      <div className="pointer-events-none absolute -right-20 -top-20 h-52 w-52 rounded-full bg-emerald-100/50 blur-3xl dark:bg-emerald-950/20" />
 
-      {/* Header */}
+      <div className="pointer-events-none absolute -bottom-24 -left-20 h-48 w-48 rounded-full bg-teal-100/40 blur-3xl dark:bg-teal-950/20" />
 
-      <div className="flex items-center gap-4">
+      <div className="relative z-10">
 
-        <FaSeedling className="text-4xl" />
+        {/* Header */}
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
+              <FaSeedling />
+            </div>
 
-        <div>
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-600 dark:text-emerald-400">
+                Wellness Garden
+              </p>
 
-          <h2 className="text-3xl font-bold">
-            My Wellness Garden
-          </h2>
+              <h2 className="mt-0.5 text-xl font-semibold tracking-tight text-slate-900 dark:text-white">
+                Grow with yourself
+              </h2>
+            </div>
+          </div>
 
-          <p className="text-emerald-100">
-            Grow your garden by taking care of yourself.
-          </p>
-
+          <div className="hidden rounded-full border border-emerald-100 bg-emerald-50/70 px-3 py-1.5 text-xs font-medium text-emerald-700 sm:block dark:border-emerald-900/40 dark:bg-emerald-950/30 dark:text-emerald-300">
+            Level {level}
+          </div>
         </div>
 
-      </div>
-
-      {/* Tree */}
-
-      <div className="mt-10 text-center">
-
-        <div className="text-8xl transition-all duration-500 hover:scale-110">
-
-          {tree.emoji}
-
-        </div>
-
-        <h3 className="mt-5 text-3xl font-bold">
-
-          {tree.title}
-
-        </h3>
-
-        <p className="mt-2 text-emerald-100">
-
-          Level {level}
-
+        <p className="mt-4 max-w-md text-sm leading-6 text-slate-500 dark:text-slate-400">
+          Small acts of self-care help your garden grow. Keep showing up for
+          yourself.
         </p>
 
-      </div>
+        {/* Garden / Tree */}
+        <div className="relative mt-7 overflow-hidden rounded-[24px] border border-emerald-100 bg-gradient-to-b from-emerald-50/70 to-white px-5 py-8 text-center dark:border-emerald-900/30 dark:from-emerald-950/25 dark:to-slate-900">
+          
+          {/* Decorative dots */}
+          <div className="absolute left-8 top-8 h-2 w-2 rounded-full bg-emerald-300/60" />
+          <div className="absolute right-10 top-12 h-1.5 w-1.5 rounded-full bg-teal-300/70" />
+          <div className="absolute bottom-10 left-16 h-1.5 w-1.5 rounded-full bg-emerald-200" />
 
-      {/* Progress */}
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            whileHover={{ scale: 1.08 }}
+            className="relative mx-auto flex h-28 w-28 items-center justify-center rounded-full bg-white text-7xl shadow-sm dark:bg-slate-800"
+          >
+            {tree.emoji}
+          </motion.div>
 
-      <div className="mt-10">
-
-        <div className="flex items-center justify-between">
-
-          <span className="font-medium">
-
-            XP Progress
-
-          </span>
-
-          <span>
-
-            {xp} / {nextLevelXP}
-
-          </span>
-
-        </div>
-
-        <div className="mt-3 h-4 overflow-hidden rounded-full bg-white/20">
-
-          <div
-            className="h-full rounded-full bg-white transition-all duration-700"
-            style={{
-              width: `${progress}%`,
-            }}
-          />
-
-        </div>
-
-      </div>
-
-      {/* Stats */}
-
-      <div className="mt-8 grid grid-cols-2 gap-4">
-
-        <div className="rounded-2xl bg-white/10 p-4 backdrop-blur">
-
-          <p className="text-sm text-emerald-100">
-
-            Current XP
-
-          </p>
-
-          <h3 className="mt-2 text-2xl font-bold">
-
-            {xp}
-
+          <h3 className="mt-5 text-2xl font-semibold text-slate-900 dark:text-white">
+            {tree.title}
           </h3>
 
+          <div className="mt-2 inline-flex items-center gap-2 rounded-full bg-white px-3 py-1.5 text-xs font-medium text-slate-500 shadow-sm dark:bg-slate-800 dark:text-slate-400">
+            <FaLeaf className="text-emerald-500" />
+            Level {level}
+          </div>
         </div>
 
-        <div className="rounded-2xl bg-white/10 p-4 backdrop-blur">
+        {/* XP Progress */}
+        <div className="mt-6 rounded-2xl border border-slate-100 bg-slate-50/70 p-4 dark:border-slate-800 dark:bg-white/[0.025]">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                Growth progress
+              </p>
 
-          <p className="text-sm text-emerald-100">
+              <p className="mt-1 text-sm font-semibold text-slate-800 dark:text-white">
+                {xp} / {nextLevelXP} XP
+              </p>
+            </div>
 
-            Current Level
+            <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">
+              {Math.round(progress)}%
+            </span>
+          </div>
 
+          <div className="mt-4 h-2 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: `${progress}%` }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="h-full rounded-full bg-emerald-500"
+            />
+          </div>
+
+          <p className="mt-3 text-xs leading-5 text-slate-400">
+            Keep taking small steps. Every healthy habit adds to your growth.
           </p>
-
-          <h3 className="mt-2 text-2xl font-bold">
-
-            {level}
-
-          </h3>
-
         </div>
 
-      </div>
+        {/* Stats */}
+        <div className="mt-4 grid grid-cols-2 gap-3">
+          <div className="rounded-2xl border border-slate-100 bg-white p-4 dark:border-slate-800 dark:bg-slate-800/40">
+            <div className="flex items-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-50 text-sm text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
+                <FaStar />
+              </div>
 
-      {/* Today's Rewards */}
+              <p className="text-xs font-medium text-slate-400">
+                Current XP
+              </p>
+            </div>
 
-      <div className="mt-8 rounded-2xl bg-white/10 p-5 backdrop-blur">
+            <p className="mt-3 text-xl font-semibold text-slate-900 dark:text-white">
+              {xp}
+            </p>
+          </div>
 
-        <h4 className="text-lg font-semibold">
+          <div className="rounded-2xl border border-slate-100 bg-white p-4 dark:border-slate-800 dark:bg-slate-800/40">
+            <div className="flex items-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-teal-50 text-sm text-teal-600 dark:bg-teal-950/40 dark:text-teal-400">
+                <FaLeaf />
+              </div>
 
-          🌿 Today's Rewards
+              <p className="text-xs font-medium text-slate-400">
+                Current Level
+              </p>
+            </div>
 
-        </h4>
-
-        <div className="mt-5 space-y-3">
-
-          <Reward
-            title="😊 Mood Check-in"
-            xp="+5 XP"
-          />
-
-          <Reward
-            title="📖 Journal Entry"
-            xp="+10 XP"
-          />
-
-          <Reward
-            title="🌬 Breathing Exercise"
-            xp="+8 XP"
-          />
-
-          <Reward
-            title="🤖 Talk to Mana AI"
-            xp="+5 XP"
-          />
-
+            <p className="mt-3 text-xl font-semibold text-slate-900 dark:text-white">
+              {level}
+            </p>
+          </div>
         </div>
 
-      </div>
+        {/* Today's Rewards */}
+        <div className="mt-5">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-600 dark:text-emerald-400">
+                Daily growth
+              </p>
 
+              <h3 className="mt-1 text-base font-semibold text-slate-900 dark:text-white">
+                Today's Rewards
+              </h3>
+            </div>
+
+            <span className="text-lg">🌿</span>
+          </div>
+
+          <div className="mt-4 space-y-2">
+            <Reward title="😊 Mood Check-in" xp="+5 XP" />
+            <Reward title="📖 Journal Entry" xp="+10 XP" />
+            <Reward title="🌬 Breathing Exercise" xp="+8 XP" />
+            <Reward title="🤖 Talk to Mana AI" xp="+5 XP" />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
 
 function Reward({ title, xp }) {
   return (
-    <div className="flex items-center justify-between rounded-xl bg-white/10 px-4 py-3">
-
-      <span>{title}</span>
-
-      <span className="font-bold">
-
-        {xp}
-
+    <div className="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50/70 px-4 py-3 transition-colors hover:bg-emerald-50/60 dark:border-slate-800 dark:bg-white/[0.025] dark:hover:bg-emerald-950/20">
+      <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+        {title}
       </span>
 
+      <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
+        {xp}
+      </span>
     </div>
   );
 }
