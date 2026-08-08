@@ -1,16 +1,30 @@
 import toast from "react-hot-toast";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTheme } from "../context/ThemeContext";
+import AuthenticatedLayout from "../components/layout/AuthenticatedLayout";
+import useAuth from "../hooks/useAuth";
+import { updateProfile as firebaseUpdateProfile } from "firebase/auth";
+import { auth } from "../services/firebase";
 
 function Settings() {
   const { darkMode, setDarkMode } = useTheme();
+  const { user } = useAuth();
 
   const [profile, setProfile] = useState({
-    name: "Student",
-    email: "student@example.com",
+    name: "",
+    email: "",
   });
-
+  const [loading, setLoading] = useState(false);
   const [notifications, setNotifications] = useState(true);
+
+  useEffect(() => {
+    if (user) {
+      setProfile({
+        name: user.displayName || "Student",
+        email: user.email || "No email found",
+      });
+    }
+  }, [user]);
 
   const handleChange = (e) => {
     setProfile({
@@ -19,8 +33,23 @@ function Settings() {
     });
   };
 
+  const handleSave = async () => {
+    if (!auth.currentUser) return toast.error("You are not logged in.");
+    if (!profile.name.trim()) return toast.error("Name cannot be empty.");
+
+    setLoading(true);
+    try {
+      await firebaseUpdateProfile(auth.currentUser, { displayName: profile.name });
+      toast.success("Profile updated successfully!");
+    } catch (error) {
+      toast.error("Failed to update profile: " + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 py-10 px-6 transition-colors duration-300">
+    <AuthenticatedLayout>
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl font-bold text-emerald-700 dark:text-emerald-400 mb-8 text-center">
           ⚙️ Settings
@@ -58,6 +87,7 @@ function Settings() {
               value={profile.email}
               onChange={handleChange}
               placeholder="Enter your email"
+              readOnly
               className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-colors"
             />
           </div>
@@ -127,16 +157,16 @@ function Settings() {
         {/* Save Button */}
         <div className="text-center mt-8">
           <button
-            onClick={() => toast.success("Settings Saved Successfully!")}
-            className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 rounded-xl font-semibold shadow-lg transition duration-300"
+            onClick={handleSave}
+            disabled={loading}
+            className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 rounded-xl font-semibold shadow-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            💾 Save Settings
+            {loading ? "Saving..." : "💾 Save Settings"}
           </button>
         </div>
       </div>
-    </div>
+    </AuthenticatedLayout>
   );
 }
 
 export default Settings;
-
